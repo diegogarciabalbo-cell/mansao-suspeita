@@ -90,58 +90,71 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 @keyframes glow{from{box-shadow:0 0 24px rgba(70,227,255,.3),0 20px 50px rgba(0,0,0,.5)}to{box-shadow:0 0 44px rgba(255,61,110,.4),0 20px 50px rgba(0,0,0,.5)}}
 .boardframe.shake{animation:frame 8s linear infinite,bshake .45s}
 @keyframes bshake{0%,100%{transform:none}20%{transform:translateX(-8px) rotate(-.6deg)}40%{transform:translateX(7px) rotate(.5deg)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
-.board{position:relative;display:grid;grid-template-columns:repeat(var(--n),1fr);aspect-ratio:1/1;max-width:100%;container-type:inline-size;background:#120c34;border-radius:6px;overflow:hidden}
-.spot{position:absolute;inset:0;pointer-events:none;z-index:5;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,240,200,.16),transparent 38%);mix-blend-mode:screen;transition:opacity .3s;opacity:0}
+.board{position:relative;display:grid;grid-template-columns:repeat(var(--n),1fr);aspect-ratio:1/1;max-width:100%;container-type:inline-size;background:#2b2140;border-radius:6px;overflow:hidden;border:5px solid #2b2140}
+.spot{position:absolute;inset:0;pointer-events:none;z-index:5;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,250,220,.22),transparent 40%);mix-blend-mode:soft-light;transition:opacity .3s;opacity:0}
 .board:hover .spot{opacity:1}
-.cell{position:relative;border:0;padding:0;margin:0;background:var(--tint);min-width:0;aspect-ratio:1/1;border-top:1px solid rgba(169,160,216,.14);border-left:1px solid rgba(169,160,216,.14);transition:background-color .2s}
+.cell{position:relative;border:0;padding:0;margin:0;min-width:0;aspect-ratio:1/1;box-shadow:inset 1px 1px 0 rgba(60,40,30,.10)}
 .board.enter .cell{animation:cellIn .5s cubic-bezier(.2,1.5,.4,1) both;animation-delay:calc(var(--d) * 22ms)}
 @keyframes cellIn{from{transform:scale(0) rotate(-25deg);opacity:0}to{transform:none;opacity:1}}
-.cell.wt{border-top:3px solid var(--wall)}
-.cell.wl{border-left:3px solid var(--wall)}
-.cell.wr{border-right:3px solid var(--wall)}
-.cell.wb{border-bottom:3px solid var(--wall)}
-.cell:hover:not(.blocked){background-image:linear-gradient(rgba(255,255,255,.1),rgba(255,255,255,.1))}
-.cell.blocked{cursor:not-allowed;background-image:repeating-linear-gradient(135deg,rgba(70,227,255,.12) 0 3px,transparent 3px 8px)}
-.cell.guide{box-shadow:inset 0 0 0 999px rgba(255,201,60,.08)}
-.rlabel{position:absolute;top:2px;left:3px;right:2px;font-size:max(8px,calc(100cqw / var(--n) * .12));line-height:1.05;text-transform:uppercase;letter-spacing:.06em;font-weight:800;color:var(--wall);text-shadow:0 0 8px rgba(70,227,255,.6);text-align:left;pointer-events:none;z-index:2}
-.obj{position:absolute;inset:22%;color:#c9c2ff;pointer-events:none}
-.obj svg{width:100%;height:100%;display:block;filter:drop-shadow(0 0 4px rgba(201,194,255,.45))}
-.cell.blocked .obj{color:#ffffff;inset:20%}
-.cell.has .obj{opacity:.3}
-.token{position:absolute;inset:15%;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.55),transparent 45%),var(--c);color:#150b2e;font-weight:900;font-size:calc(100cqw / var(--n) * .32);box-shadow:0 4px 0 rgba(0,0,0,.35),0 0 18px var(--c);z-index:3}
+.cell.wt{border-top:4px solid #2b2140}
+.cell.wl{border-left:4px solid #2b2140}
+.cell:hover:not(.blocked)::before{content:"";position:absolute;inset:0;background:rgba(255,255,255,.28);z-index:1}
+.cell.blocked{cursor:not-allowed}
+.cell.guide::after{content:"";position:absolute;inset:0;background:rgba(255,201,60,.28);z-index:1;pointer-events:none}
+
+/* pisos */
+.f-wood{background:repeating-linear-gradient(0deg,#ecc896 0 23%,#d8ad76 23% 25%)}
+.f-parquet{background:repeating-linear-gradient(90deg,#b0733f 0 23%,#955b2c 23% 25%)}
+.f-office{background:repeating-linear-gradient(90deg,#e2cfa4 0 31%,#cdb584 31% 33.3%)}
+.f-checker{background:conic-gradient(#f6e8d8 25%,#dc7a64 0 50%,#f6e8d8 0 75%,#dc7a64 0) 0 0/50% 50%}
+.f-marble{background:conic-gradient(#f2ede5 25%,#d7cdbf 0 50%,#f2ede5 0 75%,#d7cdbf 0) 0 0/33.34% 33.34%}
+.f-terra{background:linear-gradient(90deg,rgba(150,80,40,.35) 2px,transparent 2px) 0 0/50% 100%,linear-gradient(rgba(150,80,40,.35) 2px,transparent 2px) 0 0/100% 50%,#eba97c}
+.f-carpet{background:radial-gradient(circle,#b9a2e0 18%,transparent 20%) 0 0/25% 25%,#cdbaf0}
+.f-grass{background:radial-gradient(circle at 30% 30%,#79c26f 12%,transparent 14%) 0 0/34% 34%,radial-gradient(circle at 70% 70%,#a4df94 10%,transparent 12%) 0 0/28% 28%,#8fd184}
+.f-stone{background:linear-gradient(#958d82 2px,transparent 2px) 0 0/100% 33.4%,linear-gradient(90deg,#958d82 2px,transparent 2px) 0 0/50% 100%,#bdb5aa}
+.f-felt{background:repeating-linear-gradient(45deg,#4aa988 0 6px,#44a081 6px 12px)}
+
+.rlabel{position:absolute;top:4px;left:4px;max-width:calc(100% - 8px);font-size:max(7.5px,calc(100cqw / var(--n) * .105));line-height:1.1;text-transform:uppercase;letter-spacing:.05em;font-weight:800;color:#2b2140;background:#fffdf7;border:1.5px solid #2b2140;border-radius:99px;padding:1px 6px;text-align:left;pointer-events:none;z-index:4;box-shadow:0 2px 0 rgba(43,33,64,.35)}
+.obj{position:absolute;inset:6%;pointer-events:none;z-index:1}
+.obj svg{width:100%;height:100%;display:block;filter:drop-shadow(0 2px 1px rgba(40,25,20,.3))}
+.cell.has .obj{opacity:.55}
+.token{position:absolute;inset:11%;border-radius:22%;overflow:hidden;border:2.5px solid #fffdf7;box-shadow:0 4px 0 rgba(43,33,64,.45),0 0 16px var(--c);z-index:3;background:var(--c)}
+.token svg{width:100%;height:100%;display:block}
 .token.drop{animation:drop .45s cubic-bezier(.2,1.6,.4,1)}
 @keyframes drop{0%{transform:translateY(-120%) scale(.6);opacity:0}60%{transform:translateY(6%) scale(1.08,.92);opacity:1}100%{transform:none}}
-.token.victim{background:radial-gradient(circle at 35% 30%,#fff,#e9e3f7);box-shadow:0 0 0 3px var(--red),0 0 22px var(--red);animation:vpulse 1.6s ease-in-out infinite}
+.token.victim{border-color:var(--red);box-shadow:0 0 0 2px var(--red),0 0 22px var(--red);animation:vpulse 1.6s ease-in-out infinite}
 .token.victim.drop{animation:drop .45s cubic-bezier(.2,1.6,.4,1),vpulse 1.6s .45s ease-in-out infinite}
-@keyframes vpulse{50%{box-shadow:0 0 0 5px var(--red),0 0 34px var(--red)}}
-.token.hint{outline:2px dashed var(--gold);outline-offset:3px}
-.cell.conflict .token{box-shadow:0 0 0 3px var(--red),0 0 22px var(--red);animation:wobble .5s infinite}
+@keyframes vpulse{50%{box-shadow:0 0 0 4px var(--red),0 0 34px var(--red)}}
+.token.hint{outline:3px dashed var(--gold);outline-offset:2px}
+.cell.conflict .token{border-color:var(--red);box-shadow:0 0 0 3px var(--red),0 0 22px var(--red);animation:wobble .5s infinite}
 @keyframes wobble{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
 .ripple{position:absolute;left:50%;top:50%;width:30%;aspect-ratio:1;border-radius:50%;border:3px solid var(--c);transform:translate(-50%,-50%);animation:ripple .6s ease-out forwards;z-index:4;pointer-events:none}
 @keyframes ripple{to{width:170%;opacity:0}}
 .beam{position:absolute;inset:0;z-index:4;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(255,201,60,.7),transparent);animation:beam .9s ease-out forwards}
 @keyframes beam{from{transform:scaleY(0);opacity:1}to{transform:scaleY(1.4);opacity:0}}
-.xmark{position:absolute;inset:0;display:grid;place-items:center;color:var(--red);font-size:calc(100cqw / var(--n) * .34);font-weight:300;z-index:1;pointer-events:none;opacity:.75;animation:xin .2s ease-out}
+.xmark{position:absolute;inset:0;display:grid;place-items:center;color:#d6284f;font-size:calc(100cqw / var(--n) * .42);font-weight:800;z-index:2;pointer-events:none;text-shadow:0 1px 0 #fff;animation:xin .2s ease-out}
 @keyframes xin{from{transform:scale(1.8);opacity:0}}
 .cell.culprit{animation:culprit 1s ease-in-out infinite}
 @keyframes culprit{50%{box-shadow:inset 0 0 0 999px rgba(255,61,110,.35)}}
 
 .legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font-size:12px;color:var(--muted)}
 .legend span{display:inline-flex;align-items:center;gap:5px}
-.legend svg{width:18px;height:18px;color:#c9c2ff}
-.legend .nb svg{color:#fff}
+.legend svg{width:24px;height:24px;background:#f2ede5;border-radius:5px}
 
 /* tray */
 .tray{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
 .chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:4px 13px 4px 4px;font-size:14px;font-weight:700;transition:transform .15s,opacity .2s;backdrop-filter:blur(6px)}
 .chip:hover{transform:translateY(-2px)}
-.chip .dot{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.55),transparent 45%),var(--c);color:#150b2e;font-weight:900;font-size:13px;box-shadow:0 0 10px var(--c)}
-.chip .dot.victim{background:#f4f1ec;box-shadow:0 0 0 2px var(--red),0 0 12px var(--red)}
+.chip .dot{width:34px;height:34px;border-radius:9px;overflow:hidden;display:grid;place-items:center;background:var(--c);border:2px solid #fffdf7;box-shadow:0 0 10px var(--c)}
+.chip .dot svg{width:100%;height:100%;display:block}
+.chip .dot.victim{border-color:var(--red);box-shadow:0 0 12px var(--red)}
 .chip small{color:var(--red);font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em}
 .chip.placed{opacity:.5}
 .chip[aria-pressed="true"]{border-color:var(--ink);background:var(--panel2);opacity:1;animation:sel 1.2s ease-in-out infinite}
 @keyframes sel{0%,100%{box-shadow:0 0 0 2px var(--ink),0 0 0 rgba(70,227,255,0)}50%{box-shadow:0 0 0 2px var(--ink),0 0 20px rgba(70,227,255,.6)}}
-.chip.tool .dot{background:transparent;border:1px dashed var(--red);color:var(--red);box-shadow:none}
+.chip.tool .dot{background:transparent;border:1.5px dashed var(--red);color:var(--red);box-shadow:none;font-weight:800}
+.modal .mug{width:84px;height:84px;border-radius:18px;overflow:hidden;border:3px solid #fffdf7;box-shadow:0 0 30px var(--c)}
+.modal .mug svg{width:100%;height:100%;display:block}
 .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
 .btn{position:relative;overflow:hidden;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:11px 16px;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px;transition:transform .15s,box-shadow .2s;backdrop-filter:blur(6px)}
 .btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.35)}
@@ -282,7 +295,7 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
         <strong>Regras da casa</strong>
         <ol>
           <li>Cada linha e cada coluna tem exatamente uma pessoa.</li>
-          <li>Ninguém fica em cima de mesa, planta ou estante. Cadeira, tapete e cama podem.</li>
+          <li>Ninguém fica em cima de mesa, planta ou estante. Poltrona, tapete e cama podem.</li>
           <li>O culpado é a única pessoa que estava no mesmo cômodo que a vítima.</li>
         </ol>
       </div>
@@ -309,6 +322,7 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 <div class="overlay" id="winModal" hidden>
   <div class="modal">
     <div class="stamp">CASO ENCERRADO</div>
+    <div class="mug" id="winMug"></div>
     <p class="big" id="winText"></p>
     <div class="reward"><i class="coin"></i><span id="rewardNum">+0</span></div>
     <p id="winMeta" style="color:var(--muted);font-size:14px"></p>
@@ -410,17 +424,40 @@ function cfLoop(){
 const SUSPECTS=[['Alice','f'],['Bento','m'],['Clara','f'],['Davi','m'],['Estela','f'],['Flávio','m'],['Glória','f'],['Heitor','m'],['Íris','f'],['Júlio','m'],['Lara','f'],['Murilo','m'],['Nina','f'],['Otávio','m'],['Paula','f'],['Rui','m'],['Sofia','f'],['Téo','m']];
 const VICTIMS=[['Valentim','m'],['Vera','f'],['Vicente','m'],['Violeta','f'],['Wagner','m']];
 const COLORS=['#ff8a3d','#5ef08c','#c38bff','#46e3ff','#ffd84d'];
-const ROOMS=[['Sala de Estar','na'],['Cozinha','na'],['Biblioteca','na'],['Quarto','no'],['Escritório','no'],['Adega','na'],['Jardim de Inverno','no'],['Salão de Jogos','no'],['Hall','no'],['Sala de Jantar','na']];
-const TINTS=['rgba(70,227,255,.20)','rgba(94,240,140,.18)','rgba(195,139,255,.22)','rgba(255,138,61,.20)','rgba(255,216,77,.17)','rgba(255,61,110,.18)'];
+const ROOMS=[['Sala de Estar','na','wood'],['Cozinha','na','checker'],['Biblioteca','na','parquet'],['Quarto','no','carpet'],['Escritório','no','office'],['Adega','na','stone'],['Jardim de Inverno','no','grass'],['Salão de Jogos','no','felt'],['Hall','no','marble'],['Sala de Jantar','na','terra']];
 const OBJ={
-  mesa:{blocked:true,label:'Mesa',art:'uma mesa',svg:'<rect x="4" y="6" width="16" height="12" rx="2"/><circle cx="12" cy="12" r="2"/>'},
-  planta:{blocked:true,label:'Planta',art:'uma planta',svg:'<circle cx="12" cy="12" r="2.5"/><path d="M12 3c2 3 2 5 0 6.5c-2-1.5-2-3.5 0-6.5zM21 12c-3 2-5 2-6.5 0c1.5-2 3.5-2 6.5 0zM12 21c-2-3-2-5 0-6.5c2 1.5 2 3.5 0 6.5zM3 12c3-2 5-2 6.5 0c-1.5 2-3.5 2-6.5 0z"/>'},
-  estante:{blocked:true,label:'Estante',art:'uma estante',svg:'<rect x="3" y="8" width="18" height="8"/><path d="M8 8v8M12.5 8v8M17 8v8"/>'},
-  cadeira:{blocked:false,label:'Cadeira',art:'uma cadeira',svg:'<rect x="7" y="9" width="10" height="9" rx="1.5"/><rect x="7" y="5" width="10" height="2.6" rx="1"/>'},
-  tapete:{blocked:false,label:'Tapete',art:'um tapete',svg:'<rect x="3" y="5" width="18" height="14" rx="1"/><rect x="6.5" y="8.5" width="11" height="7" stroke-dasharray="2 2"/>'},
-  cama:{blocked:false,label:'Cama',art:'uma cama',svg:'<rect x="5" y="3" width="14" height="18" rx="2"/><rect x="7.5" y="5" width="9" height="4" rx="1.5"/><path d="M5 11h14"/>'}
+  mesa:{blocked:true,label:'Mesa',art:'uma mesa',svg:'<rect x="7" y="10" width="34" height="28" rx="4" fill="#8a4f26"/><rect x="9" y="12" width="30" height="24" rx="3" fill="#c07a43"/><circle cx="24" cy="24" r="5.5" fill="#fffdf7" stroke="#d9cbb5"/><circle cx="24" cy="24" r="2.5" fill="#e0685a"/><circle cx="15" cy="17" r="2.2" fill="#fffdf7"/><circle cx="33" cy="31" r="2.2" fill="#fffdf7"/>'},
+  planta:{blocked:true,label:'Planta',art:'uma planta',svg:'<circle cx="24" cy="24" r="13" fill="#c8693f"/><circle cx="24" cy="24" r="10.5" fill="#6b3b22"/><g fill="#3f9a4a"><ellipse cx="24" cy="12" rx="5" ry="10"/><ellipse cx="24" cy="36" rx="5" ry="10"/><ellipse cx="12" cy="24" rx="10" ry="5"/><ellipse cx="36" cy="24" rx="10" ry="5"/></g><g fill="#63c46d"><ellipse cx="16" cy="16" rx="4" ry="9" transform="rotate(-45 16 16)"/><ellipse cx="32" cy="16" rx="4" ry="9" transform="rotate(45 32 16)"/><ellipse cx="16" cy="32" rx="4" ry="9" transform="rotate(45 16 32)"/><ellipse cx="32" cy="32" rx="4" ry="9" transform="rotate(-45 32 32)"/></g><circle cx="24" cy="24" r="4" fill="#2f7d3a"/>'},
+  estante:{blocked:true,label:'Estante',art:'uma estante',svg:'<rect x="3" y="12" width="42" height="24" rx="2" fill="#6e3f1f"/><rect x="5" y="14" width="38" height="20" fill="#8a5530"/><rect x="6" y="15" width="4" height="18" fill="#e05a5a"/><rect x="11" y="17" width="3.5" height="16" fill="#46b3c9"/><rect x="15.5" y="15" width="4.5" height="18" fill="#f5c451"/><rect x="21" y="16" width="3.5" height="17" fill="#7b6cff"/><rect x="25.5" y="15" width="4" height="18" fill="#5fc06a"/><rect x="30.5" y="18" width="3.5" height="15" fill="#e8e1f5"/><rect x="35" y="15" width="4.5" height="18" fill="#ff8a3d"/>'},
+  cadeira:{blocked:false,label:'Poltrona',art:'uma poltrona',svg:'<rect x="9" y="9" width="30" height="30" rx="8" fill="#23707f"/><rect x="16" y="17" width="16" height="19" rx="4" fill="#48b3c9"/><rect x="9" y="9" width="30" height="8" rx="4" fill="#1b5c69"/>'},
+  tapete:{blocked:false,label:'Tapete',art:'um tapete',svg:'<path d="M3 9v30M45 9v30" stroke="#f5e6c8" stroke-width="3" stroke-dasharray="1.5 2"/><rect x="5" y="7" width="38" height="34" rx="2" fill="#c43d4f"/><rect x="9" y="11" width="30" height="26" fill="none" stroke="#f5c451" stroke-width="2"/><path d="M24 14 L35 24 L24 34 L13 24Z" fill="#f5c451"/><circle cx="24" cy="24" r="3.5" fill="#c43d4f"/>'},
+  cama:{blocked:false,label:'Cama',art:'uma cama',svg:'<rect x="8" y="3" width="32" height="42" rx="4" fill="#6e3f1f"/><rect x="10" y="5" width="28" height="38" rx="3" fill="#fffdf7"/><rect x="13" y="8" width="22" height="8" rx="3" fill="#ece6f8" stroke="#cfc4e6"/><rect x="10" y="19" width="28" height="24" rx="3" fill="#7b6cff"/><path d="M10 23h28" stroke="#a59cff" stroke-width="2.5"/>'}
 };
-const svgOf = k => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">${OBJ[k].svg}</svg>`;
+const svgOf = k => `<svg viewBox="0 0 48 48">${OBJ[k].svg}</svg>`;
+
+/* retratos originais gerados a partir do nome */
+const SKIN=['#f7d7b8','#eab98f','#c98e62','#8d5a3b','#f1c3a0','#a8714c'];
+const HAIR=['#2b1d14','#6b3e1f','#d9a441','#b5452b','#1c1c28','#9a9a9a','#e0c68a'];
+const SHIRT=['#2b2140','#fffdf7','#1b5c69','#8a2f45','#3f4a8a','#4a6b2f'];
+function portrait(p){
+  const h=hashStr(p.name+'#'), skin=SKIN[h%SKIN.length], hair=HAIR[(h>>4)%HAIR.length], shirt=SHIRT[(h>>8)%SHIRT.length], st=(h>>12)%3;
+  const f=p.g==='f', bg=p.victim?'#d9d3e8':p.color;
+  let back='', front='';
+  if(f){
+    if(st===0){ back=`<path d="M9 20Q9 6 20 6Q31 6 31 20L33 36H7Z" fill="${hair}"/>`; front=`<path d="M12 18Q12 8.5 20 8.5Q28 8.5 28 18Q25 12 20 12.5Q16 12.5 12 18Z" fill="${hair}"/>`; }
+    else if(st===1){ back=`<circle cx="20" cy="6.5" r="4.5" fill="${hair}"/>`; front=`<path d="M11.5 18Q11 8.5 20 8.5Q29 8.5 28.5 18Q26 12.5 20 12.5Q14 12.5 11.5 18Z" fill="${hair}"/>`; }
+    else { back=`<path d="M10.5 25Q9 7 20 7.5Q31 7 29.5 25H27Q27.5 13 20 13Q12.5 13 13 25Z" fill="${hair}"/>`; front=`<path d="M12 16Q14 9 20 9Q26 9 28 16Q24 12 18 13Z" fill="${hair}"/>`; }
+  } else {
+    if(st===0){ front=`<path d="M11.5 17Q11 8 20 8Q29 8 28.5 17Q26 12 20 12Q14 12 11.5 17Z" fill="${hair}"/>`; }
+    else if(st===1){ front=`<g fill="${hair}"><circle cx="13" cy="13" r="3.4"/><circle cx="16.5" cy="9.8" r="3.6"/><circle cx="20.5" cy="8.8" r="3.6"/><circle cx="24.5" cy="9.8" r="3.6"/><circle cx="27.5" cy="13" r="3.4"/></g>`; }
+    else { front=`<path d="M11.8 19Q11.8 14 13 13.5V19ZM28.2 19Q28.2 14 27 13.5V19Z" fill="${hair}"/><path d="M14 23Q20 28 26 23Q26 26.5 20 27Q14 26.5 14 23Z" fill="${hair}"/>`; }
+  }
+  const eyes = p.victim
+    ? `<path d="M15.5 16.5l3 3M18.5 16.5l-3 3M21.5 16.5l3 3M24.5 16.5l-3 3" stroke="#2b2140" stroke-width="1.4" stroke-linecap="round"/>`
+    : `<circle cx="17" cy="18" r="1.3" fill="#2b2140"/><circle cx="23" cy="18" r="1.3" fill="#2b2140"/><circle cx="15.3" cy="21" r="1.3" fill="#ff8a8a" opacity=".45"/><circle cx="24.7" cy="21" r="1.3" fill="#ff8a8a" opacity=".45"/>`;
+  const mouth = p.victim ? `<path d="M18 23.6h4" stroke="#2b2140" stroke-width="1.2" stroke-linecap="round"/>` : `<path d="M17.8 22.6Q20 24.4 22.2 22.6" stroke="#2b2140" stroke-width="1.2" fill="none" stroke-linecap="round"/>`;
+  return `<svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" fill="${bg}"/>${back}<path d="M5 41Q5 29 20 29Q35 29 35 41Z" fill="${shirt}"/><rect x="17.3" y="24" width="5.4" height="6" fill="${skin}"/><ellipse cx="20" cy="18" rx="8" ry="9" fill="${skin}"/>${front}${eyes}${mouth}</svg>`;
+}
 const LEVELS={
   facil:{n:4,rooms:[3,4],block:.10,stand:.20,label:'Fácil',reward:10},
   medio:{n:5,rooms:[4,5],block:.10,stand:.18,label:'Médio',reward:20},
@@ -497,7 +534,7 @@ function generate(seed, lv){
     const vic=pick(VICTIMS);
     const people=cast.map((p,i)=>({name:p[0],g:p[1],color:COLORS[i]})).concat([{name:vic[0],g:vic[1],color:'#f4f1ec',victim:true}]);
     const roomIdx=shuf([...Array(ROOMS.length).keys()]).slice(0,k);
-    const rooms=roomIdx.map(i=>({name:ROOMS[i][0],prep:ROOMS[i][1]}));
+    const rooms=roomIdx.map(i=>({name:ROOMS[i][0],prep:ROOMS[i][1],floor:ROOMS[i][2]}));
     const P={n,reg,obj,sol,people,rooms,lv,seed};
     const clues=makeClues(P,rnd,ri,shuf);
     if(!clues) continue;
@@ -519,9 +556,9 @@ function makeClues(P,rnd,ri,shuf){
     pool.push({w:.9,kind:'u',p,f:x=>x%n===c,t:`${nm(p)} estava na coluna ${COLS[c]}.`});
     if(obj[i]){
       const o=obj[i];
-      const txt={cadeira:`estava ${g(p,'sentado','sentada')} numa cadeira`,tapete:'estava em cima de um tapete',cama:`estava ${g(p,'deitado','deitada')} numa cama`}[o];
+      const txt={cadeira:`estava ${g(p,'sentado','sentada')} numa poltrona`,tapete:'estava em cima de um tapete',cama:`estava ${g(p,'deitado','deitada')} numa cama`}[o];
       pool.push({w:4,kind:'u',p,f:x=>obj[x]===o,t:`${nm(p)} ${txt}.`});
-    } else pool.push({w:1.2,kind:'u',p,f:x=>!obj[x],t:`${nm(p)} estava em pé, longe de cadeiras, tapetes e camas.`});
+    } else pool.push({w:1.2,kind:'u',p,f:x=>!obj[x],t:`${nm(p)} estava em pé, fora de poltronas, tapetes e camas.`});
     const adj=[...new Set(neighbors(i,n).map(y=>obj[y]).filter(Boolean))];
     adj.forEach(o=>pool.push({w:2.6,kind:'u',p,f:x=>neighbors(x,n).some(y=>obj[y]===o),t:`${nm(p)} estava ao lado de ${OBJ[o].art}.`}));
     if(p!==V){ const others=sol.filter((x,q)=>q!==p && reg[x]===R).length; if(others===0) pool.push({w:2.2,kind:'alone',p,t:`${nm(p)} estava ${g(p,'sozinho','sozinha')} no cômodo.`}); }
@@ -576,7 +613,7 @@ function renderAll(enter){
   $('#axcols').innerHTML=[...'ABCDEF'].slice(0,n).map(l=>`<span>${l}</span>`).join('');
   $('#axrows').innerHTML=[...Array(n)].map((_,i)=>`<span>${i+1}</span>`).join('');
   const used=[...new Set(P.obj.filter(Boolean))];
-  $('#legend').innerHTML=used.map(k=>`<span class="${OBJ[k].blocked?'nb':''}">${svgOf(k)}${OBJ[k].label}${OBJ[k].blocked?' (bloqueia)':''}</span>`).join('');
+  $('#legend').innerHTML=used.map(k=>`<span>${svgOf(k)}${OBJ[k].label}${OBJ[k].blocked?' (bloqueia)':''}</span>`).join('');
   $('#clues').innerHTML = P.clues.map((t,i)=>`<li class="clue" style="--d:${i}" data-i="${i}"><span class="n">${String(i+1).padStart(2,'0')}</span><span>${t}</span></li>`).join('')
     + `<li class="clue rule" style="--d:${P.clues.length}"><span class="n">★</span><span>A vítima é <b style="--c:var(--red)">${P.people[n-1].name}</b>. Quem estava sozinho com ${P.people[n-1].g==='f'?'ela':'ele'} no mesmo cômodo é o culpado.</span></li>`;
   document.querySelectorAll('.clue[data-i]').forEach(li=>li.onclick=()=>{ const i=+li.dataset.i; S.struck.has(i)?S.struck.delete(i):S.struck.add(i); li.classList.toggle('done'); SFX.mark(); });
@@ -600,8 +637,7 @@ function renderBoard(){
     const cls=['cell'];
     if(r===0||reg[i-n]!==reg[i]) cls.push('wt');
     if(c===0||reg[i-1]!==reg[i]) cls.push('wl');
-    if(c===n-1) cls.push('wr');
-    if(r===n-1) cls.push('wb');
+    cls.push('f-'+rooms[reg[i]].floor);
     if(blocked) cls.push('blocked');
     if(i===culpritCell) cls.push('culprit');
     const p=occ[i];
@@ -610,17 +646,17 @@ function renderBoard(){
     const label = firstCell[reg[i]]===i ? `<span class="rlabel">${rooms[reg[i]].name}</span>` : '';
     const objHtml = o ? `<span class="obj">${svgOf(o)}</span>` : '';
     const dropped = fxc && fxc.cell===i;
-    const tok = p!=null ? `<span class="token${P.people[p].victim?' victim':''}${S.hinted.has(p)?' hint':''}${dropped?' drop':''}" style="--c:${P.people[p].color}">${P.people[p].name[0]}</span>` : '';
+    const tok = p!=null ? `<span class="token${P.people[p].victim?' victim':''}${S.hinted.has(p)?' hint':''}${dropped?' drop':''}" style="--c:${P.people[p].color}">${portrait(P.people[p])}</span>` : '';
     const extra = dropped ? (fxc.kind==='hint' ? '<span class="beam"></span>' : `<span class="ripple" style="--c:${P.people[p]?.color||'#fff'}"></span>`) : '';
     const mark = p==null && S.marks.has(i) ? '<span class="xmark">✕</span>' : '';
     const aria = `${'ABCDEF'[c]}${r+1}, ${rooms[reg[i]].name}${o?', '+OBJ[o].label:''}${p!=null?', '+P.people[p].name:''}`;
-    html+=`<button class="${cls.join(' ')}" style="--tint:${TINTS[reg[i]%TINTS.length]};--d:${r+c}" data-i="${i}" aria-label="${aria}"${blocked?' aria-disabled="true"':''}>${label}${objHtml}${mark}${tok}${extra}</button>`;
+    html+=`<button class="${cls.join(' ')}" style="--d:${r+c}" data-i="${i}" aria-label="${aria}"${blocked?' aria-disabled="true"':''}>${label}${objHtml}${mark}${tok}${extra}</button>`;
   }
   board.innerHTML=html+'<div class="spot"></div>';
 }
 function renderTray(){
   const placed=S.place.filter(x=>x>=0).length;
-  tray.innerHTML = P.people.map((p,i)=>`<button class="chip${S.place[i]>=0?' placed':''}" aria-pressed="${S.tool===i}" data-t="${i}"><span class="dot${p.victim?' victim':''}" style="--c:${p.color}">${p.name[0]}</span>${p.name}${p.victim?' <small>vítima</small>':''}</button>`).join('')
+  tray.innerHTML = P.people.map((p,i)=>`<button class="chip${S.place[i]>=0?' placed':''}" aria-pressed="${S.tool===i}" data-t="${i}"><span class="dot${p.victim?' victim':''}" style="--c:${p.color}">${portrait(p)}</span>${p.name}${p.victim?' <small>vítima</small>':''}</button>`).join('')
     + `<button class="chip tool" aria-pressed="${S.tool===-1}" data-t="-1"><span class="dot">✕</span>Marcar vazio</button>`;
   const btn=$('#checkBtn');
   btn.disabled = placed<P.n || S.solved;
@@ -694,6 +730,7 @@ function win(){
   const r=frame.getBoundingClientRect();
   confetti(r.left+r.width/2, r.top+r.height/2, 120);
   setTimeout(()=>{
+    const mug=$('#winMug'); mug.style.setProperty('--c',culprit.color); mug.innerHTML=portrait(culprit);
     $('#winText').innerHTML=`<b style="--c:${culprit.color}">${culprit.name}</b> estava a sós com ${vic.name} ${P.rooms[vr].prep} ${P.rooms[vr].name}. É ${culprit.g==='f'?'a culpada':'o culpado'}!`;
     $('#winMeta').textContent=`Tempo ${fmtTime(Date.now()-S.t0)}${extra}`;
     $('#winModal').hidden=false;
