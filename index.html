@@ -114,7 +114,13 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .f-stone{background:linear-gradient(#958d82 2px,transparent 2px) 0 0/100% 33.4%,linear-gradient(90deg,#958d82 2px,transparent 2px) 0 0/50% 100%,#bdb5aa}
 .f-felt{background:repeating-linear-gradient(45deg,#4aa988 0 6px,#44a081 6px 12px)}
 
-.rlabel{position:absolute;top:4px;left:4px;max-width:calc(100% - 8px);font-size:max(7.5px,calc(100cqw / var(--n) * .105));line-height:1.1;text-transform:uppercase;letter-spacing:.05em;font-weight:800;color:#2b2140;background:#fffdf7;border:1.5px solid #2b2140;border-radius:99px;padding:1px 6px;text-align:left;pointer-events:none;z-index:4;box-shadow:0 2px 0 rgba(43,33,64,.35)}
+.win{position:absolute;z-index:4;pointer-events:none;background:repeating-linear-gradient(90deg,#c9f4ff 0 45%,#ffffff 45% 55%,#c9f4ff 55% 100%);box-shadow:0 0 10px rgba(127,220,245,.95);border-radius:2px}
+.w-t{top:-4px;left:18%;right:18%;height:6px}
+.w-b{bottom:0;left:18%;right:18%;height:6px}
+.w-l{left:-4px;top:18%;bottom:18%;width:6px;background:repeating-linear-gradient(0deg,#c9f4ff 0 45%,#fff 45% 55%,#c9f4ff 55% 100%)}
+.w-r{right:0;top:18%;bottom:18%;width:6px;background:repeating-linear-gradient(0deg,#c9f4ff 0 45%,#fff 45% 55%,#c9f4ff 55% 100%)}
+.winkey{display:inline-block;width:22px;height:6px;border-radius:2px;background:linear-gradient(90deg,#c9f4ff 45%,#fff 45% 55%,#c9f4ff 55%);box-shadow:0 0 8px rgba(127,220,245,.9)}
+.rlabel{position:absolute;top:4px;left:4px;white-space:nowrap;font-size:max(7.5px,calc(100cqw / var(--n) * .105));line-height:1.1;text-transform:uppercase;letter-spacing:.05em;font-weight:800;color:#2b2140;background:#fffdf7;border:1.5px solid #2b2140;border-radius:99px;padding:1px 6px;text-align:left;pointer-events:none;z-index:4;box-shadow:0 2px 0 rgba(43,33,64,.35)}
 .obj{position:absolute;inset:6%;pointer-events:none;z-index:1}
 .obj svg{width:100%;height:100%;display:block;filter:drop-shadow(0 2px 1px rgba(40,25,20,.3))}
 .cell.has .obj{opacity:.55}
@@ -265,6 +271,8 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
     <button class="mode" data-mode="facil">Fácil 4×4</button>
     <button class="mode" data-mode="medio">Médio 5×5</button>
     <button class="mode" data-mode="dificil">Difícil 6×6</button>
+    <button class="mode" data-mode="expert">Expert 7×7</button>
+    <button class="mode" data-mode="mestre">Mestre 8×8</button>
   </nav>
 
   <main class="layout">
@@ -423,7 +431,7 @@ function cfLoop(){
 /* ---------- conteúdo ---------- */
 const SUSPECTS=[['Alice','f'],['Bento','m'],['Clara','f'],['Davi','m'],['Estela','f'],['Flávio','m'],['Glória','f'],['Heitor','m'],['Íris','f'],['Júlio','m'],['Lara','f'],['Murilo','m'],['Nina','f'],['Otávio','m'],['Paula','f'],['Rui','m'],['Sofia','f'],['Téo','m']];
 const VICTIMS=[['Valentim','m'],['Vera','f'],['Vicente','m'],['Violeta','f'],['Wagner','m']];
-const COLORS=['#ff8a3d','#5ef08c','#c38bff','#46e3ff','#ffd84d'];
+const COLORS=['#ff8a3d','#5ef08c','#c38bff','#46e3ff','#ffd84d','#ff6fb5','#b7e05a'];
 const ROOMS=[['Sala de Estar','na','wood'],['Cozinha','na','checker'],['Biblioteca','na','parquet'],['Quarto','no','carpet'],['Escritório','no','office'],['Adega','na','stone'],['Jardim de Inverno','no','grass'],['Salão de Jogos','no','felt'],['Hall','no','marble'],['Sala de Jantar','na','terra']];
 const OBJ={
   mesa:{blocked:true,label:'Mesa',art:'uma mesa',svg:'<rect x="7" y="10" width="34" height="28" rx="4" fill="#8a4f26"/><rect x="9" y="12" width="30" height="24" rx="3" fill="#c07a43"/><circle cx="24" cy="24" r="5.5" fill="#fffdf7" stroke="#d9cbb5"/><circle cx="24" cy="24" r="2.5" fill="#e0685a"/><circle cx="15" cy="17" r="2.2" fill="#fffdf7"/><circle cx="33" cy="31" r="2.2" fill="#fffdf7"/>'},
@@ -461,7 +469,9 @@ function portrait(p){
 const LEVELS={
   facil:{n:4,rooms:[3,4],block:.10,stand:.20,label:'Fácil',reward:10},
   medio:{n:5,rooms:[4,5],block:.10,stand:.18,label:'Médio',reward:20},
-  dificil:{n:6,rooms:[5,6],block:.10,stand:.16,label:'Difícil',reward:30}
+  dificil:{n:6,rooms:[5,6],block:.10,stand:.16,label:'Difícil',reward:30},
+  expert:{n:7,rooms:[6,7],block:.10,stand:.15,label:'Expert',reward:45},
+  mestre:{n:8,rooms:[7,8],block:.10,stand:.14,label:'Mestre',reward:60}
 };
 function neighbors(i,n){ const r=(i/n)|0,c=i%n,o=[]; if(r>0)o.push(i-n); if(r<n-1)o.push(i+n); if(c>0)o.push(i-1); if(c<n-1)o.push(i+1); return o; }
 
@@ -482,8 +492,9 @@ function countSolutions(P, clues, limit){
   }
   const order=[...Array(n).keys()].sort((a,b)=>dom[a].length-dom[b].length);
   const at=Array(n).fill(-1), rowU=Array(n).fill(false), colU=Array(n).fill(false);
-  let cnt=0;
+  let cnt=0, steps=0, aborted=false;
   function rec(k){
+    if(++steps>120000){ aborted=true; return true; }
     if(k===n){ const vr=reg[at[V]]; let m=0; for(let q=0;q<n;q++) if(reg[at[q]]===vr) m++; if(m===2) cnt++; return cnt>=limit; }
     const p=order[k];
     for(const x of dom[p]){
@@ -500,7 +511,7 @@ function countSolutions(P, clues, limit){
     return false;
   }
   rec(0);
-  return cnt;
+  return aborted ? limit : cnt;
 }
 
 /* ---------- gerador ---------- */
@@ -535,7 +546,9 @@ function generate(seed, lv){
     const people=cast.map((p,i)=>({name:p[0],g:p[1],color:COLORS[i]})).concat([{name:vic[0],g:vic[1],color:'#f4f1ec',victim:true}]);
     const roomIdx=shuf([...Array(ROOMS.length).keys()]).slice(0,k);
     const rooms=roomIdx.map(i=>({name:ROOMS[i][0],prep:ROOMS[i][1],floor:ROOMS[i][2]}));
-    const P={n,reg,obj,sol,people,rooms,lv,seed};
+    const win=Array(N).fill(null);
+    for(let c=0;c<N;c++){ const r=(c/n)|0, cc=c%n, sides=[]; if(r===0)sides.push('t'); if(r===n-1)sides.push('b'); if(cc===0)sides.push('l'); if(cc===n-1)sides.push('r'); if(sides.length && rnd()<.22) win[c]=pick(sides); }
+    const P={n,reg,obj,win,sol,people,rooms,lv,seed};
     const clues=makeClues(P,rnd,ri,shuf);
     if(!clues) continue;
     P.clues=clues; return P;
@@ -543,11 +556,13 @@ function generate(seed, lv){
   return null;
 }
 function makeClues(P,rnd,ri,shuf){
-  const {n,reg,obj,sol,people,rooms}=P, V=n-1;
+  const {n,reg,obj,win,sol,people,rooms}=P, V=n-1;
+  const roomWin=new Set(); win.forEach((w,x)=>{ if(w) roomWin.add(reg[x]); });
+  const roomObjs=rooms.map(()=>new Set()); obj.forEach((o,x)=>{ if(o) roomObjs[reg[x]].add(o); });
   const nm=p=>`<b style="--c:${people[p].color}">${people[p].name}</b>`;
   const g=(p,m,f)=>people[p].g==='f'?f:m;
   const inR=R=>`${rooms[R].prep} ${rooms[R].name}`;
-  const COLS='ABCDEF', pool=[];
+  const COLS='ABCDEFGH', pool=[];
   for(let p=0;p<n;p++){
     const i=sol[p], r=(i/n)|0, c=i%n, R=reg[i];
     pool.push({w:3,kind:'u',p,f:x=>reg[x]===R,t:`${nm(p)} estava ${inR(R)}.`});
@@ -559,6 +574,14 @@ function makeClues(P,rnd,ri,shuf){
       const txt={cadeira:`estava ${g(p,'sentado','sentada')} numa poltrona`,tapete:'estava em cima de um tapete',cama:`estava ${g(p,'deitado','deitada')} numa cama`}[o];
       pool.push({w:4,kind:'u',p,f:x=>obj[x]===o,t:`${nm(p)} ${txt}.`});
     } else pool.push({w:1.2,kind:'u',p,f:x=>!obj[x],t:`${nm(p)} estava em pé, fora de poltronas, tapetes e camas.`});
+    if(roomWin.size && roomWin.size<rooms.length){
+      const hw=roomWin.has(R);
+      pool.push({w:1.8,kind:'u',p,f:x=>roomWin.has(reg[x])===hw,t:hw?`${nm(p)} estava num cômodo com janela.`:`${nm(p)} estava num cômodo sem janela.`});
+    }
+    if(win[i]) pool.push({w:3,kind:'u',p,f:x=>!!win[x],t:`${nm(p)} estava ao lado de uma janela.`});
+    shuf([...roomObjs[R]]).slice(0,2).forEach(o=>{
+      if(roomObjs.some(s=>!s.has(o))) pool.push({w:1.6,kind:'u',p,f:x=>roomObjs[reg[x]].has(o),t:`${nm(p)} estava num cômodo que tem ${OBJ[o].art}.`});
+    });
     const adj=[...new Set(neighbors(i,n).map(y=>obj[y]).filter(Boolean))];
     adj.forEach(o=>pool.push({w:2.6,kind:'u',p,f:x=>neighbors(x,n).some(y=>obj[y]===o),t:`${nm(p)} estava ao lado de ${OBJ[o].art}.`}));
     if(p!==V){ const others=sol.filter((x,q)=>q!==p && reg[x]===R).length; if(others===0) pool.push({w:2.2,kind:'alone',p,t:`${nm(p)} estava ${g(p,'sozinho','sozinha')} no cômodo.`}); }
@@ -569,6 +592,7 @@ function makeClues(P,rnd,ri,shuf){
         if(reg[j]===R && p!==V && q!==V) pool.push({w:1.6,kind:'b',p,q,f:(a,b)=>reg[a]===reg[b],t:`${nm(p)} e ${nm(q)} estavam no mesmo cômodo.`});
         if(reg[j]!==R) pool.push({w:1,kind:'b',p,q,f:(a,b)=>reg[a]!==reg[b],t:`${nm(p)} e ${nm(q)} estavam em cômodos diferentes.`});
       }
+      if(q>p && Math.abs(r-rq)===1 && Math.abs(c-cq)===1) pool.push({w:2,kind:'b',p,q,f:(a,b)=>Math.abs(((a/n)|0)-((b/n)|0))===1 && Math.abs(a%n-b%n)===1,t:`${nm(p)} e ${nm(q)} estavam em casas vizinhas na diagonal.`});
       if(r<rq) pool.push({w:.8,kind:'b',p,q,f:(a,b)=>((a/n)|0)<((b/n)|0),t:`${nm(p)} estava numa linha acima de ${nm(q)}.`});
       if(c<cq) pool.push({w:.8,kind:'b',p,q,f:(a,b)=>a%n<b%n,t:`${nm(p)} estava numa coluna à esquerda de ${nm(q)}.`});
     }
@@ -610,10 +634,11 @@ function tick(){ if(!S||S.solved) return; $('#caseMeta').textContent = `${LEVELS
 function renderAll(enter){
   const n=P.n;
   $('#boardwrap').style.setProperty('--n',n);
-  $('#axcols').innerHTML=[...'ABCDEF'].slice(0,n).map(l=>`<span>${l}</span>`).join('');
+  $('#axcols').innerHTML=[...'ABCDEFGH'].slice(0,n).map(l=>`<span>${l}</span>`).join('');
   $('#axrows').innerHTML=[...Array(n)].map((_,i)=>`<span>${i+1}</span>`).join('');
   const used=[...new Set(P.obj.filter(Boolean))];
-  $('#legend').innerHTML=used.map(k=>`<span>${svgOf(k)}${OBJ[k].label}${OBJ[k].blocked?' (bloqueia)':''}</span>`).join('');
+  $('#legend').innerHTML=used.map(k=>`<span>${svgOf(k)}${OBJ[k].label}${OBJ[k].blocked?' (bloqueia)':''}</span>`).join('')
+    + (P.win.some(Boolean) ? '<span><i class="winkey"></i>Janela</span>' : '');
   $('#clues').innerHTML = P.clues.map((t,i)=>`<li class="clue" style="--d:${i}" data-i="${i}"><span class="n">${String(i+1).padStart(2,'0')}</span><span>${t}</span></li>`).join('')
     + `<li class="clue rule" style="--d:${P.clues.length}"><span class="n">★</span><span>A vítima é <b style="--c:var(--red)">${P.people[n-1].name}</b>. Quem estava sozinho com ${P.people[n-1].g==='f'?'ela':'ele'} no mesmo cômodo é o culpado.</span></li>`;
   document.querySelectorAll('.clue[data-i]').forEach(li=>li.onclick=()=>{ const i=+li.dataset.i; S.struck.has(i)?S.struck.delete(i):S.struck.add(i); li.classList.toggle('done'); SFX.mark(); });
@@ -643,13 +668,13 @@ function renderBoard(){
     const p=occ[i];
     if(p!=null){ cls.push('has'); if(rowCount[r]>1||colCount[c]>1) cls.push('conflict'); }
     if(tpCell>=0 && i!==tpCell && ((tpCell/n|0)===r || tpCell%n===c)) cls.push('guide');
-    const label = firstCell[reg[i]]===i ? `<span class="rlabel">${rooms[reg[i]].name}</span>` : '';
+    const label = (firstCell[reg[i]]===i ? `<span class="rlabel">${rooms[reg[i]].name}</span>` : '') + (P.win[i] ? `<span class="win w-${P.win[i]}"></span>` : '');
     const objHtml = o ? `<span class="obj">${svgOf(o)}</span>` : '';
     const dropped = fxc && fxc.cell===i;
     const tok = p!=null ? `<span class="token${P.people[p].victim?' victim':''}${S.hinted.has(p)?' hint':''}${dropped?' drop':''}" style="--c:${P.people[p].color}">${portrait(P.people[p])}</span>` : '';
     const extra = dropped ? (fxc.kind==='hint' ? '<span class="beam"></span>' : `<span class="ripple" style="--c:${P.people[p]?.color||'#fff'}"></span>`) : '';
     const mark = p==null && S.marks.has(i) ? '<span class="xmark">✕</span>' : '';
-    const aria = `${'ABCDEF'[c]}${r+1}, ${rooms[reg[i]].name}${o?', '+OBJ[o].label:''}${p!=null?', '+P.people[p].name:''}`;
+    const aria = `${'ABCDEFGH'[c]}${r+1}, ${rooms[reg[i]].name}${o?', '+OBJ[o].label:''}${p!=null?', '+P.people[p].name:''}`;
     html+=`<button class="${cls.join(' ')}" style="--d:${r+c}" data-i="${i}" aria-label="${aria}"${blocked?' aria-disabled="true"':''}>${label}${objHtml}${mark}${tok}${extra}</button>`;
   }
   board.innerHTML=html+'<div class="spot"></div>';
@@ -752,7 +777,7 @@ $('#hintBtn').onclick=()=>{
   const occ=S.place.indexOf(x); if(occ>=0) S.place[occ]=-1;
   S.place[p]=x; S.hinted.add(p); S.marks.delete(x); S.fx={cell:x,kind:'hint'};
   SFX.hint();
-  toast(`Dica: ${P.people[p].name} estava em ${'ABCDEF'[x%P.n]}${((x/P.n)|0)+1}.`);
+  toast(`Dica: ${P.people[p].name} estava em ${'ABCDEFGH'[x%P.n]}${((x/P.n)|0)+1}.`);
   renderBoard(); renderTray(); renderStats();
 };
 $('#clearBtn').onclick=()=>{ if(S.solved) return; S.place=S.place.map((x,p)=>S.hinted.has(p)?x:-1); S.marks.clear(); S.tool=0; SFX.remove(); renderAll(true); };
