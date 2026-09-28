@@ -8,6 +8,7 @@
 <meta property="og:title" content="Mansão Suspeita">
 <meta property="og:description" content="Um caso novo todo dia. Você descobre o culpado?">
 <meta property="og:type" content="website">
+<script>window.__PLATFORM='web'</script>
 <title>Mansão Suspeita</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -120,7 +121,8 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .w-l{left:-4px;top:18%;bottom:18%;width:6px;background:repeating-linear-gradient(0deg,#c9f4ff 0 45%,#fff 45% 55%,#c9f4ff 55% 100%)}
 .w-r{right:0;top:18%;bottom:18%;width:6px;background:repeating-linear-gradient(0deg,#c9f4ff 0 45%,#fff 45% 55%,#c9f4ff 55% 100%)}
 .winkey{display:inline-block;width:22px;height:6px;border-radius:2px;background:linear-gradient(90deg,#c9f4ff 45%,#fff 45% 55%,#c9f4ff 55%);box-shadow:0 0 8px rgba(127,220,245,.9)}
-.rlabel{position:absolute;top:4px;left:4px;white-space:nowrap;font-size:max(7.5px,calc(100cqw / var(--n) * .105));line-height:1.1;text-transform:uppercase;letter-spacing:.05em;font-weight:800;color:#2b2140;background:#fffdf7;border:1.5px solid #2b2140;border-radius:99px;padding:1px 6px;text-align:left;pointer-events:none;z-index:4;box-shadow:0 2px 0 rgba(43,33,64,.35)}
+.board.dense .rlabel{white-space:nowrap;max-width:none}
+.rlabel{position:absolute;top:4px;left:4px;max-width:calc(100% - 8px);font-size:max(7.5px,calc(100cqw / var(--n) * .105));line-height:1.1;text-transform:uppercase;letter-spacing:.05em;font-weight:800;color:#2b2140;background:#fffdf7;border:1.5px solid #2b2140;border-radius:99px;padding:1px 6px;text-align:left;pointer-events:none;z-index:4;box-shadow:0 2px 0 rgba(43,33,64,.35)}
 .obj{position:absolute;inset:6%;pointer-events:none;z-index:1}
 .obj svg{width:100%;height:100%;display:block;filter:drop-shadow(0 2px 1px rgba(40,25,20,.3))}
 .cell.has .obj{opacity:.55}
@@ -217,6 +219,18 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .bar{width:100%;height:8px;background:var(--panel2);border-radius:99px;overflow:hidden}
 .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),#ff8a3d);box-shadow:0 0 10px var(--gold)}
 
+.modal-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.mtitle{margin:0;font-family:var(--display);font-weight:400;font-size:28px;letter-spacing:.04em;color:var(--gold);text-shadow:0 0 14px rgba(255,201,60,.45)}
+.vid{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--gold);color:#2a1500}
+.vid svg{width:14px;height:14px}
+.sharebox{width:100%;min-height:92px;background:rgba(13,10,36,.6);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;font:13px/1.45 var(--mono);resize:none}
+.btn:disabled:not(.primary){opacity:.5;cursor:default}
+body.ad-busy .wrap,body.ad-busy .overlay{pointer-events:none}
+.tut{position:fixed;inset:0;z-index:85}
+.tut-hole{position:fixed;border-radius:14px;box-shadow:0 0 0 9999px rgba(6,3,20,.78),0 0 0 3px var(--gold),0 0 30px var(--gold);transition:top .35s,left .35s,width .35s,height .35s;pointer-events:none}
+.tut-card{position:fixed;width:min(360px,calc(100vw - 32px));background:linear-gradient(160deg,#2a1f63,#160f3e);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 50px rgba(0,0,0,.55);animation:modalIn .35s cubic-bezier(.2,1.5,.4,1)}
+.tut-card p{margin:0;font-size:15px}
+
 /* splash */
 .splash{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:16px;background:radial-gradient(circle at 50% 40%,#2c1566,#0d0a24 70%);text-align:center}
 .splash .inner{display:flex;flex-direction:column;align-items:center;gap:18px}
@@ -311,16 +325,16 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 
       <div class="shop">
         <div class="offer">
-          <span class="pill">Anúncio recompensado</span>
-          <h4>Ganhe 30 moedas</h4>
-          <p>Assista a um anúncio curto e use as moedas em dicas.</p>
-          <button class="btn" id="adBtn">Assistir anúncio</button>
+          <span class="pill">Todo dia</span>
+          <h4>Bônus diário</h4>
+          <p>Volte todo dia para pegar 30 moedas grátis e usar em dicas.</p>
+          <button class="btn" id="bonusBtn">Pegar 30 moedas</button>
         </div>
         <div class="offer prem">
-          <span class="pill">Premium</span>
-          <h4>Detetive Premium</h4>
-          <p>Sem anúncios, 500 moedas e acesso ao arquivo de casos antigos. R$ 9,90</p>
-          <button class="btn" id="buyBtn">Comprar</button>
+          <span class="pill">Como jogar</span>
+          <h4>Primeira vez aqui?</h4>
+          <p>Veja em 4 passos como resolver um caso.</p>
+          <button class="btn" id="tutBtn">Ver tutorial</button>
         </div>
       </div>
     </aside>
@@ -334,16 +348,36 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
     <p class="big" id="winText"></p>
     <div class="reward"><i class="coin"></i><span id="rewardNum">+0</span></div>
     <p id="winMeta" style="color:var(--muted);font-size:14px"></p>
-    <button class="btn primary" id="nextBtn">Próximo caso</button>
+    <div class="modal-actions">
+      <button class="btn" id="doubleBtn" hidden><span class="vid"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="5" width="15" height="14" rx="3"/><path d="M17 10l5-3v10l-5-3z"/></svg></span>Dobrar moedas</button>
+      <button class="btn" id="shareBtn">Compartilhar</button>
+      <button class="btn primary" id="nextBtn">Próximo caso</button>
+    </div>
+    <textarea class="sharebox" id="shareBox" readonly hidden aria-label="Resultado para copiar"></textarea>
   </div>
 </div>
 
-<div class="overlay" id="adModal" hidden>
+<div class="overlay" id="coinModal" hidden>
   <div class="modal">
-    <span class="pill">Anúncio de teste</span>
-    <div class="adbox">Espaço do anúncio recompensado<br>(AdMob · AdSense for Games · CrazyGames SDK)</div>
-    <div class="bar"><i id="adBar"></i></div>
-    <button class="btn primary" id="adClaim" disabled>Aguarde 5 s</button>
+    <h3 class="mtitle">Faltam moedas</h3>
+    <p>Uma dica custa 30 moedas. Você tem <b id="coinHave">0</b>.</p>
+    <p id="coinAlt" style="color:var(--muted);font-size:14px"></p>
+    <div class="modal-actions">
+      <button class="btn" id="coinWatch" hidden><span class="vid"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="5" width="15" height="14" rx="3"/><path d="M17 10l5-3v10l-5-3z"/></svg></span>Ver vídeo: +30</button>
+      <button class="btn" id="coinClose">Agora não</button>
+    </div>
+  </div>
+</div>
+
+<div class="tut" id="tut" hidden>
+  <div class="tut-hole" id="tutHole"></div>
+  <div class="tut-card" id="tutCard" role="dialog" aria-live="polite">
+    <span class="pill" id="tutStep">1 de 4</span>
+    <p id="tutText"></p>
+    <div class="modal-actions" style="justify-content:flex-end">
+      <button class="btn" id="tutSkip">Pular</button>
+      <button class="btn primary" id="tutNext">Próximo</button>
+    </div>
   </div>
 </div>
 
@@ -362,18 +396,42 @@ function hashStr(s){ let h=2166136261; for(const ch of s){ h^=ch.charCodeAt(0); 
 function dstr(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 function todayStr(){ return dstr(new Date()); }
 
+/* ---------- plataforma e anúncios ----------
+   window.__PLATFORM = 'web' (site, sem anúncios) ou 'crazygames' (SDK v3). */
+const PLATFORM = window.__PLATFORM || 'web';
+const SITE_URL = 'https://diegogarciabalbo-cell.github.io/mansao-suspeita/';
+let adMuted=false, sdkReady=false;
+async function initPlatform(){
+  if(PLATFORM!=='crazygames' || !(window.CrazyGames && window.CrazyGames.SDK)) return;
+  try{ await window.CrazyGames.SDK.init(); sdkReady=true; }catch(e){ sdkReady=false; }
+}
+function sdkGame(fn){ try{ if(sdkReady) window.CrazyGames.SDK.game[fn](); }catch(e){} }
+function showAd(type, onDone, onFail){
+  if(!sdkReady){ onFail && onFail(); return; }
+  document.body.classList.add('ad-busy');
+  const end=()=>{ document.body.classList.remove('ad-busy'); adMuted=false; if(S && S.pausedAt){ S.t0+=Date.now()-S.pausedAt; S.pausedAt=0; } };
+  try{
+    window.CrazyGames.SDK.ad.requestAd(type,{
+      adStarted:()=>{ adMuted=true; if(S && !S.solved && !S.pausedAt) S.pausedAt=Date.now(); },
+      adFinished:()=>{ end(); onDone && onDone(); },
+      adError:()=>{ end(); onFail && onFail(); }
+    });
+  }catch(e){ end(); onFail && onFail(); }
+}
+const REWARD_COOLDOWN=3*60*1000;
+
 /* ---------- som (Web Audio) ---------- */
 let AC=null, muted=store.get('muted',false);
 function ac(){ if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } return AC; }
 function tone(freq,dur=.12,type='triangle',vol=.14,delay=0,slide=0){
-  if(muted) return; const a=ac(); if(!a) return;
+  if(muted||adMuted) return; const a=ac(); if(!a) return;
   const t=a.currentTime+delay, o=a.createOscillator(), g=a.createGain();
   o.type=type; o.frequency.setValueAtTime(freq,t); if(slide) o.frequency.exponentialRampToValueAtTime(slide,t+dur);
   g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+.01); g.gain.exponentialRampToValueAtTime(.001,t+dur);
   o.connect(g).connect(a.destination); o.start(t); o.stop(t+dur+.02);
 }
 function thunder(){
-  if(muted) return; const a=ac(); if(!a) return;
+  if(muted||adMuted) return; const a=ac(); if(!a) return;
   const len=a.sampleRate*1.6, buf=a.createBuffer(1,len,a.sampleRate), d=buf.getChannelData(0);
   for(let i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2);
   const s=a.createBufferSource(), f=a.createBiquadFilter(), g=a.createGain();
@@ -626,14 +684,17 @@ function startCase(m, seed){
   h.textContent = m==='diario' ? `CASO DO DIA Nº ${dayNumber()}` : `CASO #${seed.toString(16).toUpperCase().slice(0,5)}`;
   renderAll(true);
   clearInterval(timerId); timerId=setInterval(tick,1000); tick();
+  if(started) sdkGame('gameplayStart');
 }
+let started=false;
 function fmtTime(ms){ const s=Math.floor(ms/1000); return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
-function tick(){ if(!S||S.solved) return; $('#caseMeta').textContent = `${LEVELS[P.lv].label} · ${fmtTime(Date.now()-S.t0)}`; }
+function tick(){ if(!S||S.solved||S.pausedAt) return; $('#caseMeta').textContent = `${LEVELS[P.lv].label} · ${fmtTime(Date.now()-S.t0)}`; }
 
 /* ---------- render ---------- */
 function renderAll(enter){
   const n=P.n;
   $('#boardwrap').style.setProperty('--n',n);
+  board.classList.toggle('dense', n>=7);
   $('#axcols').innerHTML=[...'ABCDEFGH'].slice(0,n).map(l=>`<span>${l}</span>`).join('');
   $('#axrows').innerHTML=[...Array(n)].map((_,i)=>`<span>${i+1}</span>`).join('');
   const used=[...new Set(P.obj.filter(Boolean))];
@@ -737,6 +798,8 @@ $('#checkBtn').onclick=()=>{
 
 function win(){
   S.solved=true; clearInterval(timerId);
+  S.timeStr=fmtTime(Date.now()-S.t0);
+  sdkGame('gameplayStop'); sdkGame('happytime');
   const n=P.n, V=n-1, vr=P.reg[P.sol[V]];
   const m=P.sol.findIndex((x,q)=>q!==V && P.reg[x]===vr);
   const culprit=P.people[m], vic=P.people[V];
@@ -757,7 +820,10 @@ function win(){
   setTimeout(()=>{
     const mug=$('#winMug'); mug.style.setProperty('--c',culprit.color); mug.innerHTML=portrait(culprit);
     $('#winText').innerHTML=`<b style="--c:${culprit.color}">${culprit.name}</b> estava a sós com ${vic.name} ${P.rooms[vr].prep} ${P.rooms[vr].name}. É ${culprit.g==='f'?'a culpada':'o culpado'}!`;
-    $('#winMeta').textContent=`Tempo ${fmtTime(Date.now()-S.t0)}${extra}`;
+    $('#winMeta').textContent=`Tempo ${S.timeStr}${extra}`;
+    lastReward=reward;
+    $('#doubleBtn').hidden = !(sdkReady && reward>0);
+    $('#shareBox').hidden=true;
     $('#winModal').hidden=false;
     confetti(innerWidth/2, innerHeight*.35, 180);
     const el=$('#rewardNum'), t0=performance.now();
@@ -765,13 +831,37 @@ function win(){
     setTimeout(()=>{ coins+=reward; store.set('coins',coins); renderStats(); if(reward) SFX.coin(); }, 900);
   }, 900);
 }
-$('#nextBtn').onclick=()=>{ $('#winModal').hidden=true; SFX.select(); startCase(mode==='diario'?'medio':mode); };
+let lastReward=0;
+$('#nextBtn').onclick=()=>{
+  $('#winModal').hidden=true; SFX.select();
+  const go=()=>startCase(mode==='diario'?'medio':mode);
+  showAd('midgame', go, go);   /* anúncio entre casos: o CrazyGames controla a frequência */
+};
+$('#doubleBtn').onclick=()=>{
+  const b=$('#doubleBtn'); b.disabled=true;
+  showAd('rewarded', ()=>{
+    coins+=lastReward; store.set('coins',coins); renderStats(); SFX.coin();
+    toast(`+${lastReward} moedas extras`); b.hidden=true; b.disabled=false;
+  }, ()=>{ b.disabled=false; toast('Nenhum vídeo disponível agora. Tente mais tarde.',true); });
+};
+function shareText(){
+  const head = mode==='diario' ? `Mansão Suspeita · Caso do dia nº ${dayNumber()}` : `Mansão Suspeita · Caso ${LEVELS[P.lv].label} ${P.n}×${P.n}`;
+  const h=S.hinted.size, squares=P.people.map((_,p)=>S.hinted.has(p)?'🟨':'🟩').join('');
+  return `${head}\n🕵️ Resolvido em ${S.timeStr} · ${h? h+(h>1?' dicas':' dica') : 'sem dicas'}\n${squares}` + (PLATFORM==='web' ? `\n${SITE_URL}` : '');
+}
+$('#shareBtn').onclick=async()=>{
+  const text=shareText();
+  if(navigator.share){ try{ await navigator.share({text}); return; }catch(e){ if(e && e.name==='AbortError') return; } }
+  try{ await navigator.clipboard.writeText(text); toast('Resultado copiado. É só colar no WhatsApp!'); return; }catch(e){}
+  const box=$('#shareBox'); box.value=text; box.hidden=false; box.focus(); box.select();
+  toast('Copie o texto abaixo para compartilhar.');
+};
 
 $('#hintBtn').onclick=()=>{
   if(S.solved) return;
   const cand=P.people.map((_,p)=>p).filter(p=>S.place[p]!==P.sol[p]);
   if(!cand.length){ toast('Todo mundo já está no lugar certo. Pode acusar!'); return; }
-  if(coins<30){ toast('Moedas insuficientes. Assista a um anúncio para ganhar 30.',true); SFX.wrong(); return; }
+  if(coins<30){ SFX.wrong(); openCoinModal(); return; }
   coins-=30; store.set('coins',coins);
   const p=cand[Math.floor(Math.random()*cand.length)], x=P.sol[p];
   const occ=S.place.indexOf(x); if(occ>=0) S.place[occ]=-1;
@@ -784,19 +874,62 @@ $('#clearBtn').onclick=()=>{ if(S.solved) return; S.place=S.place.map((x,p)=>S.h
 $('#newBtn').onclick=()=>{ SFX.select(); startCase(mode==='diario'?'medio':mode); };
 document.querySelectorAll('.mode').forEach(b=>b.onclick=()=>{ SFX.select(); startCase(b.dataset.mode); });
 
-/* ---------- monetização (simulada) ---------- */
-$('#adBtn').onclick=()=>{
-  $('#adModal').hidden=false; const claim=$('#adClaim'), bar=$('#adBar');
-  claim.disabled=true; let t=0;
-  const iv=setInterval(()=>{ t+=100; bar.style.width=(t/50)+'%'; claim.textContent=`Aguarde ${Math.ceil((5000-t)/1000)} s`;
-    if(t>=5000){ clearInterval(iv); claim.disabled=false; claim.textContent='Receber 30 moedas'; } },100);
+/* ---------- moedas: bônus diário e vídeo recompensado ---------- */
+function gainCoins(k, fromEl){
+  coins+=k; store.set('coins',coins); renderStats(); SFX.coin();
+  const r=(fromEl||$('#coinStat')).getBoundingClientRect(); confetti(r.left+r.width/2, r.top+r.height/2, 50);
+}
+function renderBonus(){
+  const b=$('#bonusBtn'), got=store.get('bonus',null)===todayStr();
+  b.disabled=got; b.textContent=got?'Volte amanhã':'Pegar 30 moedas';
+}
+$('#bonusBtn').onclick=()=>{ if(store.get('bonus',null)===todayStr()) return; store.set('bonus',todayStr()); gainCoins(30,$('#bonusBtn')); toast('+30 moedas'); renderBonus(); };
+function openCoinModal(){
+  $('#coinHave').textContent=coins;
+  const w=$('#coinWatch'), wait=REWARD_COOLDOWN-(Date.now()-store.get('lastVideo',0));
+  w.hidden = !sdkReady || wait>0;
+  const bonusFree = store.get('bonus',null)!==todayStr();
+  $('#coinAlt').textContent = bonusFree ? 'Pegue o bônus diário de 30 moedas grátis no painel ao lado, ou resolva casos para ganhar mais.'
+    : (sdkReady && wait>0 ? `Novo vídeo disponível em ${Math.ceil(wait/60000)} min. Resolver casos também dá moedas.` : 'Resolva casos para ganhar mais moedas.');
+  $('#coinModal').hidden=false;
+}
+$('#coinClose').onclick=()=>{ $('#coinModal').hidden=true; };
+$('#coinWatch').onclick=()=>{
+  $('#coinModal').hidden=true;
+  showAd('rewarded', ()=>{ store.set('lastVideo',Date.now()); gainCoins(30); toast('+30 moedas'); },
+    ()=>toast('Nenhum vídeo disponível agora. Tente mais tarde.',true));
 };
-$('#adClaim').onclick=()=>{
-  $('#adModal').hidden=true; SFX.coin();
-  const r=$('#coinStat').getBoundingClientRect(); confetti(r.left+r.width/2, r.top+r.height/2, 50);
-  coins+=30; store.set('coins',coins); renderStats(); toast('+30 moedas');
-};
-$('#buyBtn').onclick=()=>toast('Compra de teste. Conecte aqui o Google Play Billing, App Store ou Stripe.');
+
+/* ---------- tutorial ---------- */
+const TUT=[
+  ['#tray','Estes são os suspeitos e a vítima. Toque em um deles para escolher quem você vai posicionar.'],
+  ['#frame','Depois toque numa casa da planta para colocar a pessoa ali. Cada linha e cada coluna tem exatamente uma pessoa.'],
+  ['#clues','Os depoimentos dizem onde cada um estava. Toque num depoimento para riscá-lo quando já tiver usado.'],
+  ['#checkBtn','Ninguém fica em cima de mesa, planta ou estante. O culpado é quem ficou sozinho com a vítima no mesmo cômodo. Com todos posicionados, toque em Acusar!']
+];
+let tutI=0;
+function tutShow(){
+  const [sel,text]=TUT[tutI], el=$(sel);
+  $('#tutStep').textContent=`${tutI+1} de ${TUT.length}`; $('#tutText').textContent=text;
+  $('#tutNext').textContent = tutI===TUT.length-1 ? 'Começar' : 'Próximo';
+  el.scrollIntoView({block:'center',behavior:reduced?'auto':'smooth'});
+  setTimeout(()=>{
+    const r=el.getBoundingClientRect(), pad=8, hole=$('#tutHole'), card=$('#tutCard');
+    Object.assign(hole.style,{left:(r.left-pad)+'px',top:(r.top-pad)+'px',width:(r.width+pad*2)+'px',height:(r.height+pad*2)+'px'});
+    const cw=Math.min(360,innerWidth-32), below=innerHeight-r.bottom, above=r.top;
+    card.style.left=Math.max(16,Math.min(r.left,innerWidth-cw-16))+'px';
+    card.style.top=card.style.bottom='';
+    if(below>200) card.style.top=(r.bottom+pad+12)+'px';
+    else if(above>200) card.style.bottom=(innerHeight-r.top+pad+12)+'px';
+    else card.style.bottom='16px';
+    card.style.animation='none'; void card.offsetWidth; card.style.animation='';
+  }, reduced?0:380);
+}
+function tutorial(){ tutI=0; $('#tut').hidden=false; tutShow(); }
+function tutEnd(){ $('#tut').hidden=true; store.set('tutDone',true); }
+$('#tutNext').onclick=()=>{ SFX.select(); if(++tutI>=TUT.length) tutEnd(); else tutShow(); };
+$('#tutSkip').onclick=tutEnd;
+$('#tutBtn').onclick=()=>{ SFX.select(); tutorial(); };
 
 let toastT;
 function toast(msg,bad){ const t=$('#toast'); t.textContent=msg; t.classList.toggle('bad',!!bad); t.hidden=true; void t.offsetWidth; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,2600); }
@@ -805,10 +938,13 @@ function toast(msg,bad){ const t=$('#toast'); t.textContent=msg; t.classList.tog
 $('#startBtn').onclick=()=>{
   ac(); SFX.win(); thunder();
   $('#flash').animate([{opacity:0},{opacity:.3,offset:.1},{opacity:0}],{duration:700});
-  const s=$('#splash'); s.classList.add('out'); setTimeout(()=>{ s.hidden=true; startCase('diario'); }, reduced?0:550);
+  const first=!store.get('tutDone',false);
+  const s=$('#splash'); s.classList.add('out');
+  setTimeout(()=>{ s.hidden=true; started=true; startCase(first?'facil':'diario'); if(first) setTimeout(tutorial, reduced?0:900); }, reduced?0:550);
 };
 
-renderMute();
+renderMute(); renderBonus();
+initPlatform();
 startCase('diario');
 })();
 </script>
