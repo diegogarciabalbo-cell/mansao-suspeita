@@ -534,7 +534,7 @@ const LEVELS={
 function neighbors(i,n){ const r=(i/n)|0,c=i%n,o=[]; if(r>0)o.push(i-n); if(r<n-1)o.push(i+n); if(c>0)o.push(i-1); if(c<n-1)o.push(i+1); return o; }
 
 /* ---------- solver ---------- */
-function countSolutions(P, clues, limit){
+function countSolutions(P, clues, limit, out){
   const {n,reg,obj}=P, N=n*n, V=n-1;
   const unary=[...Array(n)].map(()=>[]), bins=[...Array(n)].map(()=>[]), alone=new Set();
   for(const c of clues){
@@ -553,7 +553,7 @@ function countSolutions(P, clues, limit){
   let cnt=0, steps=0, aborted=false;
   function rec(k){
     if(++steps>120000){ aborted=true; return true; }
-    if(k===n){ const vr=reg[at[V]]; let m=0; for(let q=0;q<n;q++) if(reg[at[q]]===vr) m++; if(m===2) cnt++; return cnt>=limit; }
+    if(k===n){ const vr=reg[at[V]]; let m=0; for(let q=0;q<n;q++) if(reg[at[q]]===vr) m++; if(m===2){ cnt++; if(out) out.push(at.slice()); } return cnt>=limit; }
     const p=order[k];
     for(const x of dom[p]){
       const r=(x/n)|0, c=x%n; if(rowU[r]||colU[c]) continue;
@@ -614,55 +614,88 @@ function generate(seed, lv){
   return null;
 }
 function makeClues(P,rnd,ri,shuf){
+  /* Um depoimento por suspeito; a vítima não tem depoimento.
+     Cada depoimento junta 1 a 2 fatos (até 3 nos tabuleiros 7×7 e 8×8). */
   const {n,reg,obj,win,sol,people,rooms}=P, V=n-1;
   const roomWin=new Set(); win.forEach((w,x)=>{ if(w) roomWin.add(reg[x]); });
   const roomObjs=rooms.map(()=>new Set()); obj.forEach((o,x)=>{ if(o) roomObjs[reg[x]].add(o); });
   const nm=p=>`<b style="--c:${people[p].color}">${people[p].name}</b>`;
   const g=(p,m,f)=>people[p].g==='f'?f:m;
   const inR=R=>`${rooms[R].prep} ${rooms[R].name}`;
-  const COLS='ABCDEFGH', pool=[];
-  for(let p=0;p<n;p++){
-    const i=sol[p], r=(i/n)|0, c=i%n, R=reg[i];
-    pool.push({w:3,kind:'u',p,f:x=>reg[x]===R,t:`${nm(p)} estava ${inR(R)}.`});
-    shuf([...rooms.keys()].filter(x=>x!==R)).slice(0,2).forEach(R2=>pool.push({w:1.3,kind:'u',p,f:x=>reg[x]!==R2,t:`${nm(p)} não estava ${inR(R2)}.`}));
-    pool.push({w:.9,kind:'u',p,f:x=>((x/n)|0)===r,t:`${nm(p)} estava na linha ${r+1}.`});
-    pool.push({w:.9,kind:'u',p,f:x=>x%n===c,t:`${nm(p)} estava na coluna ${COLS[c]}.`});
+  const COLS='ABCDEFGH', rowOf=x=>(x/n)|0, colOf=x=>x%n;
+  const atomsOf=[...Array(V)].map(()=>[]);
+  for(let p=0;p<V;p++){
+    const A=atomsOf[p], i=sol[p], r=rowOf(i), c=colOf(i), R=reg[i];
+    const U=(w,f,frag)=>A.push({w,kind:'u',p,f,frag});
+    const B=(w,q,f,frag)=>A.push({w,kind:'b',p,q,f,frag});
+    U(3,x=>reg[x]===R,`estava ${inR(R)}`);
+    shuf([...rooms.keys()].filter(x=>x!==R)).slice(0,2).forEach(R2=>U(1.3,x=>reg[x]!==R2,`não estava ${inR(R2)}`));
+    U(.9,x=>rowOf(x)===r,`estava na linha ${r+1}`);
+    U(.9,x=>colOf(x)===c,`estava na coluna ${COLS[c]}`);
     if(obj[i]){
       const o=obj[i];
-      const txt={cadeira:`estava ${g(p,'sentado','sentada')} numa poltrona`,tapete:'estava em cima de um tapete',cama:`estava ${g(p,'deitado','deitada')} numa cama`}[o];
-      pool.push({w:4,kind:'u',p,f:x=>obj[x]===o,t:`${nm(p)} ${txt}.`});
-    } else pool.push({w:1.2,kind:'u',p,f:x=>!obj[x],t:`${nm(p)} estava em pé, fora de poltronas, tapetes e camas.`});
-    if(roomWin.size && roomWin.size<rooms.length){
-      const hw=roomWin.has(R);
-      pool.push({w:1.8,kind:'u',p,f:x=>roomWin.has(reg[x])===hw,t:hw?`${nm(p)} estava num cômodo com janela.`:`${nm(p)} estava num cômodo sem janela.`});
-    }
-    if(win[i]) pool.push({w:3,kind:'u',p,f:x=>!!win[x],t:`${nm(p)} estava ao lado de uma janela.`});
-    shuf([...roomObjs[R]]).slice(0,2).forEach(o=>{
-      if(roomObjs.some(s=>!s.has(o))) pool.push({w:1.6,kind:'u',p,f:x=>roomObjs[reg[x]].has(o),t:`${nm(p)} estava num cômodo que tem ${OBJ[o].art}.`});
-    });
-    const adj=[...new Set(neighbors(i,n).map(y=>obj[y]).filter(Boolean))];
-    adj.forEach(o=>pool.push({w:2.6,kind:'u',p,f:x=>neighbors(x,n).some(y=>obj[y]===o),t:`${nm(p)} estava ao lado de ${OBJ[o].art}.`}));
-    if(p!==V){ const others=sol.filter((x,q)=>q!==p && reg[x]===R).length; if(others===0) pool.push({w:2.2,kind:'alone',p,t:`${nm(p)} estava ${g(p,'sozinho','sozinha')} no cômodo.`}); }
+      U(4,x=>obj[x]===o,{cadeira:`estava ${g(p,'sentado','sentada')} numa poltrona`,tapete:'estava em cima de um tapete',cama:`estava ${g(p,'deitado','deitada')} numa cama`}[o]);
+    } else U(1.2,x=>!obj[x],'estava em pé, fora de poltronas, tapetes e camas');
+    if(roomWin.size && roomWin.size<rooms.length){ const hw=roomWin.has(R); U(1.8,x=>roomWin.has(reg[x])===hw, hw?'estava num cômodo com janela':'estava num cômodo sem janela'); }
+    if(win[i]) U(3,x=>!!win[x],'estava ao lado de uma janela');
+    shuf([...roomObjs[R]]).slice(0,2).forEach(o=>{ if(roomObjs.some(st=>!st.has(o))) U(1.6,x=>roomObjs[reg[x]].has(o),`estava num cômodo que tem ${OBJ[o].art}`); });
+    [...new Set(neighbors(i,n).map(y=>obj[y]).filter(Boolean))].forEach(o=>U(2.6,x=>neighbors(x,n).some(y=>obj[y]===o),`estava ao lado de ${OBJ[o].art}`));
+    if(sol.filter((x,q)=>q!==p && reg[x]===R).length===0) A.push({w:2.2,kind:'alone',p,frag:`estava ${g(p,'sozinho','sozinha')} no cômodo`});
     for(let q=0;q<n;q++){
       if(q===p) continue;
-      const j=sol[q], rq=(j/n)|0, cq=j%n;
-      if(q>p){
-        if(reg[j]===R && p!==V && q!==V) pool.push({w:1.6,kind:'b',p,q,f:(a,b)=>reg[a]===reg[b],t:`${nm(p)} e ${nm(q)} estavam no mesmo cômodo.`});
-        if(reg[j]!==R) pool.push({w:1,kind:'b',p,q,f:(a,b)=>reg[a]!==reg[b],t:`${nm(p)} e ${nm(q)} estavam em cômodos diferentes.`});
-      }
-      if(q>p && Math.abs(r-rq)===1 && Math.abs(c-cq)===1) pool.push({w:2,kind:'b',p,q,f:(a,b)=>Math.abs(((a/n)|0)-((b/n)|0))===1 && Math.abs(a%n-b%n)===1,t:`${nm(p)} e ${nm(q)} estavam em casas vizinhas na diagonal.`});
-      if(r<rq) pool.push({w:.8,kind:'b',p,q,f:(a,b)=>((a/n)|0)<((b/n)|0),t:`${nm(p)} estava numa linha acima de ${nm(q)}.`});
-      if(c<cq) pool.push({w:.8,kind:'b',p,q,f:(a,b)=>a%n<b%n,t:`${nm(p)} estava numa coluna à esquerda de ${nm(q)}.`});
+      const j=sol[q], rq=rowOf(j), cq=colOf(j);
+      if(reg[j]===R && q!==V) B(1.6,q,(a,b)=>reg[a]===reg[b],`estava no mesmo cômodo que ${nm(q)}`);
+      if(reg[j]!==R) B(1,q,(a,b)=>reg[a]!==reg[b],`não estava no mesmo cômodo que ${nm(q)}`);
+      if(Math.abs(r-rq)===1 && Math.abs(c-cq)===1) B(2,q,(a,b)=>Math.abs(rowOf(a)-rowOf(b))===1 && Math.abs(colOf(a)-colOf(b))===1,`estava numa casa vizinha na diagonal de ${nm(q)}`);
+      if(r<rq) B(.8,q,(a,b)=>rowOf(a)<rowOf(b),`estava numa linha acima de ${nm(q)}`);
+      if(r>rq) B(.8,q,(a,b)=>rowOf(a)>rowOf(b),`estava numa linha abaixo de ${nm(q)}`);
+      if(c<cq) B(.8,q,(a,b)=>colOf(a)<colOf(b),`estava numa coluna à esquerda de ${nm(q)}`);
+      if(c>cq) B(.8,q,(a,b)=>colOf(a)>colOf(b),`estava numa coluna à direita de ${nm(q)}`);
     }
   }
-  const ordered=pool.map(c=>({c,k:Math.pow(rnd(),1/c.w)})).sort((a,b)=>b.k-a.k).map(o=>o.c);
-  let chosen=[], unique=false;
-  for(const c of ordered){ chosen.push(c); if(countSolutions(P,chosen,2)===1){ unique=true; break; } }
-  if(!unique) return null;
-  for(const c of shuf(chosen.slice())){ const rest=chosen.filter(x=>x!==c); if(countSolutions(P,rest,2)===1) chosen=rest; }
-  if(chosen.length<n-1) return null;
-  const rank={u:0,alone:1,b:2};
-  return chosen.sort((a,b)=>a.p-b.p || rank[a.kind]-rank[b.kind]).map(c=>c.t);
+  const wpick=arr=>{ let t=rnd()*arr.reduce((a,x)=>a+x.w,0); for(const x of arr){ t-=x.w; if(t<=0) return x; } return arr[arr.length-1]; };
+  const maxA = n>=7 ? 3 : 2;
+  let st=atomsOf.map(A=>[wpick(A)]);
+  const flat=()=>st.flat();
+  let ok=false;
+  for(let it=0; it<90 && !ok; it++){
+    const found=[], cnt=countSolutions(P,flat(),2,found);
+    if(cnt===1){ ok=true; break; }
+    if(cnt===0) return null;
+    const alt=found.find(a=>a.some((x,q)=>x!==sol[q]));
+    let p, cands;
+    if(alt){
+      const diff=[...Array(V).keys()].filter(q=>alt[q]!==sol[q]);
+      if(!diff.length) return null;
+      p=diff[ri(diff.length)];
+      cands=atomsOf[p].filter(a=>!st[p].includes(a) && (
+        a.kind==='u' ? !a.f(alt[p]) :
+        a.kind==='b' ? !a.f(alt[p],alt[a.q]) :
+        alt.some((x,q)=>q!==p && reg[x]===reg[alt[p]])));
+    } else {
+      p=ri(V); cands=atomsOf[p].filter(a=>!st[p].includes(a));
+    }
+    if(!cands.length) continue;
+    const c=wpick(cands);
+    if(st[p].length<maxA) st[p].push(c); else st[p][ri(st[p].length)]=c;
+  }
+  if(!ok) return null;
+  for(const p of shuf([...Array(V).keys()])){
+    let again=true;
+    while(again && st[p].length>1){
+      again=false;
+      for(const a of shuf(st[p].slice())){
+        const save=st[p]; st[p]=save.filter(x=>x!==a);
+        if(countSolutions(P,flat(),2)===1){ again=true; break; }
+        st[p]=save;
+      }
+    }
+  }
+  return st.map((atoms,p)=>{
+    const rank={u:0,alone:1,b:2};
+    const fr=atoms.slice().sort((a,b)=>rank[a.kind]-rank[b.kind]).map((a,k)=>k>0 && a.frag.startsWith('estava ') ? a.frag.slice(7) : a.frag);
+    return `${nm(p)} ${fr.length>1 ? fr.slice(0,-1).join(', ')+' e '+fr[fr.length-1] : fr[0]}.`;
+  });
 }
 
 /* ---------- estado ---------- */
@@ -701,7 +734,7 @@ function renderAll(enter){
   $('#legend').innerHTML=used.map(k=>`<span>${svgOf(k)}${OBJ[k].label}${OBJ[k].blocked?' (bloqueia)':''}</span>`).join('')
     + (P.win.some(Boolean) ? '<span><i class="winkey"></i>Janela</span>' : '');
   $('#clues').innerHTML = P.clues.map((t,i)=>`<li class="clue" style="--d:${i}" data-i="${i}"><span class="n">${String(i+1).padStart(2,'0')}</span><span>${t}</span></li>`).join('')
-    + `<li class="clue rule" style="--d:${P.clues.length}"><span class="n">★</span><span>A vítima é <b style="--c:var(--red)">${P.people[n-1].name}</b>. Quem estava sozinho com ${P.people[n-1].g==='f'?'ela':'ele'} no mesmo cômodo é o culpado.</span></li>`;
+    + `<li class="clue rule" style="--d:${P.clues.length}"><span class="n">★</span><span>A vítima é <b style="--c:var(--red)">${P.people[n-1].name}</b> e não deixou depoimento: ${P.people[n-1].g==='f'?'ela':'ele'} fica na linha e na coluna que sobrarem. Quem estava sozinho com ${P.people[n-1].g==='f'?'ela':'ele'} no mesmo cômodo é o culpado.</span></li>`;
   document.querySelectorAll('.clue[data-i]').forEach(li=>li.onclick=()=>{ const i=+li.dataset.i; S.struck.has(i)?S.struck.delete(i):S.struck.add(i); li.classList.toggle('done'); SFX.mark(); });
   board.classList.toggle('enter', !!enter);
   renderBoard(); renderTray(); renderStats();
