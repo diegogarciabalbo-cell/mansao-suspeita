@@ -223,6 +223,7 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .sus .ph svg{width:100%;height:100%;display:block}
 .f-pool{background:radial-gradient(ellipse at 30% 35%,rgba(255,255,255,.45) 9%,transparent 11%) 0 0/50% 40%,radial-gradient(ellipse at 70% 75%,rgba(255,255,255,.3) 8%,transparent 10%) 0 0/45% 38%,#6cc6ea}
 .f-deck{background:repeating-linear-gradient(0deg,#c29a6e 0 23%,#a67c55 23% 25%)}
+.f-hay{background:repeating-linear-gradient(75deg,#ecca62 0 7%,#d9b24a 7% 10%,#f2d677 10% 14%)}
 .f-tile{background:linear-gradient(90deg,#b8d9e6 2px,transparent 2px) 0 0/33.4% 100%,linear-gradient(#b8d9e6 2px,transparent 2px) 0 0/100% 33.4%,#eef8fc}
 .clues{list-style:none;margin:0;padding:0;display:grid;gap:4px}
 .clue{display:flex;gap:10px;align-items:flex-start;padding:9px 12px;border-radius:10px;cursor:pointer;user-select:none;font-size:15px;max-width:68ch;background:rgba(255,255,255,.03);border:1px solid transparent;transition:background .2s,transform .15s,opacity .25s;animation:clueIn .45s cubic-bezier(.2,1.3,.4,1) both;animation-delay:calc(var(--d) * 70ms + 250ms)}
@@ -260,6 +261,22 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .bar{width:100%;height:8px;background:var(--panel2);border-radius:99px;overflow:hidden}
 .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),#ff8a3d);box-shadow:0 0 10px var(--gold)}
 
+.mode.camp{color:#fff;border-color:transparent;background:linear-gradient(135deg,var(--red),#7b6cff);box-shadow:0 6px 20px rgba(255,61,110,.35)}
+.mode.camp[aria-pressed="true"]{background:linear-gradient(135deg,#ff7a9c,#9d92ff);color:#1a0b2e}
+.modal.map{max-width:760px;max-height:calc(100vh - 32px);overflow:auto;text-align:left;align-items:stretch}
+.modal.map .mtitle{text-align:center}
+.mp-sub{text-align:center;color:var(--muted);font-size:14px}
+.chapters{display:flex;flex-direction:column;gap:16px}
+.chap h4{margin:0 0 8px;font-size:15px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.chap h4 span{font-family:var(--mono);font-size:12px;color:var(--cyan)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:8px}
+.tile{aspect-ratio:1/1;border-radius:12px;border:1px solid var(--line);background:var(--panel2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-family:var(--mono);transition:transform .15s}
+.tile b{font-size:16px}
+.tile small{font-size:9.5px;color:var(--gold);letter-spacing:-.5px}
+.tile:hover:not(:disabled){transform:translateY(-2px) scale(1.06)}
+.tile:disabled{opacity:.35;cursor:not-allowed}
+.tile.done{background:linear-gradient(135deg,#2fae66,#1b7a47);border-color:transparent;color:#fff}
+.tile.next{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold),0 0 18px rgba(255,201,60,.6);animation:ready 1.4s ease-in-out infinite}
 .modal-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 .mtitle{margin:0;font-family:var(--display);font-weight:400;font-size:28px;letter-spacing:.04em;color:var(--gold);text-shadow:0 0 14px rgba(255,201,60,.45)}
 .vid{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--gold);color:#2a1500}
@@ -322,6 +339,7 @@ body.ad-busy .wrap,body.ad-busy .overlay{pointer-events:none}
   </header>
 
   <nav class="modes" aria-label="Modo de jogo">
+    <button class="mode camp" data-mode="campanha">Campanha</button>
     <button class="mode daily" data-mode="diario">Caso do dia</button>
     <button class="mode" data-mode="facil">Fácil 4×4</button>
     <button class="mode" data-mode="medio">Médio 5×5</button>
@@ -400,6 +418,15 @@ body.ad-busy .wrap,body.ad-busy .overlay{pointer-events:none}
       <button class="btn primary" id="nextBtn">Próximo caso</button>
     </div>
     <textarea class="sharebox" id="shareBox" readonly hidden aria-label="Resultado para copiar"></textarea>
+  </div>
+</div>
+
+<div class="overlay" id="mapModal" hidden>
+  <div class="modal map">
+    <h3 class="mtitle">Campanha</h3>
+    <p class="mp-sub" id="mapSub"></p>
+    <div class="chapters" id="chapters"></div>
+    <button class="btn" id="mapClose">Fechar</button>
   </div>
 </div>
 
@@ -548,16 +575,39 @@ const COLORS=['#ff8a3d','#5ef08c','#c38bff','#46e3ff','#ffd84d','#ff6fb5','#b7e0
 /* Cada caso acontece num lugar diferente, com título e frase de abertura próprios. */
 const THEMES=[
   {name:'Mansão', rooms:[['Sala de Estar','na','wood'],['Cozinha','na','checker'],['Biblioteca','na','parquet'],['Quarto','no','carpet'],['Escritório','no','office'],['Adega','na','stone'],['Jardim de Inverno','no','grass'],['Salão de Jogos','no','felt'],['Hall','no','marble'],['Sala de Jantar','na','terra']],
-   cases:[['O testamento do barão','Ninguém leu o testamento até a última página.'],['Jantar de gala','A sobremesa nunca chegou à mesa.'],['Noite de tempestade','A luz caiu por três minutos. Foi o bastante.'],['O retrato do corredor','Os olhos do quadro seguiam todo mundo. Menos o culpado.']]},
+   cases:[['O testamento do barão','Ninguém leu o testamento até a última página.'],['Jantar de gala','A sobremesa nunca chegou à mesa.'],['Noite de tempestade','A luz caiu por três minutos. Foi o bastante.'],['O retrato do corredor','Os olhos do quadro seguiam todo mundo. Menos o culpado.'],['Chá das cinco','O chá esfriou antes do primeiro gole.'],['A porta trancada','A chave estava do lado de dentro. O mistério, do lado de fora.'],['Baile de máscaras','Todo mundo escondia o rosto. Um escondia mais.'],['O mordomo tem álibi','Pela primeira vez na história, o mordomo tem um álibi.'],['Herança maldita','Seis herdeiros, uma fortuna. A conta não fechava.'],['A última partida de xadrez','Xeque-mate, mas não no tabuleiro.']]},
   {name:'Hotel', rooms:[['Recepção','na','marble'],['Suíte','na','carpet'],['Piscina','na','pool'],['Academia','na','stone'],['Restaurante','no','terra'],['Lavanderia','na','checker'],['Spa','no','tile'],['Bar','no','parquet'],['Corredor','no','office']],
-   cases:[['Check-out antecipado','Um hóspede deixou o hotel antes da hora. E da vida.'],['Não perturbe','A plaquinha estava pendurada na porta errada.'],['Serviço de quarto','O pedido chegou frio. O hóspede também.']]},
+   cases:[['Check-out antecipado','Um hóspede deixou o hotel antes da hora. E da vida.'],['Não perturbe','A plaquinha estava pendurada na porta errada.'],['Serviço de quarto','O pedido chegou frio. O hóspede também.'],['Quarto 237','Ninguém lembra de ter reservado esse quarto.'],['Café da manhã incluso','O café estava incluso. O veneno, não.'],['Lua de mel','Era para ser a viagem mais romântica do ano.'],['Convenção de mágicos','Cinquenta mágicos no prédio e ninguém viu nada sumir.'],['Toalhas em forma de cisne','A camareira caprichou. Alguém não gostou.'],['Hóspede VIP','Tapete vermelho na entrada, susto na saída.'],['Alta temporada','Hotel lotado e álibis de sobra.']]},
   {name:'Restaurante', rooms:[['Salão','no','wood'],['Cozinha','na','checker'],['Bar','no','parquet'],['Varanda','na','deck'],['Adega','na','stone'],['Caixa','no','marble'],['Despensa','na','office'],['Banheiro','no','tile']],
-   cases:[['Prato do dia','O chef jura que o tempero era só pimenta.'],['Mesa para oito','A reserva era para oito. Sobraram sete.'],['A conta, por favor','Alguém saiu sem pagar. Outro não saiu.']]},
+   cases:[['Prato do dia','O chef jura que o tempero era só pimenta.'],['Mesa para oito','A reserva era para oito. Sobraram sete.'],['A conta, por favor','Alguém saiu sem pagar. Outro não saiu.'],['Crítico gastronômico','Ele deu zero estrelas. Foi a última avaliação.'],['Rodízio de pizza','A última fatia sempre causa briga.'],['Noite do fondue','O queijo derreteu. O álibi também.'],['Menu degustação','Doze pratos pequenos e um problema grande.'],['Feijoada de sábado','Casa cheia, garçom sumido e um prato a mais.'],['O segredo da receita','A receita da vovó valia mais do que parecia.'],['Happy hour','Duas bebidas pelo preço de uma. Um cliente a menos.']]},
   {name:'Museu', rooms:[['Galeria','na','marble'],['Ala Egípcia','na','terra'],['Café','no','wood'],['Loja','na','office'],['Bilheteria','na','checker'],['Reserva Técnica','na','stone'],['Jardim de Esculturas','no','grass'],['Sala dos Fósseis','na','felt']],
-   cases:[['Noite no museu','As estátuas viram tudo, mas não abrem a boca.'],['A peça que faltava','O vigia cochilou cinco minutos. Foi o suficiente.'],['Visita guiada','O guia contou todos os segredos do museu. Menos um.']]},
+   cases:[['Noite no museu','As estátuas viram tudo, mas não abrem a boca.'],['A peça que faltava','O vigia cochilou cinco minutos. Foi o suficiente.'],['Visita guiada','O guia contou todos os segredos do museu. Menos um.'],['A múmia acordou','Dizem que foi a maldição. A perícia discorda.'],['Exposição de joias','O diamante continuava lá. Quem sumiu foi outra pessoa.'],['Vernissage','Vinho barato, arte cara e um visitante a menos.'],['O quadro falso','Um especialista descobriu a fraude. E se arrependeu.'],['Dinossauros à noite','Os ossos estavam no lugar. Faltava alguém de carne e osso.'],['Restauração','Restauraram o quadro, mas não o convidado.'],['Leilão beneficente','O lance mais alto foi o último.']]},
   {name:'Navio', rooms:[['Convés','no','deck'],['Cabine','na','carpet'],['Cassino','no','felt'],['Salão de Baile','no','parquet'],['Piscina','na','pool'],['Casa de Máquinas','na','stone'],['Refeitório','no','checker'],['Ponte de Comando','na','office']],
-   cases:[['Cruzeiro de luxo','Pacote com tudo incluído. Até um crime.'],['Mar calmo','O mar estava tranquilo. A viagem, nem tanto.'],['Porto seguro','Faltavam duas horas para atracar.']]}
+   cases:[['Cruzeiro de luxo','Pacote com tudo incluído. Até um crime.'],['Mar calmo','O mar estava tranquilo. A viagem, nem tanto.'],['Porto seguro','Faltavam duas horas para atracar.'],['Noite do capitão','Jantar com o capitão. Um lugar ficou vazio.'],['Todos a bordo','Todos a bordo. Nem todos vivos.'],['Bingo no convés','Alguém gritou bingo. Outro não gritou nada.'],['Travessia do Atlântico','Dez dias sem terra à vista e sem ter para onde fugir.'],['Ilha particular','A parada na ilha foi cancelada. Por motivos óbvios.'],['Show de talentos','O número de mágica terminou cedo demais.'],['Cassino flutuante','A casa sempre ganha. Dessa vez, alguém perdeu mais.']]},
+  {name:'Escola', rooms:[['Sala de Aula','na','office'],['Biblioteca','na','parquet'],['Laboratório','no','tile'],['Quadra','na','felt'],['Cantina','na','checker'],['Secretaria','na','marble'],['Sala dos Professores','na','carpet'],['Pátio','no','stone']],
+   cases:[['Reunião de pais e mestres','A pauta tinha três itens. Sobrou um problema.'],['Conselho de classe','As notas foram lançadas. Uma delas, fatal.'],['Feira de ciências','O vulcão de bicarbonato não foi o único a explodir.'],['Baile de formatura','Beca, canudo e um convidado que não saiu da festa.'],['Prova surpresa','A maior surpresa não estava na prova.'],['Festa junina','Quadrilha, pé de moleque e um suspeito de cada lado.'],['Semana de provas','Ninguém dormiu direito. Um não acordou.'],['Aula de química','Não misture tudo o que encontrar no armário.'],['O diretor novo','Primeiro dia no cargo. Último também.'],['Clube do livro','Leram um romance policial. Viveram outro.']]},
+  {name:'Hospital', rooms:[['Recepção','na','marble'],['Enfermaria','na','tile'],['Centro Cirúrgico','no','tile'],['Farmácia','na','office'],['Refeitório','no','checker'],['Sala de Espera','na','carpet'],['Laboratório','no','stone'],['Capela','na','parquet']],
+   cases:[['Plantão noturno','Doze horas de plantão e uma surpresa no fim.'],['Segunda opinião','O primeiro médico errou. O segundo não teve chance.'],['Alta hospitalar','A alta saiu às oito. O paciente, não.'],['Sala de espera','A espera estava longa. Para um, eterna.'],['Visita fora de hora','Visita é das duas às quatro. Alguém chegou às onze.'],['Receita ilegível','Ninguém entendeu a letra do médico. Alguém entendeu errado.'],['Congresso de cardiologia','Muitos especialistas em coração. Um coração parou.'],['Doação misteriosa','O hospital ganhou uma fortuna. E um enigma.'],['Troca de turno','Na troca de turno, ninguém viu nada.'],['Diagnóstico','Os sintomas apontavam para um lado. As pistas, para outro.']]},
+  {name:'Teatro', rooms:[['Palco','no','parquet'],['Plateia','na','carpet'],['Camarim','no','wood'],['Coxia','na','office'],['Bilheteria','na','checker'],['Foyer','no','marble'],['Sala de Figurino','na','felt'],['Porão','no','stone']],
+   cases:[['Estreia','A peça estreou. O protagonista não chegou ao segundo ato.'],['Ensaio geral','Era só um ensaio. O grito foi de verdade.'],['A cortina fechou','Aplausos de pé. Menos de uma pessoa.'],['O fantasma do palco','Todo teatro tem um fantasma. Esse tinha um cúmplice.'],['Troca de figurino','Trinta segundos para trocar de roupa. E de álibi.'],['Musical','Todo mundo cantava. Ninguém contou nada.'],['Bis','O público pediu bis. Não teve.'],['Matinê','Plateia vazia e bastidores cheios.'],['O ponto sumiu','Sem o ponto, ninguém lembrava as falas. Nem o que viu.'],['Noite de gala','Smoking, champanhe e um lugar vazio na fila A.']]},
+  {name:'Trem', rooms:[['Vagão-Restaurante','no','terra'],['Cabine','na','carpet'],['Vagão de Carga','no','office'],['Locomotiva','na','stone'],['Vagão-Leito','no','wood'],['Bar','no','parquet'],['Corredor','no','deck'],['Plataforma','na','marble']],
+   cases:[['Expresso da meia-noite','Partiu às doze em ponto. Chegou com um passageiro a menos.'],['Túnel escuro','Trinta segundos de túnel. Luz apagada.'],['Parada técnica','O trem parou no meio do nada. E alguém não seguiu viagem.'],['Bilhete só de ida','Estava escrito no bilhete. Ninguém levou a sério.'],['Vagão-leito','Todos dormiam. Quase todos.'],['Atraso de duas horas','O trem atrasou. O culpado, não.'],['Última estação','Fim da linha para um dos passageiros.'],['O controlador','Ele conferiu todos os bilhetes. Menos um.'],['Neve nos trilhos','Presos pela neve, ninguém entrava nem saía.'],['Viagem inaugural','Primeira viagem da linha nova. Estreia marcante.']]},
+  {name:'Fazenda', rooms:[['Sala','na','wood'],['Cozinha','na','checker'],['Celeiro','no','hay'],['Estábulo','no','hay'],['Horta','na','grass'],['Varanda','na','deck'],['Galinheiro','no','hay'],['Porão','no','stone'],['Pomar','no','grass']],
+   cases:[['Colheita','A safra foi boa. O fim de semana, nem tanto.'],['Festa do peão','Rodeio, sanfona e um peão que não voltou.'],['Café com leite','Leite fresco, pão de queijo e um mistério no curral.'],['O galo não cantou','De manhã, o galo ficou quieto. Já sabia de algo.'],['Venda da fazenda','Todos queriam a fazenda. Um queria mais.'],['Noite de lua cheia','Os cachorros latiram a noite toda.'],['Pamonha na varanda','Cheiro de milho verde e de encrenca.'],['Leilão de gado','Lance dado, martelo batido e um comprador a menos.'],['Casamento na roça','Festa boa, noivos felizes e um convidado ausente.'],['Seca','Sem chuva há meses. E sem paz também.']]}
 ];
+
+/* ---------- campanha: 100 casos fixos em 5 capítulos ---------- */
+const CHAPTERS=[
+  {name:'Primeiros passos', from:1,  to:15,  lv:'facil'},
+  {name:'Aprendiz',         from:16, to:35,  lv:'medio'},
+  {name:'Detetive',         from:36, to:60,  lv:'dificil'},
+  {name:'Inspetor',         from:61, to:80,  lv:'expert'},
+  {name:'Lenda',            from:81, to:100, lv:'mestre'}
+];
+const CAMP_TOTAL=100;
+const campLevel=k=>CHAPTERS.find(c=>k>=c.from && k<=c.to).lv;
+const campForced=k=>({t:(k-1)%THEMES.length, c:Math.floor((k-1)/THEMES.length)});
+const campTitle=k=>{ const f=campForced(k); return THEMES[f.t].cases[f.c][0]; };
 const OBJ={
   mesa:{blocked:true,label:'Mesa',art:'uma mesa',svg:'<rect x="7" y="10" width="34" height="28" rx="4" fill="#8a4f26"/><rect x="9" y="12" width="30" height="24" rx="3" fill="#c07a43"/><circle cx="24" cy="24" r="5.5" fill="#fffdf7" stroke="#d9cbb5"/><circle cx="24" cy="24" r="2.5" fill="#e0685a"/><circle cx="15" cy="17" r="2.2" fill="#fffdf7"/><circle cx="33" cy="31" r="2.2" fill="#fffdf7"/>'},
   planta:{blocked:true,label:'Planta',art:'uma planta',svg:'<circle cx="24" cy="24" r="13" fill="#c8693f"/><circle cx="24" cy="24" r="10.5" fill="#6b3b22"/><g fill="#3f9a4a"><ellipse cx="24" cy="12" rx="5" ry="10"/><ellipse cx="24" cy="36" rx="5" ry="10"/><ellipse cx="12" cy="24" rx="10" ry="5"/><ellipse cx="36" cy="24" rx="10" ry="5"/></g><g fill="#63c46d"><ellipse cx="16" cy="16" rx="4" ry="9" transform="rotate(-45 16 16)"/><ellipse cx="32" cy="16" rx="4" ry="9" transform="rotate(45 32 16)"/><ellipse cx="16" cy="32" rx="4" ry="9" transform="rotate(45 16 32)"/><ellipse cx="32" cy="32" rx="4" ry="9" transform="rotate(-45 32 32)"/></g><circle cx="24" cy="24" r="4" fill="#2f7d3a"/>'},
@@ -642,7 +692,7 @@ function countSolutions(P, clues, limit, out){
 }
 
 /* ---------- gerador ---------- */
-function generate(seed, lv){
+function generate(seed, lv, forced){
   const rnd=mulberry32(seed), L=LEVELS[lv], n=L.n, N=n*n;
   const ri=k=>Math.floor(rnd()*k), pick=a=>a[ri(a.length)];
   const shuf=a=>{ for(let i=a.length-1;i>0;i--){ const j=ri(i+1); [a[i],a[j]]=[a[j],a[i]]; } return a; };
@@ -671,7 +721,7 @@ function generate(seed, lv){
     const cast=shuf(SUSPECTS.slice()).slice(0,n-1).sort((a,b)=>a[0].localeCompare(b[0]));
     const vic=pick(VICTIMS);
     const people=cast.map((p,i)=>({name:p[0],g:p[1],color:COLORS[i]})).concat([{name:vic[0],g:vic[1],color:'#f4f1ec',victim:true}]);
-    const theme=pick(THEMES), tcase=pick(theme.cases);
+    const theme=forced?THEMES[forced.t]:pick(THEMES), tcase=forced?theme.cases[forced.c]:pick(theme.cases);
     const rooms=shuf(theme.rooms.slice()).slice(0,k).map(r=>({name:r[0],prep:r[1],floor:r[2]}));
     const win=Array(N).fill(null);
     for(let c=0;c<N;c++){ const r=(c/n)|0, cc=c%n, sides=[]; if(r===0)sides.push('t'); if(r===n-1)sides.push('b'); if(cc===0)sides.push('l'); if(cc===n-1)sides.push('r'); if(sides.length && rnd()<.22) win[c]=pick(sides); }
@@ -828,6 +878,7 @@ function makeClues(P,rnd,ri,shuf){
 
 /* ---------- estado ---------- */
 let P=null, S=null, mode='diario', timerId=null;
+let campK=1, camp=store.get('camp',{});
 let coins=store.get('coins',60);
 let streak=store.get('streak',{n:0,last:null});
 const tray=$('#tray'), board=$('#board'), frame=$('#frame');
@@ -836,14 +887,15 @@ function dayNumber(){ const d=new Date(), s=new Date(2026,0,1); return Math.floo
 function startCase(m, seed){
   mode=m;
   document.querySelectorAll('.mode').forEach(b=>b.setAttribute('aria-pressed', b.dataset.mode===m));
-  const lv = m==='diario' ? 'medio' : m;
-  if(seed==null) seed = m==='diario' ? hashStr('mansao-'+todayStr()) : (Math.random()*2**32)>>>0;
-  P = generate(seed, lv);
-  if(!P){ startCase(m, (seed+7919)>>>0); return; }
+  let lv, forced=null;
+  if(m==='campanha'){ lv=campLevel(campK); forced=campForced(campK); seed=hashStr('campanha-'+campK); }
+  else { lv = m==='diario' ? 'medio' : m; if(seed==null) seed = m==='diario' ? hashStr('mansao-'+todayStr()) : (Math.random()*2**32)>>>0; }
+  P=null;
+  for(let t=0; !P; t++) P=generate((seed+t*7919)>>>0, lv, forced);
   S = {place:Array(P.n).fill(-1), marks:new Set(), struck:new Set(), hinted:new Set(), tool:0, t0:Date.now(), solved:false, fx:null};
   const h=$('#caseTitle'); h.style.animation='none'; void h.offsetWidth; h.style.animation='';
   h.textContent = P.title;
-  $('#caseKicker').textContent = (m==='diario' ? `Caso do dia nº ${dayNumber()}` : `Caso #${seed.toString(16).toUpperCase().slice(0,5)}`) + ' · ' + P.place;
+  $('#caseKicker').textContent = (m==='campanha' ? `Campanha · caso ${campK} de ${CAMP_TOTAL}` : m==='diario' ? `Caso do dia nº ${dayNumber()}` : `Caso #${seed.toString(16).toUpperCase().slice(0,5)}`) + ' · ' + P.place;
   $('#caseFlavor').textContent = P.flavor;
   renderAll(true);
   clearInterval(timerId); timerId=setInterval(tick,1000); tick();
@@ -996,6 +1048,14 @@ function win(){
       extra=` · sequência de ${streak.n} ${streak.n===1?'dia':'dias'}`;
     } else { reward=0; extra=' · caso do dia já pago hoje'; }
   }
+  if(mode==='campanha'){
+    const stars = S.hinted.size===0 ? 3 : S.hinted.size===1 ? 2 : 1;
+    const prev=camp[campK];
+    if(prev){ reward=0; extra=` · ${'★'.repeat(stars)}${'☆'.repeat(3-stars)} · caso já resolvido antes`; }
+    else extra=` · ${'★'.repeat(stars)}${'☆'.repeat(3-stars)}`;
+    if(!prev || stars>prev.s || (stars===prev.s && Math.floor((Date.now()-S.t0)/1000)<prev.t)) camp[campK]={s:stars,t:Math.floor((Date.now()-S.t0)/1000)};
+    store.set('camp',camp);
+  }
   renderBoard(); renderTray();
   SFX.win();
   const r=frame.getBoundingClientRect();
@@ -1006,6 +1066,7 @@ function win(){
     $('#winMeta').textContent=`Tempo ${S.timeStr}${extra}`;
     lastReward=reward;
     $('#doubleBtn').hidden = !(sdkReady && reward>0);
+    $('#nextBtn').textContent = mode==='campanha' ? (campK<CAMP_TOTAL ? `Caso ${campK+1}` : 'Ver campanha') : 'Próximo caso';
     $('#shareBox').hidden=true;
     $('#winModal').hidden=false;
     confetti(innerWidth/2, innerHeight*.35, 180);
@@ -1017,7 +1078,9 @@ function win(){
 let lastReward=0;
 $('#nextBtn').onclick=()=>{
   $('#winModal').hidden=true; SFX.select();
-  const go=()=>startCase(mode==='diario'?'medio':mode);
+  const go = mode==='campanha'
+    ? ()=>{ if(campK<CAMP_TOTAL){ campK++; startCase('campanha'); } else openMap(); }
+    : ()=>startCase(mode==='diario'?'medio':mode);
   showAd('midgame', go, go);   /* anúncio entre casos: o CrazyGames controla a frequência */
 };
 $('#doubleBtn').onclick=()=>{
@@ -1028,7 +1091,7 @@ $('#doubleBtn').onclick=()=>{
   }, ()=>{ b.disabled=false; toast('Nenhum vídeo disponível agora. Tente mais tarde.',true); });
 };
 function shareText(){
-  const head = mode==='diario' ? `Mansão Suspeita · Caso do dia nº ${dayNumber()}` : `Mansão Suspeita · Caso ${LEVELS[P.lv].label} ${P.n}×${P.n}`;
+  const head = mode==='campanha' ? `Mansão Suspeita · Campanha, caso ${campK}: ${P.title}` : mode==='diario' ? `Mansão Suspeita · Caso do dia nº ${dayNumber()}` : `Mansão Suspeita · Caso ${LEVELS[P.lv].label} ${P.n}×${P.n}`;
   const h=S.hinted.size, squares=P.people.map((_,p)=>S.hinted.has(p)?'🟨':'🟩').join('');
   return `${head}\n🕵️ Resolvido em ${S.timeStr} · ${h? h+(h>1?' dicas':' dica') : 'sem dicas'}\n${squares}` + (PLATFORM==='web' ? `\n${SITE_URL}` : '');
 }
@@ -1054,8 +1117,29 @@ $('#hintBtn').onclick=()=>{
   renderBoard(); renderTray(); renderStats();
 };
 $('#clearBtn').onclick=()=>{ if(S.solved) return; S.place=S.place.map((x,p)=>S.hinted.has(p)?x:-1); S.marks.clear(); S.tool=0; SFX.remove(); renderAll(true); };
-$('#newBtn').onclick=()=>{ SFX.select(); startCase(mode==='diario'?'medio':mode); };
-document.querySelectorAll('.mode').forEach(b=>b.onclick=()=>{ SFX.select(); startCase(b.dataset.mode); });
+$('#newBtn').onclick=()=>{ SFX.select(); if(mode==='campanha') openMap(); else startCase(mode==='diario'?'medio':mode); };
+document.querySelectorAll('.mode').forEach(b=>b.onclick=()=>{ SFX.select(); if(b.dataset.mode==='campanha') openMap(); else startCase(b.dataset.mode); });
+
+/* ---------- mapa da campanha ---------- */
+const campNext=()=>{ for(let k=1;k<=CAMP_TOTAL;k++) if(!camp[k]) return k; return CAMP_TOTAL; };
+function openMap(){
+  const next=campNext(), done=Object.keys(camp).length, stars=Object.values(camp).reduce((a,r)=>a+r.s,0);
+  $('#mapSub').textContent=`${done} de ${CAMP_TOTAL} casos resolvidos · ${stars} de ${CAMP_TOTAL*3} estrelas`;
+  $('#chapters').innerHTML=CHAPTERS.map((ch,ci)=>{
+    const n=LEVELS[ch.lv].n;
+    let tiles='';
+    for(let k=ch.from;k<=ch.to;k++){
+      const r=camp[k], open = k===1 || !!camp[k-1] || !!r;
+      const st = r ? `<small>${'★'.repeat(r.s)}${'☆'.repeat(3-r.s)}</small>` : (open ? '' : '<small>🔒</small>');
+      tiles+=`<button class="tile${r?' done':''}${k===next&&!r?' next':''}" data-k="${k}" ${open?'':'disabled'} title="${k}. ${open?campTitle(k):'Bloqueado'}"><b>${k}</b>${st}</button>`;
+    }
+    return `<section class="chap"><h4>Capítulo ${ci+1} · ${ch.name}<span>${n}×${n}</span></h4><div class="tiles">${tiles}</div></section>`;
+  }).join('');
+  $('#mapModal').hidden=false;
+  const cur=$('#chapters .tile.next'); if(cur) cur.scrollIntoView({block:'center'});
+}
+$('#chapters').onclick=e=>{ const b=e.target.closest('[data-k]'); if(!b||b.disabled) return; $('#mapModal').hidden=true; campK=+b.dataset.k; SFX.select(); startCase('campanha'); };
+$('#mapClose').onclick=()=>{ $('#mapModal').hidden=true; };
 
 /* ---------- moedas: bônus diário e vídeo recompensado ---------- */
 function gainCoins(k, fromEl){
@@ -1145,7 +1229,7 @@ $('#startBtn').onclick=()=>{
   $('#flash').animate([{opacity:0},{opacity:.3,offset:.1},{opacity:0}],{duration:700});
   const first=!store.get('tutDone',false);
   const s=$('#splash'); s.classList.add('out');
-  setTimeout(()=>{ s.hidden=true; started=true; startCase(first?'facil':'diario'); if(first) setTimeout(tutorial, reduced?0:900); }, reduced?0:550);
+  setTimeout(()=>{ s.hidden=true; started=true; if(first){ campK=1; startCase('campanha'); } else startCase('diario'); if(first) setTimeout(tutorial, reduced?0:900); }, reduced?0:550);
 };
 
 renderMute(); renderBonus();
