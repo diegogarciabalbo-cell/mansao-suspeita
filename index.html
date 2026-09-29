@@ -76,7 +76,7 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .layout{display:grid;gap:22px;grid-template-columns:1fr}
 @media (min-width:900px){.layout{grid-template-columns:minmax(0,510px) minmax(0,1fr);align-items:start}}
 
-.casehead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:10px}
+.casehead{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;margin-bottom:10px}
 .casehead h2{margin:0;font-family:var(--display);font-size:24px;letter-spacing:.04em;font-weight:400;animation:slideIn .5s both}
 .casehead .meta{font-family:var(--mono);font-size:13px;color:var(--cyan);font-variant-numeric:tabular-nums;background:rgba(70,227,255,.1);padding:3px 10px;border-radius:99px}
 @keyframes slideIn{from{transform:translateX(-24px);opacity:0}to{transform:none;opacity:1}}
@@ -183,6 +183,47 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .rules{margin:0 0 16px;padding:12px 14px;border:1px dashed var(--line);border-radius:12px;font-size:13.5px;background:rgba(13,10,36,.4)}
 .rules ol{margin:6px 0 0;padding-left:18px;display:grid;gap:3px}
 .rules strong{color:var(--cyan);font-weight:700}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:16px 14px;padding:4px}
+.card{position:relative;background:#fffdf7;color:#2b2140;border:0;border-radius:6px;padding:8px 8px 11px;box-shadow:0 10px 22px rgba(0,0,0,.4);transform:rotate(var(--rot));display:flex;flex-direction:column;gap:7px;text-align:left;cursor:pointer;font:inherit;animation:cardIn .55s cubic-bezier(.2,1.4,.4,1) both;animation-delay:calc(var(--d) * 80ms + 200ms);transition:transform .2s,opacity .25s}
+.card:hover{transform:rotate(0) translateY(-4px) scale(1.03)}
+@keyframes cardIn{from{opacity:0;transform:translateY(30px) rotate(calc(var(--rot) * 4))}}
+.card .ph{display:block;aspect-ratio:1/1;border-radius:3px;overflow:hidden;position:relative;border:2px solid #2b2140}
+.card .ph svg{width:100%;height:100%;display:block}
+.card .nm{font-family:var(--display);font-size:21px;line-height:1;color:#2b2140;border-bottom:4px solid var(--c);align-self:flex-start;padding-bottom:2px;letter-spacing:.02em}
+.card .st{font-size:14px;line-height:1.38;color:#2b2140}
+.card .st b{color:#2b2140;font-weight:800;box-shadow:inset 0 -.5em 0 var(--c);text-shadow:none}
+.card.done{opacity:.5}
+.card.done::after{content:"✓";position:absolute;top:4px;right:4px;width:32px;height:32px;border-radius:50%;background:#2fae66;color:#fff;display:grid;place-items:center;font-weight:900;font-size:18px;transform:rotate(-8deg);box-shadow:0 3px 0 rgba(0,0,0,.25)}
+.card.victim{background:#ffe8ee;cursor:default}
+.card.victim .nm{border-color:var(--red)}
+.card .xx{position:absolute;inset:0}
+.card .xx::before,.card .xx::after{content:"";position:absolute;left:10%;right:10%;top:50%;height:5px;margin-top:-2px;background:var(--red);border-radius:3px;transform:rotate(40deg);box-shadow:0 0 6px rgba(255,61,110,.6)}
+.card .xx::after{transform:rotate(-40deg)}
+.card .vt{display:block;font-weight:800;color:#c2183f;text-transform:uppercase;font-size:12px;letter-spacing:.08em}
+.card.lupa{background:#e3f4ff;cursor:default}
+.card.lupa .nm{border-color:var(--cyan)}
+.card .lp{display:grid;place-items:center;aspect-ratio:1/1;background:#bfe6fb;border:2px solid #2b2140;border-radius:3px;color:#2b2140}
+.card .lp svg{width:46%;height:46%}
+.gloss{margin-top:18px;border:1px dashed var(--line);border-radius:12px;background:rgba(13,10,36,.4)}
+.gloss summary{cursor:pointer;padding:12px 14px;font-weight:700;color:var(--cyan);list-style:none}
+.gloss summary::-webkit-details-marker{display:none}
+.gloss summary::before{content:"+ ";color:var(--gold)}
+.gloss[open] summary::before{content:"– "}
+.gl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;padding:0 14px 14px}
+.gl{display:flex;gap:10px;align-items:flex-start;background:rgba(255,255,255,.04);border-radius:10px;padding:10px}
+.gl svg{flex:none;width:56px;height:auto}
+.gl b{display:block;color:var(--gold);font-size:13.5px}
+.gl span{font-size:13px;color:var(--muted);line-height:1.35}
+.kicker{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
+.flavor{margin:-2px 0 12px;color:var(--muted);font-style:italic;font-size:14.5px}
+.suspects{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:12px;width:100%}
+.sus{display:flex;flex-direction:column;align-items:center;gap:6px;background:transparent;border:0;color:var(--ink);font-weight:700;padding:4px;border-radius:12px;transition:transform .15s}
+.sus:hover{transform:translateY(-3px) scale(1.05)}
+.sus .ph{width:68px;height:68px;border-radius:14px;overflow:hidden;border:3px solid #fffdf7;box-shadow:0 0 16px var(--c)}
+.sus .ph svg{width:100%;height:100%;display:block}
+.f-pool{background:radial-gradient(ellipse at 30% 35%,rgba(255,255,255,.45) 9%,transparent 11%) 0 0/50% 40%,radial-gradient(ellipse at 70% 75%,rgba(255,255,255,.3) 8%,transparent 10%) 0 0/45% 38%,#6cc6ea}
+.f-deck{background:repeating-linear-gradient(0deg,#c29a6e 0 23%,#a67c55 23% 25%)}
+.f-tile{background:linear-gradient(90deg,#b8d9e6 2px,transparent 2px) 0 0/33.4% 100%,linear-gradient(#b8d9e6 2px,transparent 2px) 0 0/100% 33.4%,#eef8fc}
 .clues{list-style:none;margin:0;padding:0;display:grid;gap:4px}
 .clue{display:flex;gap:10px;align-items:flex-start;padding:9px 12px;border-radius:10px;cursor:pointer;user-select:none;font-size:15px;max-width:68ch;background:rgba(255,255,255,.03);border:1px solid transparent;transition:background .2s,transform .15s,opacity .25s;animation:clueIn .45s cubic-bezier(.2,1.3,.4,1) both;animation-delay:calc(var(--d) * 70ms + 250ms)}
 @keyframes clueIn{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
@@ -292,9 +333,10 @@ body.ad-busy .wrap,body.ad-busy .overlay{pointer-events:none}
   <main class="layout">
     <section>
       <div class="casehead">
-        <h2 id="caseTitle">Caso</h2>
+        <div><span class="kicker" id="caseKicker"></span><h2 id="caseTitle">Caso</h2></div>
         <span class="meta" id="caseMeta"></span>
       </div>
+      <p class="flavor" id="caseFlavor"></p>
       <div class="boardwrap" id="boardwrap">
         <div class="axis cols" id="axcols"></div>
         <div class="axis rows" id="axrows"></div>
@@ -311,8 +353,8 @@ body.ad-busy .wrap,body.ad-busy .overlay{pointer-events:none}
     </section>
 
     <aside class="dossier">
-      <h3>DEPOIMENTOS</h3>
-      <p class="sub">Toque num depoimento para riscá-lo quando já tiver usado.</p>
+      <h3>SUSPEITOS</h3>
+      <p class="sub">Cada suspeito deixou um depoimento. Toque no cartão para marcar quando já tiver usado.</p>
       <div class="rules">
         <strong>Regras da casa</strong>
         <ol>
@@ -321,7 +363,11 @@ body.ad-busy .wrap,body.ad-busy .overlay{pointer-events:none}
           <li>O culpado é a única pessoa que estava no mesmo cômodo que a vítima.</li>
         </ol>
       </div>
-      <ol class="clues" id="clues"></ol>
+      <div class="cards" id="clues"></div>
+      <details class="gloss">
+        <summary>Dicionário do detetive</summary>
+        <div class="gl-grid" id="gloss"></div>
+      </details>
 
       <div class="shop">
         <div class="offer">
@@ -354,6 +400,15 @@ body.ad-busy .wrap,body.ad-busy .overlay{pointer-events:none}
       <button class="btn primary" id="nextBtn">Próximo caso</button>
     </div>
     <textarea class="sharebox" id="shareBox" readonly hidden aria-label="Resultado para copiar"></textarea>
+  </div>
+</div>
+
+<div class="overlay" id="accuseModal" hidden>
+  <div class="modal">
+    <h3 class="mtitle">Quem é o culpado?</h3>
+    <p style="color:var(--muted);font-size:14px">Escolha quem estava sozinho com a vítima no mesmo cômodo.</p>
+    <div class="suspects" id="accuseList"></div>
+    <button class="btn" id="accuseClose">Voltar ao tabuleiro</button>
   </div>
 </div>
 
@@ -490,11 +545,24 @@ function cfLoop(){
 const SUSPECTS=[['Alice','f'],['Bento','m'],['Clara','f'],['Davi','m'],['Estela','f'],['Flávio','m'],['Glória','f'],['Heitor','m'],['Íris','f'],['Júlio','m'],['Lara','f'],['Murilo','m'],['Nina','f'],['Otávio','m'],['Paula','f'],['Rui','m'],['Sofia','f'],['Téo','m']];
 const VICTIMS=[['Valentim','m'],['Vera','f'],['Vicente','m'],['Violeta','f'],['Wagner','m']];
 const COLORS=['#ff8a3d','#5ef08c','#c38bff','#46e3ff','#ffd84d','#ff6fb5','#b7e05a'];
-const ROOMS=[['Sala de Estar','na','wood'],['Cozinha','na','checker'],['Biblioteca','na','parquet'],['Quarto','no','carpet'],['Escritório','no','office'],['Adega','na','stone'],['Jardim de Inverno','no','grass'],['Salão de Jogos','no','felt'],['Hall','no','marble'],['Sala de Jantar','na','terra']];
+/* Cada caso acontece num lugar diferente, com título e frase de abertura próprios. */
+const THEMES=[
+  {name:'Mansão', rooms:[['Sala de Estar','na','wood'],['Cozinha','na','checker'],['Biblioteca','na','parquet'],['Quarto','no','carpet'],['Escritório','no','office'],['Adega','na','stone'],['Jardim de Inverno','no','grass'],['Salão de Jogos','no','felt'],['Hall','no','marble'],['Sala de Jantar','na','terra']],
+   cases:[['O testamento do barão','Ninguém leu o testamento até a última página.'],['Jantar de gala','A sobremesa nunca chegou à mesa.'],['Noite de tempestade','A luz caiu por três minutos. Foi o bastante.'],['O retrato do corredor','Os olhos do quadro seguiam todo mundo. Menos o culpado.']]},
+  {name:'Hotel', rooms:[['Recepção','na','marble'],['Suíte','na','carpet'],['Piscina','na','pool'],['Academia','na','stone'],['Restaurante','no','terra'],['Lavanderia','na','checker'],['Spa','no','tile'],['Bar','no','parquet'],['Corredor','no','office']],
+   cases:[['Check-out antecipado','Um hóspede deixou o hotel antes da hora. E da vida.'],['Não perturbe','A plaquinha estava pendurada na porta errada.'],['Serviço de quarto','O pedido chegou frio. O hóspede também.']]},
+  {name:'Restaurante', rooms:[['Salão','no','wood'],['Cozinha','na','checker'],['Bar','no','parquet'],['Varanda','na','deck'],['Adega','na','stone'],['Caixa','no','marble'],['Despensa','na','office'],['Banheiro','no','tile']],
+   cases:[['Prato do dia','O chef jura que o tempero era só pimenta.'],['Mesa para oito','A reserva era para oito. Sobraram sete.'],['A conta, por favor','Alguém saiu sem pagar. Outro não saiu.']]},
+  {name:'Museu', rooms:[['Galeria','na','marble'],['Ala Egípcia','na','terra'],['Café','no','wood'],['Loja','na','office'],['Bilheteria','na','checker'],['Reserva Técnica','na','stone'],['Jardim de Esculturas','no','grass'],['Sala dos Fósseis','na','felt']],
+   cases:[['Noite no museu','As estátuas viram tudo, mas não abrem a boca.'],['A peça que faltava','O vigia cochilou cinco minutos. Foi o suficiente.'],['Visita guiada','O guia contou todos os segredos do museu. Menos um.']]},
+  {name:'Navio', rooms:[['Convés','no','deck'],['Cabine','na','carpet'],['Cassino','no','felt'],['Salão de Baile','no','parquet'],['Piscina','na','pool'],['Casa de Máquinas','na','stone'],['Refeitório','no','checker'],['Ponte de Comando','na','office']],
+   cases:[['Cruzeiro de luxo','Pacote com tudo incluído. Até um crime.'],['Mar calmo','O mar estava tranquilo. A viagem, nem tanto.'],['Porto seguro','Faltavam duas horas para atracar.']]}
+];
 const OBJ={
   mesa:{blocked:true,label:'Mesa',art:'uma mesa',svg:'<rect x="7" y="10" width="34" height="28" rx="4" fill="#8a4f26"/><rect x="9" y="12" width="30" height="24" rx="3" fill="#c07a43"/><circle cx="24" cy="24" r="5.5" fill="#fffdf7" stroke="#d9cbb5"/><circle cx="24" cy="24" r="2.5" fill="#e0685a"/><circle cx="15" cy="17" r="2.2" fill="#fffdf7"/><circle cx="33" cy="31" r="2.2" fill="#fffdf7"/>'},
   planta:{blocked:true,label:'Planta',art:'uma planta',svg:'<circle cx="24" cy="24" r="13" fill="#c8693f"/><circle cx="24" cy="24" r="10.5" fill="#6b3b22"/><g fill="#3f9a4a"><ellipse cx="24" cy="12" rx="5" ry="10"/><ellipse cx="24" cy="36" rx="5" ry="10"/><ellipse cx="12" cy="24" rx="10" ry="5"/><ellipse cx="36" cy="24" rx="10" ry="5"/></g><g fill="#63c46d"><ellipse cx="16" cy="16" rx="4" ry="9" transform="rotate(-45 16 16)"/><ellipse cx="32" cy="16" rx="4" ry="9" transform="rotate(45 32 16)"/><ellipse cx="16" cy="32" rx="4" ry="9" transform="rotate(45 16 32)"/><ellipse cx="32" cy="32" rx="4" ry="9" transform="rotate(-45 32 32)"/></g><circle cx="24" cy="24" r="4" fill="#2f7d3a"/>'},
   estante:{blocked:true,label:'Estante',art:'uma estante',svg:'<rect x="3" y="12" width="42" height="24" rx="2" fill="#6e3f1f"/><rect x="5" y="14" width="38" height="20" fill="#8a5530"/><rect x="6" y="15" width="4" height="18" fill="#e05a5a"/><rect x="11" y="17" width="3.5" height="16" fill="#46b3c9"/><rect x="15.5" y="15" width="4.5" height="18" fill="#f5c451"/><rect x="21" y="16" width="3.5" height="17" fill="#7b6cff"/><rect x="25.5" y="15" width="4" height="18" fill="#5fc06a"/><rect x="30.5" y="18" width="3.5" height="15" fill="#e8e1f5"/><rect x="35" y="15" width="4.5" height="18" fill="#ff8a3d"/>'},
+  tv:{blocked:true,label:'TV',art:'uma TV',svg:'<rect x="5" y="11" width="38" height="25" rx="3" fill="#2b2140"/><rect x="8" y="14" width="32" height="19" rx="2" fill="#46e3ff"/><path d="M11 30l8-9 6 6 5-4 7 7" stroke="#fffdf7" stroke-width="1.8" fill="none"/><rect x="18" y="37" width="12" height="3.5" rx="1" fill="#2b2140"/>'},
   cadeira:{blocked:false,label:'Poltrona',art:'uma poltrona',svg:'<rect x="9" y="9" width="30" height="30" rx="8" fill="#23707f"/><rect x="16" y="17" width="16" height="19" rx="4" fill="#48b3c9"/><rect x="9" y="9" width="30" height="8" rx="4" fill="#1b5c69"/>'},
   tapete:{blocked:false,label:'Tapete',art:'um tapete',svg:'<path d="M3 9v30M45 9v30" stroke="#f5e6c8" stroke-width="3" stroke-dasharray="1.5 2"/><rect x="5" y="7" width="38" height="34" rx="2" fill="#c43d4f"/><rect x="9" y="11" width="30" height="26" fill="none" stroke="#f5c451" stroke-width="2"/><path d="M24 14 L35 24 L24 34 L13 24Z" fill="#f5c451"/><circle cx="24" cy="24" r="3.5" fill="#c43d4f"/>'},
   cama:{blocked:false,label:'Cama',art:'uma cama',svg:'<rect x="8" y="3" width="32" height="42" rx="4" fill="#6e3f1f"/><rect x="10" y="5" width="28" height="38" rx="3" fill="#fffdf7"/><rect x="13" y="8" width="22" height="8" rx="3" fill="#ece6f8" stroke="#cfc4e6"/><rect x="10" y="19" width="28" height="24" rx="3" fill="#7b6cff"/><path d="M10 23h28" stroke="#a59cff" stroke-width="2.5"/>'}
@@ -536,11 +604,12 @@ function neighbors(i,n){ const r=(i/n)|0,c=i%n,o=[]; if(r>0)o.push(i-n); if(r<n-
 /* ---------- solver ---------- */
 function countSolutions(P, clues, limit, out){
   const {n,reg,obj}=P, N=n*n, V=n-1;
-  const unary=[...Array(n)].map(()=>[]), bins=[...Array(n)].map(()=>[]), alone=new Set();
+  const unary=[...Array(n)].map(()=>[]), bins=[...Array(n)].map(()=>[]), alone=new Set(), leaf=[];
   for(const c of clues){
     if(c.kind==='u') unary[c.p].push(c.f);
     else if(c.kind==='b'){ bins[c.p].push([c.q,c.f]); bins[c.q].push([c.p,(a,b)=>c.f(b,a)]); }
     else if(c.kind==='alone') alone.add(c.p);
+    else if(c.kind==='g') leaf.push(c.f);
   }
   const dom=[];
   for(let p=0;p<n;p++){
@@ -552,8 +621,8 @@ function countSolutions(P, clues, limit, out){
   const at=Array(n).fill(-1), rowU=Array(n).fill(false), colU=Array(n).fill(false);
   let cnt=0, steps=0, aborted=false;
   function rec(k){
-    if(++steps>120000){ aborted=true; return true; }
-    if(k===n){ const vr=reg[at[V]]; let m=0; for(let q=0;q<n;q++) if(reg[at[q]]===vr) m++; if(m===2){ cnt++; if(out) out.push(at.slice()); } return cnt>=limit; }
+    if(++steps>80000){ aborted=true; return true; }
+    if(k===n){ const vr=reg[at[V]]; let m=0; for(let q=0;q<n;q++) if(reg[at[q]]===vr) m++; if(m===2 && leaf.every(f=>f(at))){ cnt++; if(out) out.push(at.slice()); } return cnt>=limit; }
     const p=order[k];
     for(const x of dom[p]){
       const r=(x/n)|0, c=x%n; if(rowU[r]||colU[c]) continue;
@@ -587,7 +656,7 @@ function generate(seed, lv){
     const sizes=Array(k).fill(0); reg.forEach(r=>sizes[r]++);
     if(Math.min(...sizes)<3 || Math.max(...sizes)>N*.42) continue;
     const obj=Array(N).fill(null);
-    for(let c=0;c<N;c++){ const x=rnd(); if(x<L.block) obj[c]=pick(['mesa','planta','estante']); else if(x<L.block+L.stand) obj[c]=pick(['cadeira','tapete','cama']); }
+    for(let c=0;c<N;c++){ const x=rnd(); if(x<L.block) obj[c]=pick(['mesa','planta','estante','tv']); else if(x<L.block+L.stand) obj[c]=pick(['cadeira','tapete','cama']); }
     let fine=true;
     for(let i=0;i<n;i++){ let fr=0, fc=0; for(let j=0;j<n;j++){ if(!(obj[i*n+j]&&OBJ[obj[i*n+j]].blocked)) fr++; if(!(obj[j*n+i]&&OBJ[obj[j*n+i]].blocked)) fc++; } if(fr<2||fc<2) fine=false; }
     if(!fine) continue;
@@ -602,61 +671,120 @@ function generate(seed, lv){
     const cast=shuf(SUSPECTS.slice()).slice(0,n-1).sort((a,b)=>a[0].localeCompare(b[0]));
     const vic=pick(VICTIMS);
     const people=cast.map((p,i)=>({name:p[0],g:p[1],color:COLORS[i]})).concat([{name:vic[0],g:vic[1],color:'#f4f1ec',victim:true}]);
-    const roomIdx=shuf([...Array(ROOMS.length).keys()]).slice(0,k);
-    const rooms=roomIdx.map(i=>({name:ROOMS[i][0],prep:ROOMS[i][1],floor:ROOMS[i][2]}));
+    const theme=pick(THEMES), tcase=pick(theme.cases);
+    const rooms=shuf(theme.rooms.slice()).slice(0,k).map(r=>({name:r[0],prep:r[1],floor:r[2]}));
     const win=Array(N).fill(null);
     for(let c=0;c<N;c++){ const r=(c/n)|0, cc=c%n, sides=[]; if(r===0)sides.push('t'); if(r===n-1)sides.push('b'); if(cc===0)sides.push('l'); if(cc===n-1)sides.push('r'); if(sides.length && rnd()<.22) win[c]=pick(sides); }
-    const P={n,reg,obj,win,sol,people,rooms,lv,seed};
-    const clues=makeClues(P,rnd,ri,shuf);
-    if(!clues) continue;
-    P.clues=clues; return P;
+    const P={n,reg,obj,win,sol,people,rooms,lv,seed,place:theme.name,title:tcase[0],flavor:tcase[1]};
+    const made=makeClues(P,rnd,ri,shuf);
+    if(!made) continue;
+    P.clues=made.cards; P.global=made.global; return P;
   }
   return null;
 }
 function makeClues(P,rnd,ri,shuf){
-  /* Um depoimento por suspeito; a vítima não tem depoimento.
-     Cada depoimento junta 1 a 2 fatos (até 3 nos tabuleiros 7×7 e 8×8). */
+  /* Um depoimento por suspeito (a vítima não tem), mais no máximo uma pista da perícia.
+     Cada depoimento junta 1 ou 2 fatos (até 3 nos tabuleiros 7×7 e 8×8). */
   const {n,reg,obj,win,sol,people,rooms}=P, V=n-1;
   const roomWin=new Set(); win.forEach((w,x)=>{ if(w) roomWin.add(reg[x]); });
   const roomObjs=rooms.map(()=>new Set()); obj.forEach((o,x)=>{ if(o) roomObjs[reg[x]].add(o); });
+  const types=[...new Set(obj.filter(Boolean))];
   const nm=p=>`<b style="--c:${people[p].color}">${people[p].name}</b>`;
   const g=(p,m,f)=>people[p].g==='f'?f:m;
   const inR=R=>`${rooms[R].prep} ${rooms[R].name}`;
-  const COLS='ABCDEFGH', rowOf=x=>(x/n)|0, colOf=x=>x%n;
+  const ORD=['primeira','segunda','terceira','quarta','quinta','sexta','sétima','oitava'];
+  const NUMF=['nenhuma','uma','duas','três','quatro','cinco','seis','sete','oito'];
+  const NUMM=['nenhum','um','dois','três','quatro','cinco','seis','sete','oito'];
+  const rowOf=x=>(x/n)|0, colOf=x=>x%n;
+  const ordRow=r=> r===n-1?'na última linha':`na ${ORD[r]} linha`;
+  const ordCol=c=> c===n-1?'na última coluna':`na ${ORD[c]} coluna`;
+  const walled=(x,d)=>{ const r=rowOf(x), c=colOf(x); const y= d==='t'?(r>0?x-n:-1): d==='b'?(r<n-1?x+n:-1): d==='l'?(c>0?x-1:-1):(c<n-1?x+1:-1); return y<0 || reg[y]!==reg[x]; };
+  const byWall=x=>['t','b','l','r'].some(d=>walled(x,d));
+  const inCorner=x=>(walled(x,'t')||walled(x,'b')) && (walled(x,'l')||walled(x,'r'));
+  const adjTo=(x,o)=>neighbors(x,n).some(y=>obj[y]===o);
+  const SEAT={cadeira:['numa poltrona','poltrona','poltronas','f'],tapete:['num tapete','tapete','tapetes','m'],cama:['numa cama','cama','camas','f']};
+  const roomPeople=(at,x,skip)=>at.map((y,q)=>q).filter(q=>q!==skip && reg[at[q]]===reg[x]);
+  const genderKey=list=>{ const f=list.filter(q=>people[q].g==='f').length; return f+'/'+(list.length-f); };
+  const companyText={'1/0':'uma mulher','0/1':'um homem','2/0':'duas mulheres','0/2':'dois homens','1/1':'um homem e uma mulher'};
+
   const atomsOf=[...Array(V)].map(()=>[]);
   for(let p=0;p<V;p++){
     const A=atomsOf[p], i=sol[p], r=rowOf(i), c=colOf(i), R=reg[i];
     const U=(w,f,frag)=>A.push({w,kind:'u',p,f,frag});
     const B=(w,q,f,frag)=>A.push({w,kind:'b',p,q,f,frag});
-    U(3,x=>reg[x]===R,`estava ${inR(R)}`);
-    shuf([...rooms.keys()].filter(x=>x!==R)).slice(0,2).forEach(R2=>U(1.3,x=>reg[x]!==R2,`não estava ${inR(R2)}`));
-    U(.9,x=>rowOf(x)===r,`estava na linha ${r+1}`);
-    U(.9,x=>colOf(x)===c,`estava na coluna ${COLS[c]}`);
+    const G=(w,f,frag,extra)=>A.push({w,kind:'g',p,f,frag,extra});
+    U(3,x=>reg[x]===R,`estava ${inR(R)}`); A[A.length-1].o=0;
+    shuf([...rooms.keys()].filter(x=>x!==R)).slice(0,2).forEach(R2=>U(1.2,x=>reg[x]!==R2,`não estava ${inR(R2)}`));
+    U(.8,x=>rowOf(x)===r,`estava ${ordRow(r)}`);
+    U(.8,x=>colOf(x)===c,`estava ${ordCol(c)}`);
     if(obj[i]){
       const o=obj[i];
       U(4,x=>obj[x]===o,{cadeira:`estava ${g(p,'sentado','sentada')} numa poltrona`,tapete:'estava em cima de um tapete',cama:`estava ${g(p,'deitado','deitada')} numa cama`}[o]);
-    } else U(1.2,x=>!obj[x],'estava em pé, fora de poltronas, tapetes e camas');
-    if(roomWin.size && roomWin.size<rooms.length){ const hw=roomWin.has(R); U(1.8,x=>roomWin.has(reg[x])===hw, hw?'estava num cômodo com janela':'estava num cômodo sem janela'); }
-    if(win[i]) U(3,x=>!!win[x],'estava ao lado de uma janela');
-    shuf([...roomObjs[R]]).slice(0,2).forEach(o=>{ if(roomObjs.some(st=>!st.has(o))) U(1.6,x=>roomObjs[reg[x]].has(o),`estava num cômodo que tem ${OBJ[o].art}`); });
-    [...new Set(neighbors(i,n).map(y=>obj[y]).filter(Boolean))].forEach(o=>U(2.6,x=>neighbors(x,n).some(y=>obj[y]===o),`estava ao lado de ${OBJ[o].art}`));
-    if(sol.filter((x,q)=>q!==p && reg[x]===R).length===0) A.push({w:2.2,kind:'alone',p,frag:`estava ${g(p,'sozinho','sozinha')} no cômodo`});
+      if(sol.every((y,q)=>q===p || obj[y]!==o))
+        G(2.4,at=>obj[at[p]]===o && at.every((y,q)=>q===p || obj[y]!==o),`era a única pessoa ${SEAT[o][0]}`,[{kind:'u',p,f:x=>obj[x]===o}]);
+    } else {
+      U(1,x=>!obj[x],'estava em pé, fora de poltronas, tapetes e camas');
+      const seats=types.filter(o=>SEAT[o]);
+      if(seats.length) U(1,x=>!obj[x]||!SEAT[obj[x]],`não estava ${g(p,'sentado','sentada')} nem ${g(p,'deitado','deitada')}`);
+    }
+    if(roomWin.size && roomWin.size<rooms.length){ const hw=roomWin.has(R); U(1.5,x=>roomWin.has(reg[x])===hw, hw?'estava num cômodo com janela':'estava num cômodo sem janela'); }
+    if(win[i]) U(3,x=>!!win[x],'estava junto de uma janela');
+    shuf([...roomObjs[R]]).slice(0,2).forEach(o=>{ if(roomObjs.some(st=>!st.has(o))) U(1.4,x=>roomObjs[reg[x]].has(o),`estava num cômodo que tem ${OBJ[o].art}`); });
+    const adj=[...new Set(neighbors(i,n).map(y=>obj[y]).filter(Boolean))];
+    adj.forEach(o=>{
+      U(2.6,x=>adjTo(x,o),`estava junto de ${OBJ[o].art}`);
+      if(sol.every((y,q)=>q===p || !adjTo(y,o)))
+        G(1.8,at=>adjTo(at[p],o) && at.every((y,q)=>q===p || !adjTo(y,o)),`era a única pessoa junto de ${OBJ[o].art}`,[{kind:'u',p,f:x=>adjTo(x,o)}]);
+    });
+    shuf(types.filter(o=>!adj.includes(o))).slice(0,2).forEach(o=>U(1.1,x=>!adjTo(x,o),`não estava junto de ${OBJ[o].art}`));
+    if(inCorner(i)) U(2,x=>inCorner(x),'estava num canto do cômodo');
+    else if(byWall(i)) U(1.1,x=>byWall(x),'estava junto de uma parede');
+    else U(1.7,x=>!byWall(x),'não estava junto de nenhuma parede');
+    const others=sol.map((y,q)=>q).filter(q=>q!==p && reg[sol[q]]===R);
+    if(!others.length) A.push({w:2.2,kind:'alone',p,frag:`estava ${g(p,'sozinho','sozinha')} no cômodo`});
+    else if(!others.includes(V)){
+      if(others.length===1){
+        const q=others[0];
+        G(2.4,at=>reg[at[p]]===reg[at[q]] && roomPeople(at,at[p],-1).length===2,`estava no cômodo apenas com ${nm(q)}`,[{kind:'b',p,q,f:(a,b)=>reg[a]===reg[b]}]);
+      }
+      const key=genderKey(others);
+      if(companyText[key]) G(1.8,at=>genderKey(roomPeople(at,at[p],p))===key,`estava apenas com ${companyText[key]}`);
+    }
     for(let q=0;q<n;q++){
       if(q===p) continue;
-      const j=sol[q], rq=rowOf(j), cq=colOf(j);
-      if(reg[j]===R && q!==V) B(1.6,q,(a,b)=>reg[a]===reg[b],`estava no mesmo cômodo que ${nm(q)}`);
-      if(reg[j]!==R) B(1,q,(a,b)=>reg[a]!==reg[b],`não estava no mesmo cômodo que ${nm(q)}`);
-      if(Math.abs(r-rq)===1 && Math.abs(c-cq)===1) B(2,q,(a,b)=>Math.abs(rowOf(a)-rowOf(b))===1 && Math.abs(colOf(a)-colOf(b))===1,`estava numa casa vizinha na diagonal de ${nm(q)}`);
-      if(r<rq) B(.8,q,(a,b)=>rowOf(a)<rowOf(b),`estava numa linha acima de ${nm(q)}`);
-      if(r>rq) B(.8,q,(a,b)=>rowOf(a)>rowOf(b),`estava numa linha abaixo de ${nm(q)}`);
-      if(c<cq) B(.8,q,(a,b)=>colOf(a)<colOf(b),`estava numa coluna à esquerda de ${nm(q)}`);
-      if(c>cq) B(.8,q,(a,b)=>colOf(a)>colOf(b),`estava numa coluna à direita de ${nm(q)}`);
+      const j=sol[q], rq=rowOf(j), cq=colOf(j), dr=rq-r, dc=cq-c;
+      if(reg[j]===R && q!==V) B(1.3,q,(a,b)=>reg[a]===reg[b],`estava no mesmo cômodo que ${nm(q)}`);
+      if(reg[j]!==R) B(.8,q,(a,b)=>reg[a]!==reg[b],`não estava no mesmo cômodo que ${nm(q)}`);
+      if(Math.abs(dr)===1 && Math.abs(dc)===1) B(2,q,(a,b)=>Math.abs(rowOf(a)-rowOf(b))===1 && Math.abs(colOf(a)-colOf(b))===1,`estava na diagonal de ${nm(q)}, numa casa vizinha`);
+      if(dr>0) B(.8,q,(a,b)=>rowOf(a)<rowOf(b),`estava em alguma linha acima de ${nm(q)}`);
+      if(dr<0) B(.8,q,(a,b)=>rowOf(a)>rowOf(b),`estava em alguma linha abaixo de ${nm(q)}`);
+      if(dc>0) B(.8,q,(a,b)=>colOf(a)<colOf(b),`estava em alguma coluna à esquerda de ${nm(q)}`);
+      if(dc<0) B(.8,q,(a,b)=>colOf(a)>colOf(b),`estava em alguma coluna à direita de ${nm(q)}`);
+      const ad=Math.abs(dr), cd=Math.abs(dc);
+      if(ad>=1 && ad<=3) B(1.2,q,(a,b)=>rowOf(b)-rowOf(a)===dr,`estava ${NUMF[ad]} linha${ad>1?'s':''} ${dr>0?'acima':'abaixo'} de ${nm(q)}`);
+      if(cd>=1 && cd<=3) B(1.2,q,(a,b)=>colOf(b)-colOf(a)===dc,`estava ${NUMF[cd]} coluna${cd>1?'s':''} à ${dc>0?'esquerda':'direita'} de ${nm(q)}`);
     }
   }
+
+  /* pistas da perícia: fatos gerais sobre a cena */
+  const globals=[];
+  const emptyRooms=at=>rooms.filter((_,R)=>!at.some(x=>reg[x]===R)).length;
+  const e0=emptyRooms(sol);
+  if(e0===0) globals.push({w:1.5,kind:'g',p:-1,f:at=>emptyRooms(at)===0,text:'Nenhum cômodo ficou vazio.'});
+  else globals.push({w:1.5,kind:'g',p:-1,f:at=>emptyRooms(at)===e0,text: e0===1?'Exatamente um cômodo ficou vazio.':`Exatamente ${NUMM[e0]} cômodos ficaram vazios.`});
+  types.filter(o=>SEAT[o]).forEach(o=>{
+    const k=sol.filter(x=>obj[x]===o).length, [,one,many,gd]=SEAT[o];
+    const num=(gd==='f'?NUMF:NUMM)[k], occ=gd==='f'?'ocupada':'ocupado';
+    const text = k===0 ? `Ninguém estava ${SEAT[o][0]}.` : k===1 ? `Só ${num} ${one} estava ${occ}.` : `Exatamente ${num} ${many} estavam ${occ}s.`;
+    globals.push({w:1.2,kind:'g',p:-1,f:at=>at.filter(x=>obj[x]===o).length===k,text});
+  });
+
   const wpick=arr=>{ let t=rnd()*arr.reduce((a,x)=>a+x.w,0); for(const x of arr){ t-=x.w; if(t<=0) return x; } return arr[arr.length-1]; };
+  const expand=a=>[a,...(a.extra||[])];
   const maxA = n>=7 ? 3 : 2;
-  let st=atomsOf.map(A=>[wpick(A)]);
-  const flat=()=>st.flat();
+  let st=atomsOf.map(A=>[wpick(A)]), gl=null;
+  const flat=()=>st.flat().concat(gl?[gl]:[]).flatMap(expand);
+  const breaks=(a,alt)=> a.kind==='u' ? !a.f(alt[a.p]) : a.kind==='b' ? !a.f(alt[a.p],alt[a.q]) : a.kind==='g' ? !a.f(alt) : alt.some((x,q)=>q!==a.p && reg[x]===reg[alt[a.p]]);
   let ok=false;
   for(let it=0; it<90 && !ok; it++){
     const found=[], cnt=countSolutions(P,flat(),2,found);
@@ -668,18 +796,16 @@ function makeClues(P,rnd,ri,shuf){
       const diff=[...Array(V).keys()].filter(q=>alt[q]!==sol[q]);
       if(!diff.length) return null;
       p=diff[ri(diff.length)];
-      cands=atomsOf[p].filter(a=>!st[p].includes(a) && (
-        a.kind==='u' ? !a.f(alt[p]) :
-        a.kind==='b' ? !a.f(alt[p],alt[a.q]) :
-        alt.some((x,q)=>q!==p && reg[x]===reg[alt[p]])));
-    } else {
-      p=ri(V); cands=atomsOf[p].filter(a=>!st[p].includes(a));
-    }
+      cands=atomsOf[p].filter(a=>!st[p].includes(a) && breaks(a,alt));
+      const gc=gl?[]:globals.filter(a=>breaks(a,alt));
+      if(gc.length && (!cands.length || rnd()<.12)){ gl=wpick(gc); continue; }
+    } else { p=ri(V); cands=atomsOf[p].filter(a=>!st[p].includes(a)); }
     if(!cands.length) continue;
     const c=wpick(cands);
     if(st[p].length<maxA) st[p].push(c); else st[p][ri(st[p].length)]=c;
   }
   if(!ok) return null;
+  if(gl){ const save=gl; gl=null; if(countSolutions(P,flat(),2)!==1) gl=save; }
   for(const p of shuf([...Array(V).keys()])){
     let again=true;
     while(again && st[p].length>1){
@@ -691,11 +817,13 @@ function makeClues(P,rnd,ri,shuf){
       }
     }
   }
-  return st.map((atoms,p)=>{
-    const rank={u:0,alone:1,b:2};
-    const fr=atoms.slice().sort((a,b)=>rank[a.kind]-rank[b.kind]).map((a,k)=>k>0 && a.frag.startsWith('estava ') ? a.frag.slice(7) : a.frag);
-    return `${nm(p)} ${fr.length>1 ? fr.slice(0,-1).join(', ')+' e '+fr[fr.length-1] : fr[0]}.`;
+  const rank={u:1,alone:2,g:3,b:4}, pri=a=>a.o!=null ? a.o : rank[a.kind];
+  const cards=st.map(atoms=>{
+    const fr=atoms.slice().sort((a,b)=>pri(a)-pri(b)).map((a,k)=>k>0 && a.frag.startsWith('estava ') ? a.frag.slice(7) : a.frag);
+    const t=fr.length>1 ? fr.slice(0,-1).join(', ')+' e '+fr[fr.length-1] : fr[0];
+    return t.charAt(0).toUpperCase()+t.slice(1)+'.';
   });
+  return {cards, global: gl ? gl.text : null};
 }
 
 /* ---------- estado ---------- */
@@ -714,7 +842,9 @@ function startCase(m, seed){
   if(!P){ startCase(m, (seed+7919)>>>0); return; }
   S = {place:Array(P.n).fill(-1), marks:new Set(), struck:new Set(), hinted:new Set(), tool:0, t0:Date.now(), solved:false, fx:null};
   const h=$('#caseTitle'); h.style.animation='none'; void h.offsetWidth; h.style.animation='';
-  h.textContent = m==='diario' ? `CASO DO DIA Nº ${dayNumber()}` : `CASO #${seed.toString(16).toUpperCase().slice(0,5)}`;
+  h.textContent = P.title;
+  $('#caseKicker').textContent = (m==='diario' ? `Caso do dia nº ${dayNumber()}` : `Caso #${seed.toString(16).toUpperCase().slice(0,5)}`) + ' · ' + P.place;
+  $('#caseFlavor').textContent = P.flavor;
   renderAll(true);
   clearInterval(timerId); timerId=setInterval(tick,1000); tick();
   if(started) sdkGame('gameplayStart');
@@ -728,14 +858,17 @@ function renderAll(enter){
   const n=P.n;
   $('#boardwrap').style.setProperty('--n',n);
   board.classList.toggle('dense', n>=7);
-  $('#axcols').innerHTML=[...'ABCDEFGH'].slice(0,n).map(l=>`<span>${l}</span>`).join('');
+  $('#axcols').innerHTML=[...Array(n)].map((_,i)=>`<span>${i+1}</span>`).join('');
   $('#axrows').innerHTML=[...Array(n)].map((_,i)=>`<span>${i+1}</span>`).join('');
   const used=[...new Set(P.obj.filter(Boolean))];
   $('#legend').innerHTML=used.map(k=>`<span>${svgOf(k)}${OBJ[k].label}${OBJ[k].blocked?' (bloqueia)':''}</span>`).join('')
     + (P.win.some(Boolean) ? '<span><i class="winkey"></i>Janela</span>' : '');
-  $('#clues').innerHTML = P.clues.map((t,i)=>`<li class="clue" style="--d:${i}" data-i="${i}"><span class="n">${String(i+1).padStart(2,'0')}</span><span>${t}</span></li>`).join('')
-    + `<li class="clue rule" style="--d:${P.clues.length}"><span class="n">★</span><span>A vítima é <b style="--c:var(--red)">${P.people[n-1].name}</b> e não deixou depoimento: ${P.people[n-1].g==='f'?'ela':'ele'} fica na linha e na coluna que sobrarem. Quem estava sozinho com ${P.people[n-1].g==='f'?'ela':'ele'} no mesmo cômodo é o culpado.</span></li>`;
-  document.querySelectorAll('.clue[data-i]').forEach(li=>li.onclick=()=>{ const i=+li.dataset.i; S.struck.has(i)?S.struck.delete(i):S.struck.add(i); li.classList.toggle('done'); SFX.mark(); });
+  const V=n-1, vic=P.people[V], rot=i=>((i*37)%5)-2;
+  $('#clues').innerHTML = P.clues.map((t,i)=>{ const p=P.people[i];
+      return `<button class="card${S.struck.has(i)?' done':''}" style="--d:${i};--rot:${rot(i)}deg;--c:${p.color}" data-i="${i}" aria-pressed="${S.struck.has(i)}"><span class="ph">${portrait(p)}</span><span class="nm">${p.name}</span><span class="st">${t}</span></button>`; }).join('')
+    + `<div class="card victim" style="--d:${P.clues.length};--rot:${rot(V)}deg;--c:var(--red)"><span class="ph">${portrait(vic)}<i class="xx"></i></span><span class="nm">${vic.name}</span><span class="st"><span class="vt">A vítima</span>Ficou na linha e na coluna que sobraram, ${vic.g==='f'?'sozinha':'sozinho'} com o culpado.</span></div>`
+    + (P.global ? `<div class="card lupa" style="--d:${P.clues.length+1};--rot:${rot(V+1)}deg"><span class="lp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><path d="M15 15l6 6"/></svg></span><span class="nm">Perícia</span><span class="st">${P.global}</span></div>` : '');
+  document.querySelectorAll('.card[data-i]').forEach(el=>el.onclick=()=>{ const i=+el.dataset.i; S.struck.has(i)?S.struck.delete(i):S.struck.add(i); el.classList.toggle('done'); el.setAttribute('aria-pressed',S.struck.has(i)); SFX.mark(); });
   board.classList.toggle('enter', !!enter);
   renderBoard(); renderTray(); renderStats();
   if(enter) setTimeout(()=>board.classList.remove('enter'), 1400);
@@ -768,7 +901,7 @@ function renderBoard(){
     const tok = p!=null ? `<span class="token${P.people[p].victim?' victim':''}${S.hinted.has(p)?' hint':''}${dropped?' drop':''}" style="--c:${P.people[p].color}">${portrait(P.people[p])}</span>` : '';
     const extra = dropped ? (fxc.kind==='hint' ? '<span class="beam"></span>' : `<span class="ripple" style="--c:${P.people[p]?.color||'#fff'}"></span>`) : '';
     const mark = p==null && S.marks.has(i) ? '<span class="xmark">✕</span>' : '';
-    const aria = `${'ABCDEFGH'[c]}${r+1}, ${rooms[reg[i]].name}${o?', '+OBJ[o].label:''}${p!=null?', '+P.people[p].name:''}`;
+    const aria = `linha ${r+1}, coluna ${c+1}, ${rooms[reg[i]].name}${o?', '+OBJ[o].label:''}${p!=null?', '+P.people[p].name:''}`;
     html+=`<button class="${cls.join(' ')}" style="--d:${r+c}" data-i="${i}" aria-label="${aria}"${blocked?' aria-disabled="true"':''}>${label}${objHtml}${mark}${tok}${extra}</button>`;
   }
   board.innerHTML=html+'<div class="spot"></div>';
@@ -818,7 +951,24 @@ board.addEventListener('click',e=>{
 });
 
 $('#checkBtn').onclick=()=>{
+  const V=P.n-1;
+  $('#accuseList').innerHTML=P.people.slice(0,V).map((p,i)=>`<button class="sus" data-p="${i}" style="--c:${p.color}"><span class="ph">${portrait(p)}</span>${p.name}</button>`).join('');
+  $('#accuseModal').hidden=false; SFX.select();
+};
+$('#accuseClose').onclick=()=>{ $('#accuseModal').hidden=true; };
+$('#accuseList').onclick=e=>{
+  const b=e.target.closest('[data-p]'); if(!b) return;
+  $('#accuseModal').hidden=true;
+  accuse(+b.dataset.p);
+};
+function accuse(pick){
+  const V=P.n-1, vr=P.reg[P.sol[V]], culprit=P.sol.findIndex((x,q)=>q!==V && P.reg[x]===vr);
   const wrong=S.place.filter((x,p)=>x!==P.sol[p]).length;
+  if(!wrong && pick!==culprit){
+    SFX.wrong();
+    toast(`As posições estão certas, mas ${P.people[pick].name} não estava a sós com a vítima.`,true);
+    return;
+  }
   if(wrong){
     SFX.wrong();
     frame.classList.remove('shake'); void frame.offsetWidth; frame.classList.add('shake');
@@ -827,7 +977,7 @@ $('#checkBtn').onclick=()=>{
     return;
   }
   win();
-};
+}
 
 function win(){
   S.solved=true; clearInterval(timerId);
@@ -900,7 +1050,7 @@ $('#hintBtn').onclick=()=>{
   const occ=S.place.indexOf(x); if(occ>=0) S.place[occ]=-1;
   S.place[p]=x; S.hinted.add(p); S.marks.delete(x); S.fx={cell:x,kind:'hint'};
   SFX.hint();
-  toast(`Dica: ${P.people[p].name} estava em ${'ABCDEFGH'[x%P.n]}${((x/P.n)|0)+1}.`);
+  toast(`Dica: ${P.people[p].name} estava na linha ${((x/P.n)|0)+1}, coluna ${x%P.n+1}.`);
   renderBoard(); renderTray(); renderStats();
 };
 $('#clearBtn').onclick=()=>{ if(S.solved) return; S.place=S.place.map((x,p)=>S.hinted.has(p)?x:-1); S.marks.clear(); S.tool=0; SFX.remove(); renderAll(true); };
@@ -933,12 +1083,34 @@ $('#coinWatch').onclick=()=>{
     ()=>toast('Nenhum vídeo disponível agora. Tente mais tarde.',true));
 };
 
+/* ---------- dicionário do detetive ---------- */
+function mini(cols,rows,me,ok){
+  const s=14, W=cols*s, H=rows*s; let g='';
+  for(let r=0;r<rows;r++) for(let c=0;c<cols;c++){
+    const isMe=me[0]===c&&me[1]===r, isOk=ok.some(([a,b])=>a===c&&b===r);
+    g+=`<rect x="${c*s}" y="${r*s}" width="${s}" height="${s}" fill="${isMe?'#ffc93c':isOk?'#5ef08c':'#2a1f63'}" stroke="#a9a0d8" stroke-width=".8"/>`;
+    if(isMe) g+=`<text x="${c*s+s/2}" y="${r*s+s/2+4}" text-anchor="middle" font-size="10" font-weight="800" fill="#2a1500">a</text>`;
+  }
+  return `<svg viewBox="-1 -1 ${W+2} ${H+2}" aria-hidden="true">${g}</svg>`;
+}
+const GLOSS=[
+  ['Junto de','Numa casa vizinha: em cima, embaixo ou dos lados. A diagonal não conta.',mini(3,3,[1,1],[[1,0],[0,1],[2,1],[1,2]])],
+  ['Na diagonal de','Numa das quatro casas encostadas pelas pontas.',mini(3,3,[1,1],[[0,0],[2,0],[0,2],[2,2]])],
+  ['Em alguma linha acima de','Qualquer linha mais acima, em qualquer coluna ou cômodo.',mini(3,3,[1,2],[[0,0],[1,0],[2,0],[0,1],[1,1],[2,1]])],
+  ['Duas colunas à esquerda de','Exatamente duas colunas antes, em qualquer linha.',mini(4,3,[3,1],[[1,0],[1,1],[1,2]])],
+  ['Junto de uma parede','Encostado numa parede do cômodo, inclusive as paredes de fora da casa.',''],
+  ['Num canto do cômodo','Encostado em duas paredes do cômodo que se encontram.',''],
+  ['Sozinho','Ninguém mais estava no mesmo cômodo.',''],
+  ['Apenas com','Só aquelas pessoas estavam no cômodo, e mais ninguém.','']
+];
+$('#gloss').innerHTML=GLOSS.map(([t,d,svg])=>`<div class="gl">${svg}<div><b>${t}</b><span>${d}</span></div></div>`).join('');
+
 /* ---------- tutorial ---------- */
 const TUT=[
   ['#tray','Estes são os suspeitos e a vítima. Toque em um deles para escolher quem você vai posicionar.'],
   ['#frame','Depois toque numa casa da planta para colocar a pessoa ali. Cada linha e cada coluna tem exatamente uma pessoa.'],
-  ['#clues','Os depoimentos dizem onde cada um estava. Toque num depoimento para riscá-lo quando já tiver usado.'],
-  ['#checkBtn','Ninguém fica em cima de mesa, planta ou estante. O culpado é quem ficou sozinho com a vítima no mesmo cômodo. Com todos posicionados, toque em Acusar!']
+  ['#clues','Cada suspeito deixou um depoimento no cartão. Toque no cartão para marcar quando já tiver usado.'],
+  ['#checkBtn','Ninguém fica em cima de mesa, planta ou estante. O culpado é quem ficou sozinho com a vítima no mesmo cômodo. Com todos posicionados, toque em Acusar e escolha o culpado!']
 ];
 let tutI=0;
 function tutShow(){
