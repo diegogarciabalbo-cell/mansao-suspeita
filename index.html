@@ -64,6 +64,7 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .flame{width:20px;height:20px;color:#ff8a3d;filter:drop-shadow(0 0 6px #ff8a3d);animation:burn 1.2s ease-in-out infinite alternate}
 @keyframes burn{to{transform:scale(1.15) rotate(-4deg)}}
 .icon-btn{background:var(--panel);border:1px solid var(--line);border-radius:999px;width:40px;display:grid;place-items:center}
+.icon-btn.lang{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--cyan)}
 .icon-btn svg{width:18px;height:18px}
 
 .modes{display:flex;flex-wrap:wrap;gap:8px}
@@ -317,8 +318,8 @@ body.ad-busy .wrap,body.ad-busy .overlay{pointer-events:none}
   <div class="inner">
     <div class="keyhole"><svg viewBox="0 0 24 24" fill="#2a1500"><circle cx="12" cy="9" r="4"/><path d="M10 11h4l1.5 9h-7z"/></svg></div>
     <h2>MANSÃO<span>SUSPEITA</span></h2>
-    <p>Uma noite de tempestade. Um corpo no casarão. Só uma pessoa estava a sós com a vítima.</p>
-    <button class="btn primary" id="startBtn">Abrir o caso</button>
+    <p data-en="A stormy night. A body in the mansion. Only one person was alone with the victim.">Uma noite de tempestade. Um corpo no casarão. Só uma pessoa estava a sós com a vítima.</p>
+    <button class="btn primary" id="startBtn" data-en="Open the case">Abrir o caso</button>
   </div>
 </div>
 
@@ -326,7 +327,7 @@ body.ad-busy .wrap,body.ad-busy .overlay{pointer-events:none}
   <header class="top">
     <div>
       <h1 class="brand"><span class="a">MANSÃO</span><span class="b">SUSPEITA</span></h1>
-      <p class="tag">Posicione cada pessoa na planta da casa e descubra quem estava sozinho com a vítima.</p>
+      <p class="tag" data-en="Place everyone on the floor plan and find out who was alone with the victim.">Posicione cada pessoa na planta da casa e descubra quem estava sozinho com a vítima.</p>
     </div>
     <div class="stats">
       <div class="stat" id="coinStat" title="Moedas"><i class="coin"></i><span id="coins">0</span></div>
@@ -334,18 +335,19 @@ body.ad-busy .wrap,body.ad-busy .overlay{pointer-events:none}
         <svg class="flame" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 4 5 6 5 11a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5 0 2 1 3 2 3-1-3 0-6 1-9.5z"/></svg>
         <span id="streak">0</span>
       </div>
+      <button class="icon-btn lang" id="langBtn" aria-label="Idioma / Language">EN</button>
       <button class="icon-btn" id="muteBtn" aria-label="Som ligado" title="Som"></button>
     </div>
   </header>
 
   <nav class="modes" aria-label="Modo de jogo">
-    <button class="mode camp" data-mode="campanha">Campanha</button>
-    <button class="mode daily" data-mode="diario">Caso do dia</button>
-    <button class="mode" data-mode="facil">Fácil 4×4</button>
-    <button class="mode" data-mode="medio">Médio 5×5</button>
-    <button class="mode" data-mode="dificil">Difícil 6×6</button>
+    <button class="mode camp" data-mode="campanha" data-en="Campaign">Campanha</button>
+    <button class="mode daily" data-mode="diario" data-en="Daily case">Caso do dia</button>
+    <button class="mode" data-mode="facil" data-en="Easy 4×4">Fácil 4×4</button>
+    <button class="mode" data-mode="medio" data-en="Medium 5×5">Médio 5×5</button>
+    <button class="mode" data-mode="dificil" data-en="Hard 6×6">Difícil 6×6</button>
     <button class="mode" data-mode="expert">Expert 7×7</button>
-    <button class="mode" data-mode="mestre">Mestre 8×8</button>
+    <button class="mode" data-mode="mestre" data-en="Master 8×8">Mestre 8×8</button>
   </nav>
 
   <main class="layout">
@@ -364,41 +366,41 @@ body.ad-busy .wrap,body.ad-busy .overlay{pointer-events:none}
       <div class="tray" id="tray"></div>
       <div class="actions">
         <button class="btn primary" id="checkBtn" disabled>Acusar</button>
-        <button class="btn" id="hintBtn">Dica <span class="price"><i class="coin"></i>30</span></button>
-        <button class="btn" id="clearBtn">Limpar</button>
-        <button class="btn" id="newBtn">Novo caso</button>
+        <button class="btn" id="hintBtn"><span data-en="Hint">Dica</span> <span class="price"><i class="coin"></i>30</span></button>
+        <button class="btn" id="clearBtn" data-en="Clear">Limpar</button>
+        <button class="btn" id="newBtn" data-en="New case">Novo caso</button>
       </div>
     </section>
 
     <aside class="dossier">
-      <h3>SUSPEITOS</h3>
-      <p class="sub">Cada suspeito deixou um depoimento. Toque no cartão para marcar quando já tiver usado.</p>
+      <h3 data-en="SUSPECTS">SUSPEITOS</h3>
+      <p class="sub" data-en="Each suspect left one statement. Tap a card to mark it once you have used it.">Cada suspeito deixou um depoimento. Toque no cartão para marcar quando já tiver usado.</p>
       <div class="rules">
-        <strong>Regras da casa</strong>
+        <strong data-en="House rules">Regras da casa</strong>
         <ol>
-          <li>Cada linha e cada coluna tem exatamente uma pessoa.</li>
-          <li>Ninguém fica em cima de mesa, planta ou estante. Poltrona, tapete e cama podem.</li>
-          <li>O culpado é a única pessoa que estava no mesmo cômodo que a vítima.</li>
+          <li data-en="Each row and each column has exactly one person.">Cada linha e cada coluna tem exatamente uma pessoa.</li>
+          <li data-en="Nobody stands on a table, plant, bookshelf or TV. Armchairs, rugs and beds are fine.">Ninguém fica em cima de mesa, planta, estante ou TV. Poltrona, tapete e cama podem.</li>
+          <li data-en="The murderer is the only person who was in the same room as the victim.">O culpado é a única pessoa que estava no mesmo cômodo que a vítima.</li>
         </ol>
       </div>
       <div class="cards" id="clues"></div>
       <details class="gloss">
-        <summary>Dicionário do detetive</summary>
+        <summary data-en="Detective's dictionary">Dicionário do detetive</summary>
         <div class="gl-grid" id="gloss"></div>
       </details>
 
       <div class="shop">
         <div class="offer">
-          <span class="pill">Todo dia</span>
-          <h4>Bônus diário</h4>
-          <p>Volte todo dia para pegar 30 moedas grátis e usar em dicas.</p>
+          <span class="pill" data-en="Every day">Todo dia</span>
+          <h4 data-en="Daily bonus">Bônus diário</h4>
+          <p data-en="Come back every day for 30 free coins to spend on hints.">Volte todo dia para pegar 30 moedas grátis e usar em dicas.</p>
           <button class="btn" id="bonusBtn">Pegar 30 moedas</button>
         </div>
         <div class="offer prem">
-          <span class="pill">Como jogar</span>
-          <h4>Primeira vez aqui?</h4>
-          <p>Veja em 4 passos como resolver um caso.</p>
-          <button class="btn" id="tutBtn">Ver tutorial</button>
+          <span class="pill" data-en="How to play">Como jogar</span>
+          <h4 data-en="First time here?">Primeira vez aqui?</h4>
+          <p data-en="Learn how to solve a case in 4 steps.">Veja em 4 passos como resolver um caso.</p>
+          <button class="btn" id="tutBtn" data-en="Show tutorial">Ver tutorial</button>
         </div>
       </div>
     </aside>
@@ -407,14 +409,14 @@ body.ad-busy .wrap,body.ad-busy .overlay{pointer-events:none}
 
 <div class="overlay" id="winModal" hidden>
   <div class="modal">
-    <div class="stamp">CASO ENCERRADO</div>
+    <div class="stamp" data-en="CASE CLOSED">CASO ENCERRADO</div>
     <div class="mug" id="winMug"></div>
     <p class="big" id="winText"></p>
     <div class="reward"><i class="coin"></i><span id="rewardNum">+0</span></div>
     <p id="winMeta" style="color:var(--muted);font-size:14px"></p>
     <div class="modal-actions">
-      <button class="btn" id="doubleBtn" hidden><span class="vid"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="5" width="15" height="14" rx="3"/><path d="M17 10l5-3v10l-5-3z"/></svg></span>Dobrar moedas</button>
-      <button class="btn" id="shareBtn">Compartilhar</button>
+      <button class="btn" id="doubleBtn" hidden><span class="vid"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="5" width="15" height="14" rx="3"/><path d="M17 10l5-3v10l-5-3z"/></svg></span><span data-en="Double coins">Dobrar moedas</span></button>
+      <button class="btn" id="shareBtn" data-en="Share">Compartilhar</button>
       <button class="btn primary" id="nextBtn">Próximo caso</button>
     </div>
     <textarea class="sharebox" id="shareBox" readonly hidden aria-label="Resultado para copiar"></textarea>
@@ -423,30 +425,30 @@ body.ad-busy .wrap,body.ad-busy .overlay{pointer-events:none}
 
 <div class="overlay" id="mapModal" hidden>
   <div class="modal map">
-    <h3 class="mtitle">Campanha</h3>
+    <h3 class="mtitle" data-en="Campaign">Campanha</h3>
     <p class="mp-sub" id="mapSub"></p>
     <div class="chapters" id="chapters"></div>
-    <button class="btn" id="mapClose">Fechar</button>
+    <button class="btn" id="mapClose" data-en="Close">Fechar</button>
   </div>
 </div>
 
 <div class="overlay" id="accuseModal" hidden>
   <div class="modal">
-    <h3 class="mtitle">Quem é o culpado?</h3>
-    <p style="color:var(--muted);font-size:14px">Escolha quem estava sozinho com a vítima no mesmo cômodo.</p>
+    <h3 class="mtitle" data-en="Who is the murderer?">Quem é o culpado?</h3>
+    <p style="color:var(--muted);font-size:14px" data-en="Pick who was alone with the victim in the same room.">Escolha quem estava sozinho com a vítima no mesmo cômodo.</p>
     <div class="suspects" id="accuseList"></div>
-    <button class="btn" id="accuseClose">Voltar ao tabuleiro</button>
+    <button class="btn" id="accuseClose" data-en="Back to the board">Voltar ao tabuleiro</button>
   </div>
 </div>
 
 <div class="overlay" id="coinModal" hidden>
   <div class="modal">
-    <h3 class="mtitle">Faltam moedas</h3>
-    <p>Uma dica custa 30 moedas. Você tem <b id="coinHave">0</b>.</p>
+    <h3 class="mtitle" data-en="Not enough coins">Faltam moedas</h3>
+    <p><span data-en="A hint costs 30 coins. You have">Uma dica custa 30 moedas. Você tem</span> <b id="coinHave">0</b>.</p>
     <p id="coinAlt" style="color:var(--muted);font-size:14px"></p>
     <div class="modal-actions">
-      <button class="btn" id="coinWatch" hidden><span class="vid"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="5" width="15" height="14" rx="3"/><path d="M17 10l5-3v10l-5-3z"/></svg></span>Ver vídeo: +30</button>
-      <button class="btn" id="coinClose">Agora não</button>
+      <button class="btn" id="coinWatch" hidden><span class="vid"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="5" width="15" height="14" rx="3"/><path d="M17 10l5-3v10l-5-3z"/></svg></span><span data-en="Watch video: +30">Ver vídeo: +30</span></button>
+      <button class="btn" id="coinClose" data-en="Not now">Agora não</button>
     </div>
   </div>
 </div>
@@ -457,7 +459,7 @@ body.ad-busy .wrap,body.ad-busy .overlay{pointer-events:none}
     <span class="pill" id="tutStep">1 de 4</span>
     <p id="tutText"></p>
     <div class="modal-actions" style="justify-content:flex-end">
-      <button class="btn" id="tutSkip">Pular</button>
+      <button class="btn" id="tutSkip" data-en="Skip">Pular</button>
       <button class="btn primary" id="tutNext">Próximo</button>
     </div>
   </div>
@@ -470,9 +472,14 @@ body.ad-busy .wrap,body.ad-busy .overlay{pointer-events:none}
 const $ = s => document.querySelector(s);
 const reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 const store = {
-  get(k, d){ try{ const v = localStorage.getItem('ms_'+k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
-  set(k, v){ try{ localStorage.setItem('ms_'+k, JSON.stringify(v)); }catch(e){} }
+  /* No CrazyGames o progresso vai para o módulo de dados do portal (segue o jogador entre aparelhos). */
+  be(){ return window.__sdkData || localStorage; },
+  get(k, d){ try{ const v = this.be().getItem('ms_'+k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ this.be().setItem('ms_'+k, JSON.stringify(v)); }catch(e){ try{ localStorage.setItem('ms_'+k, JSON.stringify(v)); }catch(_){} } }
 };
+/* ---------- idioma: português ou inglês ---------- */
+let LANG = store.get('lang',null) || ((navigator.language||'').toLowerCase().startsWith('pt') ? 'pt' : 'en');
+const L=(pt,en)=> LANG==='en' ? en : pt;
 function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
 function hashStr(s){ let h=2166136261; for(const ch of s){ h^=ch.charCodeAt(0); h=Math.imul(h,16777619); } return h>>>0; }
 function dstr(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -486,10 +493,13 @@ let adMuted=false, sdkReady=false;
 async function initPlatform(){
   if(PLATFORM!=='crazygames' || !(window.CrazyGames && window.CrazyGames.SDK)) return;
   try{ await window.CrazyGames.SDK.init(); sdkReady=true; }catch(e){ sdkReady=false; }
+  try{ if(sdkReady && window.CrazyGames.SDK.data){ window.__sdkData=window.CrazyGames.SDK.data; reloadState(); } }catch(e){ window.__sdkData=null; }
 }
+/* window.__ADS=false: versão Basic do CrazyGames, que não pode ter anúncios */
+const adsOn=()=>sdkReady && window.__ADS!==false;
 function sdkGame(fn){ try{ if(sdkReady) window.CrazyGames.SDK.game[fn](); }catch(e){} }
 function showAd(type, onDone, onFail){
-  if(!sdkReady){ onFail && onFail(); return; }
+  if(!adsOn()){ onFail && onFail(); return; }
   document.body.classList.add('ad-busy');
   const end=()=>{ document.body.classList.remove('ad-busy'); adMuted=false; if(S && S.pausedAt){ S.t0+=Date.now()-S.pausedAt; S.pausedAt=0; } };
   try{
@@ -531,7 +541,7 @@ const SFX={
 };
 const ICON_ON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/></svg>';
 const ICON_OFF='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9l5 6M22 9l-5 6"/></svg>';
-function renderMute(){ const b=$('#muteBtn'); b.innerHTML=muted?ICON_OFF:ICON_ON; b.setAttribute('aria-label',muted?'Som desligado':'Som ligado'); }
+function renderMute(){ const b=$('#muteBtn'); b.innerHTML=muted?ICON_OFF:ICON_ON; b.setAttribute('aria-label',muted?L('Som desligado','Sound off'):L('Som ligado','Sound on')); }
 $('#muteBtn').onclick=()=>{ muted=!muted; store.set('muted',muted); renderMute(); SFX.select(); };
 
 /* ---------- chuva + relâmpagos ---------- */
@@ -596,26 +606,50 @@ const THEMES=[
    cases:[['Colheita','A safra foi boa. O fim de semana, nem tanto.'],['Festa do peão','Rodeio, sanfona e um peão que não voltou.'],['Café com leite','Leite fresco, pão de queijo e um mistério no curral.'],['O galo não cantou','De manhã, o galo ficou quieto. Já sabia de algo.'],['Venda da fazenda','Todos queriam a fazenda. Um queria mais.'],['Noite de lua cheia','Os cachorros latiram a noite toda.'],['Pamonha na varanda','Cheiro de milho verde e de encrenca.'],['Leilão de gado','Lance dado, martelo batido e um comprador a menos.'],['Casamento na roça','Festa boa, noivos felizes e um convidado ausente.'],['Seca','Sem chuva há meses. E sem paz também.']]}
 ];
 
+/* Tradução dos lugares e histórias (mesma ordem de THEMES) */
+const THEMES_EN=[
+  {name:'Mansion', rooms:['Living Room','Kitchen','Library','Bedroom','Study','Wine Cellar','Conservatory','Game Room','Hall','Dining Room'],
+   cases:[["The Baron's Will",'Nobody read the will to the last page.'],['Gala Dinner','Dessert never made it to the table.'],['Stormy Night','The lights went out for three minutes. That was enough.'],['The Hallway Portrait',"The painting's eyes followed everyone. Except the murderer."],["Five O'Clock Tea",'The tea went cold before the first sip.'],['The Locked Door','The key was on the inside. The mystery, on the outside.'],['Masquerade Ball','Everyone hid their face. One hid more.'],['The Butler Has an Alibi','For the first time in history, the butler has an alibi.'],['Cursed Inheritance',"Six heirs, one fortune. The math didn't add up."],['The Last Chess Game','Checkmate, but not on the board.']]},
+  {name:'Hotel', rooms:['Reception','Suite','Pool','Gym','Restaurant','Laundry','Spa','Bar','Hallway'],
+   cases:[['Early Checkout','A guest left the hotel ahead of schedule. And life, too.'],['Do Not Disturb','The sign was hanging on the wrong door.'],['Room Service','The order arrived cold. So did the guest.'],['Room 237','Nobody remembers booking this room.'],['Breakfast Included',"Breakfast was included. The poison wasn't."],['Honeymoon','It was supposed to be the most romantic trip of the year.'],["Magicians' Convention",'Fifty magicians in the building and nobody saw anything disappear.'],['Swan-Shaped Towels',"The housekeeper outdid herself. Someone didn't like it."],['VIP Guest','Red carpet at the entrance, a scare at the exit.'],['High Season','A fully booked hotel and plenty of alibis.']]},
+  {name:'Restaurant', rooms:['Dining Hall','Kitchen','Bar','Terrace','Wine Cellar','Cashier','Pantry','Restroom'],
+   cases:[['Dish of the Day','The chef swears the seasoning was just pepper.'],['Table for Eight','The booking was for eight. Seven were left.'],['Check, Please',"Someone left without paying. Someone else didn't leave."],['Food Critic','He gave zero stars. It was his last review.'],['Pizza Night','The last slice always starts a fight.'],['Fondue Night','The cheese melted. So did the alibi.'],['Tasting Menu','Twelve small dishes and one big problem.'],['Saturday Feijoada','Full house, a missing waiter and one extra plate.'],['The Secret Recipe',"Grandma's recipe was worth more than it seemed."],['Happy Hour','Two drinks for the price of one. One customer fewer.']]},
+  {name:'Museum', rooms:['Gallery','Egyptian Wing','Café','Gift Shop','Ticket Office','Storage Vault','Sculpture Garden','Fossil Hall'],
+   cases:[['Night at the Museum',"The statues saw everything, but they won't talk."],['The Missing Piece','The guard napped for five minutes. That was enough.'],['Guided Tour','The guide told every secret of the museum. Except one.'],['The Mummy Woke Up','They say it was the curse. Forensics disagrees.'],['Jewel Exhibition','The diamond was still there. Someone else went missing.'],['Art Opening','Cheap wine, expensive art and one visitor fewer.'],['The Fake Painting','An expert spotted the forgery. And regretted it.'],['Dinosaurs at Night','The bones were in place. Someone of flesh and blood was missing.'],['Restoration','They restored the painting, but not the guest.'],['Charity Auction','The highest bid was the last one.']]},
+  {name:'Ship', rooms:['Deck','Cabin','Casino','Ballroom','Pool','Engine Room','Mess Hall','Bridge'],
+   cases:[['Luxury Cruise','All-inclusive package. Even a crime.'],['Calm Sea','The sea was calm. The voyage, not so much.'],['Safe Harbor','Two hours left before docking.'],["Captain's Night",'Dinner with the captain. One seat stayed empty.'],['All Aboard','Everyone aboard. Not everyone alive.'],['Bingo on Deck','Someone shouted bingo. Someone else shouted nothing.'],['Atlantic Crossing','Ten days with no land in sight and nowhere to run.'],['Private Island','The island stop was cancelled. For obvious reasons.'],['Talent Show','The magic act ended too soon.'],['Floating Casino','The house always wins. This time, someone lost more.']]},
+  {name:'School', rooms:['Classroom','Library','Lab','Sports Court','Cafeteria','Office',"Teachers' Lounge",'Schoolyard'],
+   cases:[['Parent-Teacher Meeting','The agenda had three items. One problem was left over.'],['Grading Council','The grades were posted. One of them was fatal.'],['Science Fair',"The baking soda volcano wasn't the only thing that exploded."],['Prom Night','Gown, diploma and a guest who never left the party.'],['Pop Quiz',"The biggest surprise wasn't on the test."],['June Festival','Square dance, peanut brittle and a suspect on each side.'],['Exam Week',"Nobody slept well. One didn't wake up."],['Chemistry Class',"Don't mix everything you find in the cabinet."],['The New Principal','First day on the job. Last one, too.'],['Book Club','They read a crime novel. They lived another.']]},
+  {name:'Hospital', rooms:['Reception','Ward','Operating Room','Pharmacy','Cafeteria','Waiting Room','Lab','Chapel'],
+   cases:[['Night Shift','Twelve hours on call and a surprise at the end.'],['Second Opinion','The first doctor was wrong. The second never got a chance.'],['Discharge',"The discharge came at eight. The patient didn't."],['Waiting Room','The wait was long. For one, eternal.'],['After-Hours Visit','Visiting hours are two to four. Someone showed up at eleven.'],['Illegible Prescription',"Nobody could read the doctor's handwriting. Someone read it wrong."],['Cardiology Congress','Lots of heart specialists. One heart stopped.'],['Mysterious Donation','The hospital got a fortune. And a puzzle.'],['Shift Change','During the shift change, nobody saw a thing.'],['Diagnosis','The symptoms pointed one way. The clues, another.']]},
+  {name:'Theater', rooms:['Stage','Audience','Dressing Room','Wings','Box Office','Foyer','Costume Room','Basement'],
+   cases:[['Premiere','The play premiered. The lead never made it to the second act.'],['Dress Rehearsal','It was just a rehearsal. The scream was real.'],['Curtain Call','A standing ovation. Minus one person.'],['The Stage Phantom','Every theater has a ghost. This one had an accomplice.'],['Quick Change','Thirty seconds to change costume. And alibi.'],['The Musical','Everyone sang. Nobody told.'],['Encore',"The audience asked for an encore. There wasn't one."],['Matinee','Empty seats and a crowded backstage.'],['The Prompter Vanished','Without the prompter, nobody remembered their lines. Or what they saw.'],['Gala Night','Tuxedos, champagne and an empty seat in row A.']]},
+  {name:'Train', rooms:['Dining Car','Compartment','Freight Car','Locomotive','Sleeper Car','Bar','Corridor','Platform'],
+   cases:[['Midnight Express','Left at twelve sharp. Arrived one passenger short.'],['Dark Tunnel','Thirty seconds of tunnel. Lights out.'],['Unscheduled Stop',"The train stopped in the middle of nowhere. Someone didn't continue the trip."],['One-Way Ticket','It was written on the ticket. Nobody took it seriously.'],['Sleeper Car','Everyone was asleep. Almost everyone.'],['Two Hours Late',"The train was late. The murderer wasn't."],['Last Stop','End of the line for one of the passengers.'],['The Conductor','He checked every ticket. Except one.'],['Snow on the Tracks','Snowed in: nobody got on or off.'],['Maiden Voyage','First trip on the new line. A memorable debut.']]},
+  {name:'Farm', rooms:['Living Room','Kitchen','Barn','Stable','Vegetable Garden','Porch','Henhouse','Cellar','Orchard'],
+   cases:[['Harvest','The crop was good. The weekend, not so much.'],['Rodeo Festival','Rodeo, accordion and a cowboy who never came back.'],['Coffee with Milk','Fresh milk, cheese bread and a mystery in the corral.'],["The Rooster Didn't Crow",'In the morning the rooster stayed quiet. He knew something.'],['Farm for Sale','Everyone wanted the farm. One wanted more.'],['Full Moon Night','The dogs barked all night long.'],['Corn on the Porch','The smell of fresh corn and trouble.'],['Cattle Auction','Bid placed, gavel down and one buyer fewer.'],['Country Wedding','Great party, happy couple and one missing guest.'],['Drought','No rain for months. And no peace either.']]}
+];
+
 /* ---------- campanha: 100 casos fixos em 5 capítulos ---------- */
 const CHAPTERS=[
-  {name:'Primeiros passos', from:1,  to:15,  lv:'facil'},
-  {name:'Aprendiz',         from:16, to:35,  lv:'medio'},
-  {name:'Detetive',         from:36, to:60,  lv:'dificil'},
-  {name:'Inspetor',         from:61, to:80,  lv:'expert'},
-  {name:'Lenda',            from:81, to:100, lv:'mestre'}
+  {name_pt:'Primeiros passos',name_en:'First Steps',get name(){return L(this.name_pt,this.name_en)}, from:1,  to:15,  lv:'facil'},
+  {name_pt:'Aprendiz',name_en:'Apprentice',get name(){return L(this.name_pt,this.name_en)},         from:16, to:35,  lv:'medio'},
+  {name_pt:'Detetive',name_en:'Detective',get name(){return L(this.name_pt,this.name_en)},         from:36, to:60,  lv:'dificil'},
+  {name_pt:'Inspetor',name_en:'Inspector',get name(){return L(this.name_pt,this.name_en)},         from:61, to:80,  lv:'expert'},
+  {name_pt:'Lenda',name_en:'Legend',get name(){return L(this.name_pt,this.name_en)},            from:81, to:100, lv:'mestre'}
 ];
 const CAMP_TOTAL=100;
 const campLevel=k=>CHAPTERS.find(c=>k>=c.from && k<=c.to).lv;
 const campForced=k=>({t:(k-1)%THEMES.length, c:Math.floor((k-1)/THEMES.length)});
-const campTitle=k=>{ const f=campForced(k); return THEMES[f.t].cases[f.c][0]; };
+const campTitle=k=>{ const f=campForced(k); return L(THEMES[f.t].cases[f.c][0], THEMES_EN[f.t].cases[f.c][0]); };
 const OBJ={
-  mesa:{blocked:true,label:'Mesa',art:'uma mesa',svg:'<rect x="7" y="10" width="34" height="28" rx="4" fill="#8a4f26"/><rect x="9" y="12" width="30" height="24" rx="3" fill="#c07a43"/><circle cx="24" cy="24" r="5.5" fill="#fffdf7" stroke="#d9cbb5"/><circle cx="24" cy="24" r="2.5" fill="#e0685a"/><circle cx="15" cy="17" r="2.2" fill="#fffdf7"/><circle cx="33" cy="31" r="2.2" fill="#fffdf7"/>'},
-  planta:{blocked:true,label:'Planta',art:'uma planta',svg:'<circle cx="24" cy="24" r="13" fill="#c8693f"/><circle cx="24" cy="24" r="10.5" fill="#6b3b22"/><g fill="#3f9a4a"><ellipse cx="24" cy="12" rx="5" ry="10"/><ellipse cx="24" cy="36" rx="5" ry="10"/><ellipse cx="12" cy="24" rx="10" ry="5"/><ellipse cx="36" cy="24" rx="10" ry="5"/></g><g fill="#63c46d"><ellipse cx="16" cy="16" rx="4" ry="9" transform="rotate(-45 16 16)"/><ellipse cx="32" cy="16" rx="4" ry="9" transform="rotate(45 32 16)"/><ellipse cx="16" cy="32" rx="4" ry="9" transform="rotate(45 16 32)"/><ellipse cx="32" cy="32" rx="4" ry="9" transform="rotate(-45 32 32)"/></g><circle cx="24" cy="24" r="4" fill="#2f7d3a"/>'},
-  estante:{blocked:true,label:'Estante',art:'uma estante',svg:'<rect x="3" y="12" width="42" height="24" rx="2" fill="#6e3f1f"/><rect x="5" y="14" width="38" height="20" fill="#8a5530"/><rect x="6" y="15" width="4" height="18" fill="#e05a5a"/><rect x="11" y="17" width="3.5" height="16" fill="#46b3c9"/><rect x="15.5" y="15" width="4.5" height="18" fill="#f5c451"/><rect x="21" y="16" width="3.5" height="17" fill="#7b6cff"/><rect x="25.5" y="15" width="4" height="18" fill="#5fc06a"/><rect x="30.5" y="18" width="3.5" height="15" fill="#e8e1f5"/><rect x="35" y="15" width="4.5" height="18" fill="#ff8a3d"/>'},
-  tv:{blocked:true,label:'TV',art:'uma TV',svg:'<rect x="5" y="11" width="38" height="25" rx="3" fill="#2b2140"/><rect x="8" y="14" width="32" height="19" rx="2" fill="#46e3ff"/><path d="M11 30l8-9 6 6 5-4 7 7" stroke="#fffdf7" stroke-width="1.8" fill="none"/><rect x="18" y="37" width="12" height="3.5" rx="1" fill="#2b2140"/>'},
-  cadeira:{blocked:false,label:'Poltrona',art:'uma poltrona',svg:'<rect x="9" y="9" width="30" height="30" rx="8" fill="#23707f"/><rect x="16" y="17" width="16" height="19" rx="4" fill="#48b3c9"/><rect x="9" y="9" width="30" height="8" rx="4" fill="#1b5c69"/>'},
-  tapete:{blocked:false,label:'Tapete',art:'um tapete',svg:'<path d="M3 9v30M45 9v30" stroke="#f5e6c8" stroke-width="3" stroke-dasharray="1.5 2"/><rect x="5" y="7" width="38" height="34" rx="2" fill="#c43d4f"/><rect x="9" y="11" width="30" height="26" fill="none" stroke="#f5c451" stroke-width="2"/><path d="M24 14 L35 24 L24 34 L13 24Z" fill="#f5c451"/><circle cx="24" cy="24" r="3.5" fill="#c43d4f"/>'},
-  cama:{blocked:false,label:'Cama',art:'uma cama',svg:'<rect x="8" y="3" width="32" height="42" rx="4" fill="#6e3f1f"/><rect x="10" y="5" width="28" height="38" rx="3" fill="#fffdf7"/><rect x="13" y="8" width="22" height="8" rx="3" fill="#ece6f8" stroke="#cfc4e6"/><rect x="10" y="19" width="28" height="24" rx="3" fill="#7b6cff"/><path d="M10 23h28" stroke="#a59cff" stroke-width="2.5"/>'}
+  mesa:{blocked:true,label_pt:'Mesa',art_pt:'uma mesa',label_en:'Table',art_en:'a table',get label(){return L(this.label_pt,this.label_en)},get art(){return L(this.art_pt,this.art_en)},svg:'<rect x="7" y="10" width="34" height="28" rx="4" fill="#8a4f26"/><rect x="9" y="12" width="30" height="24" rx="3" fill="#c07a43"/><circle cx="24" cy="24" r="5.5" fill="#fffdf7" stroke="#d9cbb5"/><circle cx="24" cy="24" r="2.5" fill="#e0685a"/><circle cx="15" cy="17" r="2.2" fill="#fffdf7"/><circle cx="33" cy="31" r="2.2" fill="#fffdf7"/>'},
+  planta:{blocked:true,label_pt:'Planta',art_pt:'uma planta',label_en:'Plant',art_en:'a plant',get label(){return L(this.label_pt,this.label_en)},get art(){return L(this.art_pt,this.art_en)},svg:'<circle cx="24" cy="24" r="13" fill="#c8693f"/><circle cx="24" cy="24" r="10.5" fill="#6b3b22"/><g fill="#3f9a4a"><ellipse cx="24" cy="12" rx="5" ry="10"/><ellipse cx="24" cy="36" rx="5" ry="10"/><ellipse cx="12" cy="24" rx="10" ry="5"/><ellipse cx="36" cy="24" rx="10" ry="5"/></g><g fill="#63c46d"><ellipse cx="16" cy="16" rx="4" ry="9" transform="rotate(-45 16 16)"/><ellipse cx="32" cy="16" rx="4" ry="9" transform="rotate(45 32 16)"/><ellipse cx="16" cy="32" rx="4" ry="9" transform="rotate(45 16 32)"/><ellipse cx="32" cy="32" rx="4" ry="9" transform="rotate(-45 32 32)"/></g><circle cx="24" cy="24" r="4" fill="#2f7d3a"/>'},
+  estante:{blocked:true,label_pt:'Estante',art_pt:'uma estante',label_en:'Bookshelf',art_en:'a bookshelf',get label(){return L(this.label_pt,this.label_en)},get art(){return L(this.art_pt,this.art_en)},svg:'<rect x="3" y="12" width="42" height="24" rx="2" fill="#6e3f1f"/><rect x="5" y="14" width="38" height="20" fill="#8a5530"/><rect x="6" y="15" width="4" height="18" fill="#e05a5a"/><rect x="11" y="17" width="3.5" height="16" fill="#46b3c9"/><rect x="15.5" y="15" width="4.5" height="18" fill="#f5c451"/><rect x="21" y="16" width="3.5" height="17" fill="#7b6cff"/><rect x="25.5" y="15" width="4" height="18" fill="#5fc06a"/><rect x="30.5" y="18" width="3.5" height="15" fill="#e8e1f5"/><rect x="35" y="15" width="4.5" height="18" fill="#ff8a3d"/>'},
+  tv:{blocked:true,label_pt:'TV',art_pt:'uma TV',label_en:'TV',art_en:'a TV',get label(){return L(this.label_pt,this.label_en)},get art(){return L(this.art_pt,this.art_en)},svg:'<rect x="5" y="11" width="38" height="25" rx="3" fill="#2b2140"/><rect x="8" y="14" width="32" height="19" rx="2" fill="#46e3ff"/><path d="M11 30l8-9 6 6 5-4 7 7" stroke="#fffdf7" stroke-width="1.8" fill="none"/><rect x="18" y="37" width="12" height="3.5" rx="1" fill="#2b2140"/>'},
+  cadeira:{blocked:false,label_pt:'Poltrona',art_pt:'uma poltrona',label_en:'Armchair',art_en:'an armchair',get label(){return L(this.label_pt,this.label_en)},get art(){return L(this.art_pt,this.art_en)},svg:'<rect x="9" y="9" width="30" height="30" rx="8" fill="#23707f"/><rect x="16" y="17" width="16" height="19" rx="4" fill="#48b3c9"/><rect x="9" y="9" width="30" height="8" rx="4" fill="#1b5c69"/>'},
+  tapete:{blocked:false,label_pt:'Tapete',art_pt:'um tapete',label_en:'Rug',art_en:'a rug',get label(){return L(this.label_pt,this.label_en)},get art(){return L(this.art_pt,this.art_en)},svg:'<path d="M3 9v30M45 9v30" stroke="#f5e6c8" stroke-width="3" stroke-dasharray="1.5 2"/><rect x="5" y="7" width="38" height="34" rx="2" fill="#c43d4f"/><rect x="9" y="11" width="30" height="26" fill="none" stroke="#f5c451" stroke-width="2"/><path d="M24 14 L35 24 L24 34 L13 24Z" fill="#f5c451"/><circle cx="24" cy="24" r="3.5" fill="#c43d4f"/>'},
+  cama:{blocked:false,label_pt:'Cama',art_pt:'uma cama',label_en:'Bed',art_en:'a bed',get label(){return L(this.label_pt,this.label_en)},get art(){return L(this.art_pt,this.art_en)},svg:'<rect x="8" y="3" width="32" height="42" rx="4" fill="#6e3f1f"/><rect x="10" y="5" width="28" height="38" rx="3" fill="#fffdf7"/><rect x="13" y="8" width="22" height="8" rx="3" fill="#ece6f8" stroke="#cfc4e6"/><rect x="10" y="19" width="28" height="24" rx="3" fill="#7b6cff"/><path d="M10 23h28" stroke="#a59cff" stroke-width="2.5"/>'}
 };
 const svgOf = k => `<svg viewBox="0 0 48 48">${OBJ[k].svg}</svg>`;
 
@@ -643,11 +677,11 @@ function portrait(p){
   return `<svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" fill="${bg}"/>${back}<path d="M5 41Q5 29 20 29Q35 29 35 41Z" fill="${shirt}"/><rect x="17.3" y="24" width="5.4" height="6" fill="${skin}"/><ellipse cx="20" cy="18" rx="8" ry="9" fill="${skin}"/>${front}${eyes}${mouth}</svg>`;
 }
 const LEVELS={
-  facil:{n:4,rooms:[3,4],block:.10,stand:.20,label:'Fácil',reward:10},
-  medio:{n:5,rooms:[4,5],block:.10,stand:.18,label:'Médio',reward:20},
-  dificil:{n:6,rooms:[5,6],block:.10,stand:.16,label:'Difícil',reward:30},
-  expert:{n:7,rooms:[6,7],block:.10,stand:.15,label:'Expert',reward:45},
-  mestre:{n:8,rooms:[7,8],block:.10,stand:.14,label:'Mestre',reward:60}
+  facil:{n:4,rooms:[3,4],block:.10,stand:.20,label_pt:'Fácil',label_en:'Easy',get label(){return L(this.label_pt,this.label_en)},reward:10},
+  medio:{n:5,rooms:[4,5],block:.10,stand:.18,label_pt:'Médio',label_en:'Medium',get label(){return L(this.label_pt,this.label_en)},reward:20},
+  dificil:{n:6,rooms:[5,6],block:.10,stand:.16,label_pt:'Difícil',label_en:'Hard',get label(){return L(this.label_pt,this.label_en)},reward:30},
+  expert:{n:7,rooms:[6,7],block:.10,stand:.15,label_pt:'Expert',label_en:'Expert',get label(){return L(this.label_pt,this.label_en)},reward:45},
+  mestre:{n:8,rooms:[7,8],block:.10,stand:.14,label_pt:'Mestre',label_en:'Master',get label(){return L(this.label_pt,this.label_en)},reward:60}
 };
 function neighbors(i,n){ const r=(i/n)|0,c=i%n,o=[]; if(r>0)o.push(i-n); if(r<n-1)o.push(i+n); if(c>0)o.push(i-1); if(c<n-1)o.push(i+1); return o; }
 
@@ -693,11 +727,11 @@ function countSolutions(P, clues, limit, out){
 
 /* ---------- gerador ---------- */
 function generate(seed, lv, forced){
-  const rnd=mulberry32(seed), L=LEVELS[lv], n=L.n, N=n*n;
+  const rnd=mulberry32(seed), LV=LEVELS[lv], n=LV.n, N=n*n;
   const ri=k=>Math.floor(rnd()*k), pick=a=>a[ri(a.length)];
   const shuf=a=>{ for(let i=a.length-1;i>0;i--){ const j=ri(i+1); [a[i],a[j]]=[a[j],a[i]]; } return a; };
   for(let attempt=0; attempt<400; attempt++){
-    const k=L.rooms[0]+ri(L.rooms[1]-L.rooms[0]+1);
+    const k=LV.rooms[0]+ri(LV.rooms[1]-LV.rooms[0]+1);
     const reg=Array(N).fill(-1);
     shuf([...Array(N).keys()]).slice(0,k).forEach((c,i)=>reg[c]=i);
     let left=N-k, guard=0;
@@ -706,7 +740,7 @@ function generate(seed, lv, forced){
     const sizes=Array(k).fill(0); reg.forEach(r=>sizes[r]++);
     if(Math.min(...sizes)<3 || Math.max(...sizes)>N*.42) continue;
     const obj=Array(N).fill(null);
-    for(let c=0;c<N;c++){ const x=rnd(); if(x<L.block) obj[c]=pick(['mesa','planta','estante','tv']); else if(x<L.block+L.stand) obj[c]=pick(['cadeira','tapete','cama']); }
+    for(let c=0;c<N;c++){ const x=rnd(); if(x<LV.block) obj[c]=pick(['mesa','planta','estante','tv']); else if(x<LV.block+LV.stand) obj[c]=pick(['cadeira','tapete','cama']); }
     let fine=true;
     for(let i=0;i<n;i++){ let fr=0, fc=0; for(let j=0;j<n;j++){ if(!(obj[i*n+j]&&OBJ[obj[i*n+j]].blocked)) fr++; if(!(obj[j*n+i]&&OBJ[obj[j*n+i]].blocked)) fc++; } if(fr<2||fc<2) fine=false; }
     if(!fine) continue;
@@ -721,11 +755,13 @@ function generate(seed, lv, forced){
     const cast=shuf(SUSPECTS.slice()).slice(0,n-1).sort((a,b)=>a[0].localeCompare(b[0]));
     const vic=pick(VICTIMS);
     const people=cast.map((p,i)=>({name:p[0],g:p[1],color:COLORS[i]})).concat([{name:vic[0],g:vic[1],color:'#f4f1ec',victim:true}]);
-    const theme=forced?THEMES[forced.t]:pick(THEMES), tcase=forced?theme.cases[forced.c]:pick(theme.cases);
-    const rooms=shuf(theme.rooms.slice()).slice(0,k).map(r=>({name:r[0],prep:r[1],floor:r[2]}));
+    const ti=forced?forced.t:ri(THEMES.length), theme=THEMES[ti], themeEn=THEMES_EN[ti];
+    const ci=forced?forced.c:ri(theme.cases.length);
+    const tcase=L(theme.cases[ci], themeEn.cases[ci]);
+    const rooms=shuf([...theme.rooms.keys()]).slice(0,k).map(i=>({name:L(theme.rooms[i][0],themeEn.rooms[i]),prep:theme.rooms[i][1],floor:theme.rooms[i][2]}));
     const win=Array(N).fill(null);
     for(let c=0;c<N;c++){ const r=(c/n)|0, cc=c%n, sides=[]; if(r===0)sides.push('t'); if(r===n-1)sides.push('b'); if(cc===0)sides.push('l'); if(cc===n-1)sides.push('r'); if(sides.length && rnd()<.22) win[c]=pick(sides); }
-    const P={n,reg,obj,win,sol,people,rooms,lv,seed,place:theme.name,title:tcase[0],flavor:tcase[1]};
+    const P={n,reg,obj,win,sol,people,rooms,lv,seed,place:L(theme.name,themeEn.name),title:tcase[0],flavor:tcase[1],forced};
     const made=makeClues(P,rnd,ri,shuf);
     if(!made) continue;
     P.clues=made.cards; P.global=made.global; return P;
@@ -741,21 +777,27 @@ function makeClues(P,rnd,ri,shuf){
   const types=[...new Set(obj.filter(Boolean))];
   const nm=p=>`<b style="--c:${people[p].color}">${people[p].name}</b>`;
   const g=(p,m,f)=>people[p].g==='f'?f:m;
-  const inR=R=>`${rooms[R].prep} ${rooms[R].name}`;
-  const ORD=['primeira','segunda','terceira','quarta','quinta','sexta','sétima','oitava'];
-  const NUMF=['nenhuma','uma','duas','três','quatro','cinco','seis','sete','oito'];
-  const NUMM=['nenhum','um','dois','três','quatro','cinco','seis','sete','oito'];
+  const EN=LANG==='en';
+  const inR=R=> EN ? `in the ${rooms[R].name}` : `${rooms[R].prep} ${rooms[R].name}`;
+  const ORD=EN?['first','second','third','fourth','fifth','sixth','seventh','eighth']:['primeira','segunda','terceira','quarta','quinta','sexta','sétima','oitava'];
+  const NUMF=EN?['no','one','two','three','four','five','six','seven','eight']:['nenhuma','uma','duas','três','quatro','cinco','seis','sete','oito'];
+  const NUMM=EN?NUMF:['nenhum','um','dois','três','quatro','cinco','seis','sete','oito'];
   const rowOf=x=>(x/n)|0, colOf=x=>x%n;
-  const ordRow=r=> r===n-1?'na última linha':`na ${ORD[r]} linha`;
-  const ordCol=c=> c===n-1?'na última coluna':`na ${ORD[c]} coluna`;
+  const ordRow=r=> EN ? (r===n-1?'in the last row':`in the ${ORD[r]} row`) : (r===n-1?'na última linha':`na ${ORD[r]} linha`);
+  const ordCol=c=> EN ? (c===n-1?'in the last column':`in the ${ORD[c]} column`) : (c===n-1?'na última coluna':`na ${ORD[c]} coluna`);
   const walled=(x,d)=>{ const r=rowOf(x), c=colOf(x); const y= d==='t'?(r>0?x-n:-1): d==='b'?(r<n-1?x+n:-1): d==='l'?(c>0?x-1:-1):(c<n-1?x+1:-1); return y<0 || reg[y]!==reg[x]; };
   const byWall=x=>['t','b','l','r'].some(d=>walled(x,d));
   const inCorner=x=>(walled(x,'t')||walled(x,'b')) && (walled(x,'l')||walled(x,'r'));
   const adjTo=(x,o)=>neighbors(x,n).some(y=>obj[y]===o);
-  const SEAT={cadeira:['numa poltrona','poltrona','poltronas','f'],tapete:['num tapete','tapete','tapetes','m'],cama:['numa cama','cama','camas','f']};
+  /* [em cima de, singular, plural, gênero] */
+  const SEAT=EN
+    ? {cadeira:['in an armchair','armchair','armchairs','m'],tapete:['on a rug','rug','rugs','m'],cama:['on a bed','bed','beds','m']}
+    : {cadeira:['numa poltrona','poltrona','poltronas','f'],tapete:['num tapete','tapete','tapetes','m'],cama:['numa cama','cama','camas','f']};
   const roomPeople=(at,x,skip)=>at.map((y,q)=>q).filter(q=>q!==skip && reg[at[q]]===reg[x]);
   const genderKey=list=>{ const f=list.filter(q=>people[q].g==='f').length; return f+'/'+(list.length-f); };
-  const companyText={'1/0':'uma mulher','0/1':'um homem','2/0':'duas mulheres','0/2':'dois homens','1/1':'um homem e uma mulher'};
+  const companyText=EN
+    ? {'1/0':'a woman','0/1':'a man','2/0':'two women','0/2':'two men','1/1':'a man and a woman'}
+    : {'1/0':'uma mulher','0/1':'um homem','2/0':'duas mulheres','0/2':'dois homens','1/1':'um homem e uma mulher'};
 
   const atomsOf=[...Array(V)].map(()=>[]);
   for(let p=0;p<V;p++){
@@ -763,56 +805,57 @@ function makeClues(P,rnd,ri,shuf){
     const U=(w,f,frag)=>A.push({w,kind:'u',p,f,frag});
     const B=(w,q,f,frag)=>A.push({w,kind:'b',p,q,f,frag});
     const G=(w,f,frag,extra)=>A.push({w,kind:'g',p,f,frag,extra});
-    U(3,x=>reg[x]===R,`estava ${inR(R)}`); A[A.length-1].o=0;
-    shuf([...rooms.keys()].filter(x=>x!==R)).slice(0,2).forEach(R2=>U(1.2,x=>reg[x]!==R2,`não estava ${inR(R2)}`));
-    U(.8,x=>rowOf(x)===r,`estava ${ordRow(r)}`);
-    U(.8,x=>colOf(x)===c,`estava ${ordCol(c)}`);
+    U(3,x=>reg[x]===R,L(`estava ${inR(R)}`,`was ${inR(R)}`)); A[A.length-1].o=0;
+    shuf([...rooms.keys()].filter(x=>x!==R)).slice(0,2).forEach(R2=>U(1.2,x=>reg[x]!==R2,L(`não estava ${inR(R2)}`,`was not ${inR(R2)}`)));
+    U(.8,x=>rowOf(x)===r,L(`estava ${ordRow(r)}`,`was ${ordRow(r)}`));
+    U(.8,x=>colOf(x)===c,L(`estava ${ordCol(c)}`,`was ${ordCol(c)}`));
     if(obj[i]){
       const o=obj[i];
-      U(4,x=>obj[x]===o,{cadeira:`estava ${g(p,'sentado','sentada')} numa poltrona`,tapete:'estava em cima de um tapete',cama:`estava ${g(p,'deitado','deitada')} numa cama`}[o]);
+      U(4,x=>obj[x]===o, EN ? {cadeira:'was sitting in an armchair',tapete:'was standing on a rug',cama:'was lying on a bed'}[o]
+                            : {cadeira:`estava ${g(p,'sentado','sentada')} numa poltrona`,tapete:'estava em cima de um tapete',cama:`estava ${g(p,'deitado','deitada')} numa cama`}[o]);
       if(sol.every((y,q)=>q===p || obj[y]!==o))
-        G(2.4,at=>obj[at[p]]===o && at.every((y,q)=>q===p || obj[y]!==o),`era a única pessoa ${SEAT[o][0]}`,[{kind:'u',p,f:x=>obj[x]===o}]);
+        G(2.4,at=>obj[at[p]]===o && at.every((y,q)=>q===p || obj[y]!==o),L(`era a única pessoa ${SEAT[o][0]}`,`was the only person ${SEAT[o][0]}`),[{kind:'u',p,f:x=>obj[x]===o}]);
     } else {
-      U(1,x=>!obj[x],'estava em pé, fora de poltronas, tapetes e camas');
+      U(1,x=>!obj[x],L('estava em pé, fora de poltronas, tapetes e camas','was on the bare floor'));
       const seats=types.filter(o=>SEAT[o]);
-      if(seats.length) U(1,x=>!obj[x]||!SEAT[obj[x]],`não estava ${g(p,'sentado','sentada')} nem ${g(p,'deitado','deitada')}`);
+      if(seats.length) U(1,x=>!obj[x]||!SEAT[obj[x]],L(`não estava ${g(p,'sentado','sentada')} nem ${g(p,'deitado','deitada')}`,'was neither sitting nor lying down'));
     }
-    if(roomWin.size && roomWin.size<rooms.length){ const hw=roomWin.has(R); U(1.5,x=>roomWin.has(reg[x])===hw, hw?'estava num cômodo com janela':'estava num cômodo sem janela'); }
-    if(win[i]) U(3,x=>!!win[x],'estava junto de uma janela');
-    shuf([...roomObjs[R]]).slice(0,2).forEach(o=>{ if(roomObjs.some(st=>!st.has(o))) U(1.4,x=>roomObjs[reg[x]].has(o),`estava num cômodo que tem ${OBJ[o].art}`); });
+    if(roomWin.size && roomWin.size<rooms.length){ const hw=roomWin.has(R); U(1.5,x=>roomWin.has(reg[x])===hw, hw?L('estava num cômodo com janela','was in a room with a window'):L('estava num cômodo sem janela','was in a room without a window')); }
+    if(win[i]) U(3,x=>!!win[x],L('estava junto de uma janela','was next to a window'));
+    shuf([...roomObjs[R]]).slice(0,2).forEach(o=>{ if(roomObjs.some(st=>!st.has(o))) U(1.4,x=>roomObjs[reg[x]].has(o),L(`estava num cômodo que tem ${OBJ[o].art}`,`was in a room with ${OBJ[o].art}`)); });
     const adj=[...new Set(neighbors(i,n).map(y=>obj[y]).filter(Boolean))];
     adj.forEach(o=>{
-      U(2.6,x=>adjTo(x,o),`estava junto de ${OBJ[o].art}`);
+      U(2.6,x=>adjTo(x,o),L(`estava junto de ${OBJ[o].art}`,`was next to ${OBJ[o].art}`));
       if(sol.every((y,q)=>q===p || !adjTo(y,o)))
-        G(1.8,at=>adjTo(at[p],o) && at.every((y,q)=>q===p || !adjTo(y,o)),`era a única pessoa junto de ${OBJ[o].art}`,[{kind:'u',p,f:x=>adjTo(x,o)}]);
+        G(1.8,at=>adjTo(at[p],o) && at.every((y,q)=>q===p || !adjTo(y,o)),L(`era a única pessoa junto de ${OBJ[o].art}`,`was the only person next to ${OBJ[o].art}`),[{kind:'u',p,f:x=>adjTo(x,o)}]);
     });
-    shuf(types.filter(o=>!adj.includes(o))).slice(0,2).forEach(o=>U(1.1,x=>!adjTo(x,o),`não estava junto de ${OBJ[o].art}`));
-    if(inCorner(i)) U(2,x=>inCorner(x),'estava num canto do cômodo');
-    else if(byWall(i)) U(1.1,x=>byWall(x),'estava junto de uma parede');
-    else U(1.7,x=>!byWall(x),'não estava junto de nenhuma parede');
+    shuf(types.filter(o=>!adj.includes(o))).slice(0,2).forEach(o=>U(1.1,x=>!adjTo(x,o),L(`não estava junto de ${OBJ[o].art}`,`was not next to ${OBJ[o].art}`)));
+    if(inCorner(i)) U(2,x=>inCorner(x),L('estava num canto do cômodo','was in a corner of the room'));
+    else if(byWall(i)) U(1.1,x=>byWall(x),L('estava junto de uma parede','was next to a wall'));
+    else U(1.7,x=>!byWall(x),L('não estava junto de nenhuma parede','was not next to any wall'));
     const others=sol.map((y,q)=>q).filter(q=>q!==p && reg[sol[q]]===R);
-    if(!others.length) A.push({w:2.2,kind:'alone',p,frag:`estava ${g(p,'sozinho','sozinha')} no cômodo`});
+    if(!others.length) A.push({w:2.2,kind:'alone',p,frag:L(`estava ${g(p,'sozinho','sozinha')} no cômodo`,'was alone in the room')});
     else if(!others.includes(V)){
       if(others.length===1){
         const q=others[0];
-        G(2.4,at=>reg[at[p]]===reg[at[q]] && roomPeople(at,at[p],-1).length===2,`estava no cômodo apenas com ${nm(q)}`,[{kind:'b',p,q,f:(a,b)=>reg[a]===reg[b]}]);
+        G(2.4,at=>reg[at[p]]===reg[at[q]] && roomPeople(at,at[p],-1).length===2,L(`estava no cômodo apenas com ${nm(q)}`,`shared the room only with ${nm(q)}`),[{kind:'b',p,q,f:(a,b)=>reg[a]===reg[b]}]);
       }
       const key=genderKey(others);
-      if(companyText[key]) G(1.8,at=>genderKey(roomPeople(at,at[p],p))===key,`estava apenas com ${companyText[key]}`);
+      if(companyText[key]) G(1.8,at=>genderKey(roomPeople(at,at[p],p))===key,L(`estava apenas com ${companyText[key]}`,`was only with ${companyText[key]}`));
     }
     for(let q=0;q<n;q++){
       if(q===p) continue;
       const j=sol[q], rq=rowOf(j), cq=colOf(j), dr=rq-r, dc=cq-c;
-      if(reg[j]===R && q!==V) B(1.3,q,(a,b)=>reg[a]===reg[b],`estava no mesmo cômodo que ${nm(q)}`);
-      if(reg[j]!==R) B(.8,q,(a,b)=>reg[a]!==reg[b],`não estava no mesmo cômodo que ${nm(q)}`);
-      if(Math.abs(dr)===1 && Math.abs(dc)===1) B(2,q,(a,b)=>Math.abs(rowOf(a)-rowOf(b))===1 && Math.abs(colOf(a)-colOf(b))===1,`estava na diagonal de ${nm(q)}, numa casa vizinha`);
-      if(dr>0) B(.8,q,(a,b)=>rowOf(a)<rowOf(b),`estava em alguma linha acima de ${nm(q)}`);
-      if(dr<0) B(.8,q,(a,b)=>rowOf(a)>rowOf(b),`estava em alguma linha abaixo de ${nm(q)}`);
-      if(dc>0) B(.8,q,(a,b)=>colOf(a)<colOf(b),`estava em alguma coluna à esquerda de ${nm(q)}`);
-      if(dc<0) B(.8,q,(a,b)=>colOf(a)>colOf(b),`estava em alguma coluna à direita de ${nm(q)}`);
+      if(reg[j]===R && q!==V) B(1.3,q,(a,b)=>reg[a]===reg[b],L(`estava no mesmo cômodo que ${nm(q)}`,`was in the same room as ${nm(q)}`));
+      if(reg[j]!==R) B(.8,q,(a,b)=>reg[a]!==reg[b],L(`não estava no mesmo cômodo que ${nm(q)}`,`was not in the same room as ${nm(q)}`));
+      if(Math.abs(dr)===1 && Math.abs(dc)===1) B(2,q,(a,b)=>Math.abs(rowOf(a)-rowOf(b))===1 && Math.abs(colOf(a)-colOf(b))===1,L(`estava na diagonal de ${nm(q)}, numa casa vizinha`,`was diagonally next to ${nm(q)}`));
+      if(dr>0) B(.8,q,(a,b)=>rowOf(a)<rowOf(b),L(`estava em alguma linha acima de ${nm(q)}`,`was in some row above ${nm(q)}`));
+      if(dr<0) B(.8,q,(a,b)=>rowOf(a)>rowOf(b),L(`estava em alguma linha abaixo de ${nm(q)}`,`was in some row below ${nm(q)}`));
+      if(dc>0) B(.8,q,(a,b)=>colOf(a)<colOf(b),L(`estava em alguma coluna à esquerda de ${nm(q)}`,`was in some column to the left of ${nm(q)}`));
+      if(dc<0) B(.8,q,(a,b)=>colOf(a)>colOf(b),L(`estava em alguma coluna à direita de ${nm(q)}`,`was in some column to the right of ${nm(q)}`));
       const ad=Math.abs(dr), cd=Math.abs(dc);
-      if(ad>=1 && ad<=3) B(1.2,q,(a,b)=>rowOf(b)-rowOf(a)===dr,`estava ${NUMF[ad]} linha${ad>1?'s':''} ${dr>0?'acima':'abaixo'} de ${nm(q)}`);
-      if(cd>=1 && cd<=3) B(1.2,q,(a,b)=>colOf(b)-colOf(a)===dc,`estava ${NUMF[cd]} coluna${cd>1?'s':''} à ${dc>0?'esquerda':'direita'} de ${nm(q)}`);
+      if(ad>=1 && ad<=3) B(1.2,q,(a,b)=>rowOf(b)-rowOf(a)===dr,L(`estava ${NUMF[ad]} linha${ad>1?'s':''} ${dr>0?'acima':'abaixo'} de ${nm(q)}`,`was ${NUMF[ad]} row${ad>1?'s':''} ${dr>0?'above':'below'} ${nm(q)}`));
+      if(cd>=1 && cd<=3) B(1.2,q,(a,b)=>colOf(b)-colOf(a)===dc,L(`estava ${NUMF[cd]} coluna${cd>1?'s':''} à ${dc>0?'esquerda':'direita'} de ${nm(q)}`,`was ${NUMF[cd]} column${cd>1?'s':''} to the ${dc>0?'left':'right'} of ${nm(q)}`));
     }
   }
 
@@ -820,12 +863,14 @@ function makeClues(P,rnd,ri,shuf){
   const globals=[];
   const emptyRooms=at=>rooms.filter((_,R)=>!at.some(x=>reg[x]===R)).length;
   const e0=emptyRooms(sol);
-  if(e0===0) globals.push({w:1.5,kind:'g',p:-1,f:at=>emptyRooms(at)===0,text:'Nenhum cômodo ficou vazio.'});
-  else globals.push({w:1.5,kind:'g',p:-1,f:at=>emptyRooms(at)===e0,text: e0===1?'Exatamente um cômodo ficou vazio.':`Exatamente ${NUMM[e0]} cômodos ficaram vazios.`});
+  if(e0===0) globals.push({w:1.5,kind:'g',p:-1,f:at=>emptyRooms(at)===0,text:L('Nenhum cômodo ficou vazio.','No room was empty.')});
+  else globals.push({w:1.5,kind:'g',p:-1,f:at=>emptyRooms(at)===e0,text: e0===1?L('Exatamente um cômodo ficou vazio.','Exactly one room was empty.'):L(`Exatamente ${NUMM[e0]} cômodos ficaram vazios.`,`Exactly ${NUMM[e0]} rooms were empty.`)});
   types.filter(o=>SEAT[o]).forEach(o=>{
     const k=sol.filter(x=>obj[x]===o).length, [,one,many,gd]=SEAT[o];
     const num=(gd==='f'?NUMF:NUMM)[k], occ=gd==='f'?'ocupada':'ocupado';
-    const text = k===0 ? `Ninguém estava ${SEAT[o][0]}.` : k===1 ? `Só ${num} ${one} estava ${occ}.` : `Exatamente ${num} ${many} estavam ${occ}s.`;
+    const text = EN
+      ? (k===0 ? `Nobody was ${SEAT[o][0]}.` : k===1 ? `Only one ${one} was taken.` : `Exactly ${num} ${many} were taken.`)
+      : (k===0 ? `Ninguém estava ${SEAT[o][0]}.` : k===1 ? `Só ${num} ${one} estava ${occ}.` : `Exatamente ${num} ${many} estavam ${occ}s.`);
     globals.push({w:1.2,kind:'g',p:-1,f:at=>at.filter(x=>obj[x]===o).length===k,text});
   });
 
@@ -869,8 +914,9 @@ function makeClues(P,rnd,ri,shuf){
   }
   const rank={u:1,alone:2,g:3,b:4}, pri=a=>a.o!=null ? a.o : rank[a.kind];
   const cards=st.map(atoms=>{
-    const fr=atoms.slice().sort((a,b)=>pri(a)-pri(b)).map((a,k)=>k>0 && a.frag.startsWith('estava ') ? a.frag.slice(7) : a.frag);
-    const t=fr.length>1 ? fr.slice(0,-1).join(', ')+' e '+fr[fr.length-1] : fr[0];
+    const lead=L('estava ','was ');
+    const fr=atoms.slice().sort((a,b)=>pri(a)-pri(b)).map((a,k)=>k>0 && a.frag.startsWith(lead) ? a.frag.slice(lead.length) : a.frag);
+    const t=fr.length>1 ? fr.slice(0,-1).join(', ')+L(' e ',' and ')+fr[fr.length-1] : fr[0];
     return t.charAt(0).toUpperCase()+t.slice(1)+'.';
   });
   return {cards, global: gl ? gl.text : null};
@@ -895,7 +941,7 @@ function startCase(m, seed){
   S = {place:Array(P.n).fill(-1), marks:new Set(), struck:new Set(), hinted:new Set(), tool:0, t0:Date.now(), solved:false, fx:null};
   const h=$('#caseTitle'); h.style.animation='none'; void h.offsetWidth; h.style.animation='';
   h.textContent = P.title;
-  $('#caseKicker').textContent = (m==='campanha' ? `Campanha · caso ${campK} de ${CAMP_TOTAL}` : m==='diario' ? `Caso do dia nº ${dayNumber()}` : `Caso #${seed.toString(16).toUpperCase().slice(0,5)}`) + ' · ' + P.place;
+  $('#caseKicker').textContent = (m==='campanha' ? L(`Campanha · caso ${campK} de ${CAMP_TOTAL}`,`Campaign · case ${campK} of ${CAMP_TOTAL}`) : m==='diario' ? L(`Caso do dia nº ${dayNumber()}`,`Daily case #${dayNumber()}`) : L('Caso','Case')+` #${P.seed.toString(16).toUpperCase().slice(0,5)}`) + ' · ' + P.place;
   $('#caseFlavor').textContent = P.flavor;
   renderAll(true);
   clearInterval(timerId); timerId=setInterval(tick,1000); tick();
@@ -913,13 +959,13 @@ function renderAll(enter){
   $('#axcols').innerHTML=[...Array(n)].map((_,i)=>`<span>${i+1}</span>`).join('');
   $('#axrows').innerHTML=[...Array(n)].map((_,i)=>`<span>${i+1}</span>`).join('');
   const used=[...new Set(P.obj.filter(Boolean))];
-  $('#legend').innerHTML=used.map(k=>`<span>${svgOf(k)}${OBJ[k].label}${OBJ[k].blocked?' (bloqueia)':''}</span>`).join('')
-    + (P.win.some(Boolean) ? '<span><i class="winkey"></i>Janela</span>' : '');
+  $('#legend').innerHTML=used.map(k=>`<span>${svgOf(k)}${OBJ[k].label}${OBJ[k].blocked?L(' (bloqueia)',' (blocks)'):''}</span>`).join('')
+    + (P.win.some(Boolean) ? `<span><i class="winkey"></i>${L('Janela','Window')}</span>` : '');
   const V=n-1, vic=P.people[V], rot=i=>((i*37)%5)-2;
   $('#clues').innerHTML = P.clues.map((t,i)=>{ const p=P.people[i];
       return `<button class="card${S.struck.has(i)?' done':''}" style="--d:${i};--rot:${rot(i)}deg;--c:${p.color}" data-i="${i}" aria-pressed="${S.struck.has(i)}"><span class="ph">${portrait(p)}</span><span class="nm">${p.name}</span><span class="st">${t}</span></button>`; }).join('')
-    + `<div class="card victim" style="--d:${P.clues.length};--rot:${rot(V)}deg;--c:var(--red)"><span class="ph">${portrait(vic)}<i class="xx"></i></span><span class="nm">${vic.name}</span><span class="st"><span class="vt">A vítima</span>Ficou na linha e na coluna que sobraram, ${vic.g==='f'?'sozinha':'sozinho'} com o culpado.</span></div>`
-    + (P.global ? `<div class="card lupa" style="--d:${P.clues.length+1};--rot:${rot(V+1)}deg"><span class="lp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><path d="M15 15l6 6"/></svg></span><span class="nm">Perícia</span><span class="st">${P.global}</span></div>` : '');
+    + `<div class="card victim" style="--d:${P.clues.length};--rot:${rot(V)}deg;--c:var(--red)"><span class="ph">${portrait(vic)}<i class="xx"></i></span><span class="nm">${vic.name}</span><span class="st"><span class="vt">${L('A vítima','The victim')}</span>${L(`Ficou na linha e na coluna que sobraram, ${vic.g==='f'?'sozinha':'sozinho'} com o culpado.`,'Took the last free row and column, alone with the murderer.')}</span></div>`
+    + (P.global ? `<div class="card lupa" style="--d:${P.clues.length+1};--rot:${rot(V+1)}deg"><span class="lp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><path d="M15 15l6 6"/></svg></span><span class="nm">${L('Perícia','Forensics')}</span><span class="st">${P.global}</span></div>` : '');
   document.querySelectorAll('.card[data-i]').forEach(el=>el.onclick=()=>{ const i=+el.dataset.i; S.struck.has(i)?S.struck.delete(i):S.struck.add(i); el.classList.toggle('done'); el.setAttribute('aria-pressed',S.struck.has(i)); SFX.mark(); });
   board.classList.toggle('enter', !!enter);
   renderBoard(); renderTray(); renderStats();
@@ -953,20 +999,25 @@ function renderBoard(){
     const tok = p!=null ? `<span class="token${P.people[p].victim?' victim':''}${S.hinted.has(p)?' hint':''}${dropped?' drop':''}" style="--c:${P.people[p].color}">${portrait(P.people[p])}</span>` : '';
     const extra = dropped ? (fxc.kind==='hint' ? '<span class="beam"></span>' : `<span class="ripple" style="--c:${P.people[p]?.color||'#fff'}"></span>`) : '';
     const mark = p==null && S.marks.has(i) ? '<span class="xmark">✕</span>' : '';
-    const aria = `linha ${r+1}, coluna ${c+1}, ${rooms[reg[i]].name}${o?', '+OBJ[o].label:''}${p!=null?', '+P.people[p].name:''}`;
+    const aria = `${L('linha','row')} ${r+1}, ${L('coluna','column')} ${c+1}, ${rooms[reg[i]].name}${o?', '+OBJ[o].label:''}${p!=null?', '+P.people[p].name:''}`;
     html+=`<button class="${cls.join(' ')}" style="--d:${r+c}" data-i="${i}" aria-label="${aria}"${blocked?' aria-disabled="true"':''}>${label}${objHtml}${mark}${tok}${extra}</button>`;
   }
   board.innerHTML=html+'<div class="spot"></div>';
 }
 function renderTray(){
   const placed=S.place.filter(x=>x>=0).length;
-  tray.innerHTML = P.people.map((p,i)=>`<button class="chip${S.place[i]>=0?' placed':''}" aria-pressed="${S.tool===i}" data-t="${i}"><span class="dot${p.victim?' victim':''}" style="--c:${p.color}">${portrait(p)}</span>${p.name}${p.victim?' <small>vítima</small>':''}</button>`).join('')
-    + `<button class="chip tool" aria-pressed="${S.tool===-1}" data-t="-1"><span class="dot">✕</span>Marcar vazio</button>`;
+  tray.innerHTML = P.people.map((p,i)=>`<button class="chip${S.place[i]>=0?' placed':''}" aria-pressed="${S.tool===i}" data-t="${i}"><span class="dot${p.victim?' victim':''}" style="--c:${p.color}">${portrait(p)}</span>${p.name}${p.victim?` <small>${L('vítima','victim')}</small>`:''}</button>`).join('')
+    + `<button class="chip tool" aria-pressed="${S.tool===-1}" data-t="-1"><span class="dot">✕</span>${L('Marcar vazio','Mark empty')}</button>`;
   const btn=$('#checkBtn');
   btn.disabled = placed<P.n || S.solved;
-  btn.textContent = placed<P.n ? `Acusar (${placed}/${P.n})` : 'Acusar!';
+  btn.textContent = placed<P.n ? `${L('Acusar','Accuse')} (${placed}/${P.n})` : L('Acusar!','Accuse!');
 }
 let shownCoins=coins;
+function reloadState(){
+  coins=store.get('coins',60); shownCoins=coins;
+  streak=store.get('streak',{n:0,last:null}); camp=store.get('camp',{}); muted=store.get('muted',false);
+  renderMute(); renderStats(); renderBonus();
+}
 function renderStats(){
   $('#streak').textContent=streak.n;
   if(shownCoins===coins){ $('#coins').textContent=coins; return; }
@@ -983,17 +1034,17 @@ tray.addEventListener('click',e=>{ const b=e.target.closest('[data-t]'); if(!b) 
 board.addEventListener('click',e=>{
   const b=e.target.closest('.cell'); if(!b||S.solved) return;
   const i=+b.dataset.i, o=P.obj[i];
-  if(o && OBJ[o].blocked){ toast(`Não dá para ficar em cima de ${OBJ[o].art}.`,true); SFX.wrong(); return; }
+  if(o && OBJ[o].blocked){ toast(L(`Não dá para ficar em cima de ${OBJ[o].art}.`,`Nobody can stand on ${OBJ[o].art}.`),true); SFX.wrong(); return; }
   const occ=S.place.indexOf(i);
   if(S.tool===-1){
     if(occ>=0) return;
     S.marks.has(i)?S.marks.delete(i):S.marks.add(i); SFX.mark();
   } else {
     const p=S.tool;
-    if(S.hinted.has(p)){ toast('Essa posição veio de uma dica e está fixa.',true); return; }
+    if(S.hinted.has(p)){ toast(L('Essa posição veio de uma dica e está fixa.','This spot came from a hint and is locked.'),true); return; }
     if(occ===p){ S.place[p]=-1; SFX.remove(); }
     else {
-      if(occ>=0){ if(S.hinted.has(occ)){ toast('Essa casa já está ocupada por uma dica.',true); return; } S.place[occ]=-1; }
+      if(occ>=0){ if(S.hinted.has(occ)){ toast(L('Essa casa já está ocupada por uma dica.','This square is taken by a hint.'),true); return; } S.place[occ]=-1; }
       S.place[p]=i; S.marks.delete(i); S.fx={cell:i,kind:'place'}; SFX.place();
       const next=P.people.findIndex((_,q)=>S.place[q]<0);
       if(next>=0) S.tool=next;
@@ -1018,14 +1069,14 @@ function accuse(pick){
   const wrong=S.place.filter((x,p)=>x!==P.sol[p]).length;
   if(!wrong && pick!==culprit){
     SFX.wrong();
-    toast(`As posições estão certas, mas ${P.people[pick].name} não estava a sós com a vítima.`,true);
+    toast(L(`As posições estão certas, mas ${P.people[pick].name} não estava a sós com a vítima.`,`The positions are right, but ${P.people[pick].name} was not alone with the victim.`),true);
     return;
   }
   if(wrong){
     SFX.wrong();
     frame.classList.remove('shake'); void frame.offsetWidth; frame.classList.add('shake');
     setTimeout(()=>frame.classList.remove('shake'),500);
-    toast(wrong===1?'Uma pessoa está no lugar errado. Revise os depoimentos.':`${wrong} pessoas estão no lugar errado. Revise os depoimentos.`,true);
+    toast(wrong===1?L('Uma pessoa está no lugar errado. Revise os depoimentos.','One person is in the wrong place. Check the statements again.'):L(`${wrong} pessoas estão no lugar errado. Revise os depoimentos.`,`${wrong} people are in the wrong place. Check the statements again.`),true);
     return;
   }
   win();
@@ -1045,13 +1096,13 @@ function win(){
       done[t]=true; store.set('daily',done); reward+=20;
       const y=new Date(); y.setDate(y.getDate()-1);
       streak={n: streak.last===dstr(y) ? streak.n+1 : 1, last:t}; store.set('streak',streak);
-      extra=` · sequência de ${streak.n} ${streak.n===1?'dia':'dias'}`;
-    } else { reward=0; extra=' · caso do dia já pago hoje'; }
+      extra=L(` · sequência de ${streak.n} ${streak.n===1?'dia':'dias'}`,` · ${streak.n}-day streak`);
+    } else { reward=0; extra=L(' · caso do dia já pago hoje',' · daily reward already collected'); }
   }
   if(mode==='campanha'){
     const stars = S.hinted.size===0 ? 3 : S.hinted.size===1 ? 2 : 1;
     const prev=camp[campK];
-    if(prev){ reward=0; extra=` · ${'★'.repeat(stars)}${'☆'.repeat(3-stars)} · caso já resolvido antes`; }
+    if(prev){ reward=0; extra=` · ${'★'.repeat(stars)}${'☆'.repeat(3-stars)}`+L(' · caso já resolvido antes',' · solved before'); }
     else extra=` · ${'★'.repeat(stars)}${'☆'.repeat(3-stars)}`;
     if(!prev || stars>prev.s || (stars===prev.s && Math.floor((Date.now()-S.t0)/1000)<prev.t)) camp[campK]={s:stars,t:Math.floor((Date.now()-S.t0)/1000)};
     store.set('camp',camp);
@@ -1062,11 +1113,11 @@ function win(){
   confetti(r.left+r.width/2, r.top+r.height/2, 120);
   setTimeout(()=>{
     const mug=$('#winMug'); mug.style.setProperty('--c',culprit.color); mug.innerHTML=portrait(culprit);
-    $('#winText').innerHTML=`<b style="--c:${culprit.color}">${culprit.name}</b> estava a sós com ${vic.name} ${P.rooms[vr].prep} ${P.rooms[vr].name}. É ${culprit.g==='f'?'a culpada':'o culpado'}!`;
-    $('#winMeta').textContent=`Tempo ${S.timeStr}${extra}`;
+    $('#winText').innerHTML=L(`<b style="--c:${culprit.color}">${culprit.name}</b> estava a sós com ${vic.name} ${P.rooms[vr].prep} ${P.rooms[vr].name}. É ${culprit.g==='f'?'a culpada':'o culpado'}!`,`<b style="--c:${culprit.color}">${culprit.name}</b> was alone with ${vic.name} in the ${P.rooms[vr].name}. ${culprit.g==='f'?'She':'He'} is the murderer!`);
+    $('#winMeta').textContent=`${L('Tempo','Time')} ${S.timeStr}${extra}`;
     lastReward=reward;
-    $('#doubleBtn').hidden = !(sdkReady && reward>0);
-    $('#nextBtn').textContent = mode==='campanha' ? (campK<CAMP_TOTAL ? `Caso ${campK+1}` : 'Ver campanha') : 'Próximo caso';
+    $('#doubleBtn').hidden = !(adsOn() && reward>0);
+    $('#nextBtn').textContent = mode==='campanha' ? (campK<CAMP_TOTAL ? `${L('Caso','Case')} ${campK+1}` : L('Ver campanha','See campaign')) : L('Próximo caso','Next case');
     $('#shareBox').hidden=true;
     $('#winModal').hidden=false;
     confetti(innerWidth/2, innerHeight*.35, 180);
@@ -1087,33 +1138,33 @@ $('#doubleBtn').onclick=()=>{
   const b=$('#doubleBtn'); b.disabled=true;
   showAd('rewarded', ()=>{
     coins+=lastReward; store.set('coins',coins); renderStats(); SFX.coin();
-    toast(`+${lastReward} moedas extras`); b.hidden=true; b.disabled=false;
-  }, ()=>{ b.disabled=false; toast('Nenhum vídeo disponível agora. Tente mais tarde.',true); });
+    toast(L(`+${lastReward} moedas extras`,`+${lastReward} bonus coins`)); b.hidden=true; b.disabled=false;
+  }, ()=>{ b.disabled=false; toast(L('Nenhum vídeo disponível agora. Tente mais tarde.','No video available right now. Try again later.'),true); });
 };
 function shareText(){
-  const head = mode==='campanha' ? `Mansão Suspeita · Campanha, caso ${campK}: ${P.title}` : mode==='diario' ? `Mansão Suspeita · Caso do dia nº ${dayNumber()}` : `Mansão Suspeita · Caso ${LEVELS[P.lv].label} ${P.n}×${P.n}`;
+  const head = mode==='campanha' ? L(`Mansão Suspeita · Campanha, caso ${campK}: ${P.title}`,`Mansão Suspeita · Campaign, case ${campK}: ${P.title}`) : mode==='diario' ? L(`Mansão Suspeita · Caso do dia nº ${dayNumber()}`,`Mansão Suspeita · Daily case #${dayNumber()}`) : `Mansão Suspeita · ${L('Caso','Case')} ${LEVELS[P.lv].label} ${P.n}×${P.n}`;
   const h=S.hinted.size, squares=P.people.map((_,p)=>S.hinted.has(p)?'🟨':'🟩').join('');
-  return `${head}\n🕵️ Resolvido em ${S.timeStr} · ${h? h+(h>1?' dicas':' dica') : 'sem dicas'}\n${squares}` + (PLATFORM==='web' ? `\n${SITE_URL}` : '');
+  return `${head}\n🕵️ ${L('Resolvido em','Solved in')} ${S.timeStr} · ${h? h+(h>1?L(' dicas',' hints'):L(' dica',' hint')) : L('sem dicas','no hints')}\n${squares}` + (PLATFORM==='web' ? `\n${SITE_URL}` : '');
 }
 $('#shareBtn').onclick=async()=>{
   const text=shareText();
   if(navigator.share){ try{ await navigator.share({text}); return; }catch(e){ if(e && e.name==='AbortError') return; } }
-  try{ await navigator.clipboard.writeText(text); toast('Resultado copiado. É só colar no WhatsApp!'); return; }catch(e){}
+  try{ await navigator.clipboard.writeText(text); toast(L('Resultado copiado. É só colar no WhatsApp!','Result copied. Paste it anywhere!')); return; }catch(e){}
   const box=$('#shareBox'); box.value=text; box.hidden=false; box.focus(); box.select();
-  toast('Copie o texto abaixo para compartilhar.');
+  toast(L('Copie o texto abaixo para compartilhar.','Copy the text below to share.'));
 };
 
 $('#hintBtn').onclick=()=>{
   if(S.solved) return;
   const cand=P.people.map((_,p)=>p).filter(p=>S.place[p]!==P.sol[p]);
-  if(!cand.length){ toast('Todo mundo já está no lugar certo. Pode acusar!'); return; }
+  if(!cand.length){ toast(L('Todo mundo já está no lugar certo. Pode acusar!','Everyone is already in the right place. Go ahead and accuse!')); return; }
   if(coins<30){ SFX.wrong(); openCoinModal(); return; }
   coins-=30; store.set('coins',coins);
   const p=cand[Math.floor(Math.random()*cand.length)], x=P.sol[p];
   const occ=S.place.indexOf(x); if(occ>=0) S.place[occ]=-1;
   S.place[p]=x; S.hinted.add(p); S.marks.delete(x); S.fx={cell:x,kind:'hint'};
   SFX.hint();
-  toast(`Dica: ${P.people[p].name} estava na linha ${((x/P.n)|0)+1}, coluna ${x%P.n+1}.`);
+  toast(L(`Dica: ${P.people[p].name} estava na linha ${((x/P.n)|0)+1}, coluna ${x%P.n+1}.`,`Hint: ${P.people[p].name} was in row ${((x/P.n)|0)+1}, column ${x%P.n+1}.`));
   renderBoard(); renderTray(); renderStats();
 };
 $('#clearBtn').onclick=()=>{ if(S.solved) return; S.place=S.place.map((x,p)=>S.hinted.has(p)?x:-1); S.marks.clear(); S.tool=0; SFX.remove(); renderAll(true); };
@@ -1124,16 +1175,16 @@ document.querySelectorAll('.mode').forEach(b=>b.onclick=()=>{ SFX.select(); if(b
 const campNext=()=>{ for(let k=1;k<=CAMP_TOTAL;k++) if(!camp[k]) return k; return CAMP_TOTAL; };
 function openMap(){
   const next=campNext(), done=Object.keys(camp).length, stars=Object.values(camp).reduce((a,r)=>a+r.s,0);
-  $('#mapSub').textContent=`${done} de ${CAMP_TOTAL} casos resolvidos · ${stars} de ${CAMP_TOTAL*3} estrelas`;
+  $('#mapSub').textContent=L(`${done} de ${CAMP_TOTAL} casos resolvidos · ${stars} de ${CAMP_TOTAL*3} estrelas`,`${done} of ${CAMP_TOTAL} cases solved · ${stars} of ${CAMP_TOTAL*3} stars`);
   $('#chapters').innerHTML=CHAPTERS.map((ch,ci)=>{
     const n=LEVELS[ch.lv].n;
     let tiles='';
     for(let k=ch.from;k<=ch.to;k++){
       const r=camp[k], open = k===1 || !!camp[k-1] || !!r;
       const st = r ? `<small>${'★'.repeat(r.s)}${'☆'.repeat(3-r.s)}</small>` : (open ? '' : '<small>🔒</small>');
-      tiles+=`<button class="tile${r?' done':''}${k===next&&!r?' next':''}" data-k="${k}" ${open?'':'disabled'} title="${k}. ${open?campTitle(k):'Bloqueado'}"><b>${k}</b>${st}</button>`;
+      tiles+=`<button class="tile${r?' done':''}${k===next&&!r?' next':''}" data-k="${k}" ${open?'':'disabled'} title="${k}. ${open?campTitle(k):L('Bloqueado','Locked')}"><b>${k}</b>${st}</button>`;
     }
-    return `<section class="chap"><h4>Capítulo ${ci+1} · ${ch.name}<span>${n}×${n}</span></h4><div class="tiles">${tiles}</div></section>`;
+    return `<section class="chap"><h4>${L('Capítulo','Chapter')} ${ci+1} · ${ch.name}<span>${n}×${n}</span></h4><div class="tiles">${tiles}</div></section>`;
   }).join('');
   $('#mapModal').hidden=false;
   const cur=$('#chapters .tile.next'); if(cur) cur.scrollIntoView({block:'center'});
@@ -1148,23 +1199,23 @@ function gainCoins(k, fromEl){
 }
 function renderBonus(){
   const b=$('#bonusBtn'), got=store.get('bonus',null)===todayStr();
-  b.disabled=got; b.textContent=got?'Volte amanhã':'Pegar 30 moedas';
+  b.disabled=got; b.textContent=got?L('Volte amanhã','Come back tomorrow'):L('Pegar 30 moedas','Get 30 coins');
 }
-$('#bonusBtn').onclick=()=>{ if(store.get('bonus',null)===todayStr()) return; store.set('bonus',todayStr()); gainCoins(30,$('#bonusBtn')); toast('+30 moedas'); renderBonus(); };
+$('#bonusBtn').onclick=()=>{ if(store.get('bonus',null)===todayStr()) return; store.set('bonus',todayStr()); gainCoins(30,$('#bonusBtn')); toast(L('+30 moedas','+30 coins')); renderBonus(); };
 function openCoinModal(){
   $('#coinHave').textContent=coins;
   const w=$('#coinWatch'), wait=REWARD_COOLDOWN-(Date.now()-store.get('lastVideo',0));
-  w.hidden = !sdkReady || wait>0;
+  w.hidden = !adsOn() || wait>0;
   const bonusFree = store.get('bonus',null)!==todayStr();
-  $('#coinAlt').textContent = bonusFree ? 'Pegue o bônus diário de 30 moedas grátis no painel ao lado, ou resolva casos para ganhar mais.'
-    : (sdkReady && wait>0 ? `Novo vídeo disponível em ${Math.ceil(wait/60000)} min. Resolver casos também dá moedas.` : 'Resolva casos para ganhar mais moedas.');
+  $('#coinAlt').textContent = bonusFree ? L('Pegue o bônus diário de 30 moedas grátis no painel ao lado, ou resolva casos para ganhar mais.','Grab the free daily bonus of 30 coins in the side panel, or solve cases to earn more.')
+    : (adsOn() && wait>0 ? L(`Novo vídeo disponível em ${Math.ceil(wait/60000)} min. Resolver casos também dá moedas.`,`Next video in ${Math.ceil(wait/60000)} min. Solving cases also earns coins.`) : L('Resolva casos para ganhar mais moedas.','Solve cases to earn more coins.'));
   $('#coinModal').hidden=false;
 }
 $('#coinClose').onclick=()=>{ $('#coinModal').hidden=true; };
 $('#coinWatch').onclick=()=>{
   $('#coinModal').hidden=true;
-  showAd('rewarded', ()=>{ store.set('lastVideo',Date.now()); gainCoins(30); toast('+30 moedas'); },
-    ()=>toast('Nenhum vídeo disponível agora. Tente mais tarde.',true));
+  showAd('rewarded', ()=>{ store.set('lastVideo',Date.now()); gainCoins(30); toast(L('+30 moedas','+30 coins')); },
+    ()=>toast(L('Nenhum vídeo disponível agora. Tente mais tarde.','No video available right now. Try again later.'),true));
 };
 
 /* ---------- dicionário do detetive ---------- */
@@ -1178,29 +1229,30 @@ function mini(cols,rows,me,ok){
   return `<svg viewBox="-1 -1 ${W+2} ${H+2}" aria-hidden="true">${g}</svg>`;
 }
 const GLOSS=[
-  ['Junto de','Numa casa vizinha: em cima, embaixo ou dos lados. A diagonal não conta.',mini(3,3,[1,1],[[1,0],[0,1],[2,1],[1,2]])],
-  ['Na diagonal de','Numa das quatro casas encostadas pelas pontas.',mini(3,3,[1,1],[[0,0],[2,0],[0,2],[2,2]])],
-  ['Em alguma linha acima de','Qualquer linha mais acima, em qualquer coluna ou cômodo.',mini(3,3,[1,2],[[0,0],[1,0],[2,0],[0,1],[1,1],[2,1]])],
-  ['Duas colunas à esquerda de','Exatamente duas colunas antes, em qualquer linha.',mini(4,3,[3,1],[[1,0],[1,1],[1,2]])],
-  ['Junto de uma parede','Encostado numa parede do cômodo, inclusive as paredes de fora da casa.',''],
-  ['Num canto do cômodo','Encostado em duas paredes do cômodo que se encontram.',''],
-  ['Sozinho','Ninguém mais estava no mesmo cômodo.',''],
-  ['Apenas com','Só aquelas pessoas estavam no cômodo, e mais ninguém.','']
+  ['Junto de','Numa casa vizinha: em cima, embaixo ou dos lados. A diagonal não conta.','Next to','In a neighboring square: above, below or to the side. Diagonals do not count.',mini(3,3,[1,1],[[1,0],[0,1],[2,1],[1,2]])],
+  ['Na diagonal de','Numa das quatro casas encostadas pelas pontas.','Diagonally next to','In one of the four squares touching at the corners.',mini(3,3,[1,1],[[0,0],[2,0],[0,2],[2,2]])],
+  ['Em alguma linha acima de','Qualquer linha mais acima, em qualquer coluna ou cômodo.','In some row above','Any row higher up, in any column or room.',mini(3,3,[1,2],[[0,0],[1,0],[2,0],[0,1],[1,1],[2,1]])],
+  ['Duas colunas à esquerda de','Exatamente duas colunas antes, em qualquer linha.','Two columns to the left of','Exactly two columns before, in any row.',mini(4,3,[3,1],[[1,0],[1,1],[1,2]])],
+  ['Junto de uma parede','Encostado numa parede do cômodo, inclusive as paredes de fora da casa.','Next to a wall','Against a wall of the room, including the outer walls.',''],
+  ['Num canto do cômodo','Encostado em duas paredes do cômodo que se encontram.','In a corner of the room','Against two walls of the room that meet.',''],
+  ['Sozinho','Ninguém mais estava no mesmo cômodo.','Alone','Nobody else was in the same room.',''],
+  ['Apenas com','Só aquelas pessoas estavam no cômodo, e mais ninguém.','Only with','Only those people were in the room, and nobody else.','']
 ];
-$('#gloss').innerHTML=GLOSS.map(([t,d,svg])=>`<div class="gl">${svg}<div><b>${t}</b><span>${d}</span></div></div>`).join('');
+function renderGloss(){ $('#gloss').innerHTML=GLOSS.map(([t,d,te,de,svg])=>`<div class="gl">${svg}<div><b>${L(t,te)}</b><span>${L(d,de)}</span></div></div>`).join(''); }
+renderGloss();
 
 /* ---------- tutorial ---------- */
 const TUT=[
-  ['#tray','Estes são os suspeitos e a vítima. Toque em um deles para escolher quem você vai posicionar.'],
-  ['#frame','Depois toque numa casa da planta para colocar a pessoa ali. Cada linha e cada coluna tem exatamente uma pessoa.'],
-  ['#clues','Cada suspeito deixou um depoimento no cartão. Toque no cartão para marcar quando já tiver usado.'],
-  ['#checkBtn','Ninguém fica em cima de mesa, planta ou estante. O culpado é quem ficou sozinho com a vítima no mesmo cômodo. Com todos posicionados, toque em Acusar e escolha o culpado!']
+  ['#tray','Estes são os suspeitos e a vítima. Toque em um deles para escolher quem você vai posicionar.','These are the suspects and the victim. Tap one to choose who you will place.'],
+  ['#frame','Depois toque numa casa da planta para colocar a pessoa ali. Cada linha e cada coluna tem exatamente uma pessoa.','Then tap a square on the floor plan to put that person there. Each row and each column has exactly one person.'],
+  ['#clues','Cada suspeito deixou um depoimento no cartão. Toque no cartão para marcar quando já tiver usado.','Each suspect left a statement on their card. Tap a card to mark it once you have used it.'],
+  ['#checkBtn','Ninguém fica em cima de mesa, planta ou estante. O culpado é quem ficou sozinho com a vítima no mesmo cômodo. Com todos posicionados, toque em Acusar e escolha o culpado!','Nobody stands on a table, plant, bookshelf or TV. The murderer is whoever was alone with the victim in the same room. With everyone placed, tap Accuse and pick the murderer!']
 ];
 let tutI=0;
 function tutShow(){
-  const [sel,text]=TUT[tutI], el=$(sel);
-  $('#tutStep').textContent=`${tutI+1} de ${TUT.length}`; $('#tutText').textContent=text;
-  $('#tutNext').textContent = tutI===TUT.length-1 ? 'Começar' : 'Próximo';
+  const [sel,textPt,textEn]=TUT[tutI], el=$(sel), text=L(textPt,textEn);
+  $('#tutStep').textContent=`${tutI+1} ${L('de','of')} ${TUT.length}`; $('#tutText').textContent=text;
+  $('#tutNext').textContent = tutI===TUT.length-1 ? L('Começar','Start') : L('Próximo','Next');
   el.scrollIntoView({block:'center',behavior:reduced?'auto':'smooth'});
   setTimeout(()=>{
     const r=el.getBoundingClientRect(), pad=8, hole=$('#tutHole'), card=$('#tutCard');
@@ -1232,7 +1284,27 @@ $('#startBtn').onclick=()=>{
   setTimeout(()=>{ s.hidden=true; started=true; if(first){ campK=1; startCase('campanha'); } else startCase('diario'); if(first) setTimeout(tutorial, reduced?0:900); }, reduced?0:550);
 };
 
-renderMute(); renderBonus();
+/* ---------- trocar idioma ---------- */
+function applyLang(){
+  document.documentElement.lang = L('pt-BR','en');
+  document.querySelectorAll('[data-en]').forEach(el=>{ if(el.dataset.pt==null) el.dataset.pt=el.textContent; el.textContent = L(el.dataset.pt, el.dataset.en); });
+  $('#langBtn').textContent = L('EN','PT');
+  $('#langBtn').title = L('Switch to English','Mudar para português');
+  $('#coinStat').title = L('Moedas','Coins');
+  renderMute(); renderBonus(); renderGloss();
+}
+$('#langBtn').onclick=()=>{
+  LANG = LANG==='en' ? 'pt' : 'en'; store.set('lang',LANG); SFX.select();
+  applyLang();
+  if(P){ /* mesmo caso, agora no outro idioma; as peças continuam onde estavam */
+    P=generate(P.seed, P.lv, P.forced);
+    $('#caseTitle').textContent=P.title; $('#caseFlavor').textContent=P.flavor;
+    $('#caseKicker').textContent=(mode==='campanha' ? L(`Campanha · caso ${campK} de ${CAMP_TOTAL}`,`Campaign · case ${campK} of ${CAMP_TOTAL}`) : mode==='diario' ? L(`Caso do dia nº ${dayNumber()}`,`Daily case #${dayNumber()}`) : L('Caso','Case')+` #${P.seed.toString(16).toUpperCase().slice(0,5)}`) + ' · ' + P.place;
+    renderAll(false); tick();
+  }
+};
+
+renderMute(); renderBonus(); applyLang();
 initPlatform();
 startCase('diario');
 })();
